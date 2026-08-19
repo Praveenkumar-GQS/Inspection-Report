@@ -3,169 +3,236 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>GQS Inspection Portal</title>
+<title>GQS — Inspection Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
+:root{
+  --teal:#0d6e63;
+  --teal-mid:#138a7d;
+  --teal-light:#e6f4f2;
+  --teal-pale:#f0faf8;
+  --slate:#1a2533;
+  --slate-mid:#3d5166;
+  --slate-light:#6b7f94;
+  --border:#e2e8f0;
+  --border-focus:#0d6e63;
+  --bg:#f7f9fc;
+  --white:#ffffff;
+  --gold:#c9a84c;
+  --red:#dc2626;
+  --red-light:#fef2f2;
+  --amber:#d97706;
+  --amber-light:#fffbeb;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:0 4px 16px rgba(0,0,0,0.08),0 2px 6px rgba(0,0,0,0.04);
+  --shadow-lg:0 12px 40px rgba(0,0,0,0.1),0 4px 12px rgba(0,0,0,0.06);
+  --radius:12px;
+  --radius-sm:8px;
+}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Segoe UI',Arial,sans-serif;background:#f4f6f8;color:#1a2533;font-size:14px;min-height:100vh;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--slate);font-size:14px;min-height:100vh;-webkit-font-smoothing:antialiased;}
 
-/* HEADER */
-.hdr{background:#fff;border-bottom:1px solid #e0e6ed;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:62px;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
-.hdr-left{display:flex;align-items:center;gap:12px;}
-.logo-wrap{display:flex;align-items:center;gap:4px;}
-.logo-gqs{font-size:22px;font-weight:900;color:#1a7a6e;letter-spacing:0.5px;}
-.logo-check{color:#1a7a6e;}
-.hdr-title{font-size:14px;font-weight:700;color:#1a2533;}
-.hdr-sub{font-size:11px;color:#7a8fa6;margin-top:1px;}
-.hdr-user{display:flex;align-items:center;gap:8px;background:#f0f6f5;border:1px solid #c8e6e2;border-radius:8px;padding:6px 12px;cursor:pointer;}
-.hdr-avatar{width:28px;height:28px;border-radius:50%;background:#1a7a6e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
-.hdr-uname{font-size:13px;font-weight:600;color:#1a2533;}
-.hdr-urole{font-size:11px;color:#7a8fa6;}
+/* ── HEADER ── */
+.hdr{background:var(--white);border-bottom:1px solid var(--border);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:200;box-shadow:var(--shadow-sm);}
+.logo-wrap{display:flex;align-items:center;gap:10px;}
+.logo-text{font-family:'DM Sans',sans-serif;font-size:22px;font-weight:700;color:var(--teal);letter-spacing:-0.5px;}
+.logo-divider{width:1px;height:28px;background:var(--border);margin:0 14px;}
+.hdr-info .hdr-title{font-size:13px;font-weight:600;color:var(--slate);letter-spacing:-0.1px;}
+.hdr-info .hdr-sub{font-size:11px;color:var(--slate-light);margin-top:1px;}
+.hdr-right{display:flex;align-items:center;gap:12px;}
+.hdr-save{background:transparent;border:1px solid var(--border);color:var(--slate-mid);padding:7px 16px;border-radius:var(--radius-sm);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s;font-family:'Inter',sans-serif;}
+.hdr-save:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-light);}
+.hdr-user{display:flex;align-items:center;gap:10px;padding:6px 14px 6px 6px;border:1px solid var(--border);border-radius:40px;cursor:pointer;transition:border-color 0.15s;}
+.hdr-user:hover{border-color:var(--teal);}
+.hdr-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--teal-mid));color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;letter-spacing:0.5px;}
+.hdr-uname{font-size:13px;font-weight:600;color:var(--slate);}
+.hdr-urole{font-size:10px;color:var(--slate-light);margin-top:1px;}
 
-/* STEP BAR */
-.step-bar{background:#fff;border-bottom:1px solid #e0e6ed;padding:8px 32px;display:flex;align-items:center;justify-content:space-between;}
-.step-label{font-size:12px;color:#7a8fa6;font-weight:500;}
-.step-pct{font-size:12px;font-weight:700;color:#1a7a6e;}
-.progress-track{height:3px;background:#e0e6ed;width:100%;}
-.progress-fill{height:100%;background:#1a7a6e;transition:width 0.4s;}
+/* ── STEP BAR ── */
+.step-bar{background:var(--white);border-bottom:1px solid var(--border);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:36px;}
+.step-label{font-size:12px;color:var(--slate-light);font-weight:500;letter-spacing:0.1px;}
+.step-pct{font-size:12px;font-weight:700;color:var(--teal);}
+.progress-track{height:2px;background:var(--border);}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),#1aab9b);transition:width 0.5s cubic-bezier(0.4,0,0.2,1);}
 
-/* ICON NAV */
-.icon-nav{background:#fff;border-bottom:1px solid #e0e6ed;padding:8px 32px;overflow-x:auto;display:flex;align-items:center;gap:0;white-space:nowrap;}
-.icon-nav::-webkit-scrollbar{height:3px;}
-.icon-nav::-webkit-scrollbar-thumb{background:#c8e6e2;border-radius:2px;}
+/* ── ICON NAV ── */
+.icon-nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 40px;display:flex;align-items:center;overflow-x:auto;gap:0;}
+.icon-nav::-webkit-scrollbar{height:0;}
+.inav-btn{display:inline-flex;flex-direction:column;align-items:center;gap:5px;padding:12px 16px;border:none;background:transparent;cursor:pointer;border-bottom:2px solid transparent;min-width:76px;transition:all 0.2s;position:relative;flex-shrink:0;}
+.inav-btn.active{border-bottom:2px solid var(--teal);}
+.inav-circle{width:36px;height:36px;border-radius:50%;border:1.5px solid #d0dce8;display:flex;align-items:center;justify-content:center;transition:all 0.25s;background:var(--white);}
+.inav-btn:hover .inav-circle{border-color:var(--teal);background:var(--teal-pale);}
+.inav-btn.active .inav-circle{border-color:var(--teal);background:var(--teal);box-shadow:0 2px 8px rgba(13,110,99,0.35);}
+.inav-btn.done .inav-circle{border-color:var(--teal);background:var(--teal);box-shadow:0 2px 8px rgba(13,110,99,0.25);}
+.inav-circle svg{width:15px;height:15px;stroke:#a0b4c4;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke 0.2s;}
+.inav-btn:hover .inav-circle svg{stroke:var(--teal);}
+.inav-btn.active .inav-circle svg,.inav-btn.done .inav-circle svg{stroke:#fff;}
+.inav-btn.done .icon-normal{display:none;}
+.inav-btn.done .icon-check{display:block !important;}
+.inav-btn:not(.done) .icon-check{display:none !important;}
+.inav-label{font-size:10px;color:var(--slate-light);font-weight:500;text-align:center;white-space:nowrap;letter-spacing:0.1px;}
+.inav-btn.active .inav-label,.inav-btn.done .inav-label{color:var(--teal);font-weight:600;}
+.inav-connector{flex:1;height:1px;background:var(--border);max-width:28px;min-width:8px;margin-bottom:20px;transition:background 0.3s;}
+.inav-connector.done{background:var(--teal);}
 
-.inav-btn{display:inline-flex;flex-direction:column;align-items:center;gap:4px;padding:6px 10px;border:none;background:transparent;cursor:pointer;border-bottom:3px solid transparent;min-width:68px;transition:border-color 0.2s;position:relative;}
-.inav-btn.active{border-bottom:3px solid #1a7a6e;}
+/* ── LAYOUT ── */
+.layout{display:flex;min-height:calc(100vh - 138px);}
+.sidebar{width:280px;flex-shrink:0;background:var(--white);border-right:1px solid var(--border);padding:28px 20px;position:sticky;top:138px;height:calc(100vh - 138px);overflow-y:auto;}
+.sidebar-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--slate-light);margin-bottom:16px;padding:0 8px;}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--radius-sm);cursor:pointer;transition:all 0.15s;margin-bottom:2px;}
+.sidebar-item:hover{background:var(--teal-pale);}
+.sidebar-item.active{background:var(--teal-light);}
+.sidebar-dot{width:6px;height:6px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background 0.2s;}
+.sidebar-item.active .sidebar-dot{background:var(--teal);}
+.sidebar-item.done .sidebar-dot{background:var(--teal);}
+.sidebar-lbl{font-size:12px;font-weight:500;color:var(--slate-mid);}
+.sidebar-item.active .sidebar-lbl{font-weight:600;color:var(--teal);}
+.sidebar-item.done .sidebar-lbl{color:var(--teal);}
+.sidebar-check{margin-left:auto;color:var(--teal);font-size:12px;display:none;}
+.sidebar-item.done .sidebar-check{display:block;}
 
-.inav-circle{width:36px;height:36px;border-radius:50%;border:2px solid #c8d8e8;display:flex;align-items:center;justify-content:center;transition:all 0.2s;background:#fff;}
-.inav-btn:hover .inav-circle{border-color:#1a7a6e;}
-.inav-btn.active .inav-circle{border-color:#1a7a6e;background:#1a7a6e;}
-.inav-btn.done .inav-circle{border-color:#1a7a6e;background:#1a7a6e;}
+.main{flex:1;padding:36px 48px 80px;min-width:0;}
 
-.inav-circle svg{width:16px;height:16px;stroke:#9ab0c0;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke 0.2s;}
-.inav-btn:hover .inav-circle svg{stroke:#1a7a6e;}
-.inav-btn.active .inav-circle svg{stroke:#fff;}
-.inav-btn.done .inav-circle svg{stroke:#fff;}
+/* ── SECTION HEADING ── */
+.sec-eyebrow{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--teal);margin-bottom:6px;}
+.sec-title{font-family:'DM Sans',sans-serif;font-size:26px;font-weight:700;color:var(--slate);letter-spacing:-0.5px;margin-bottom:4px;}
+.sec-desc{font-size:13px;color:var(--slate-light);margin-bottom:28px;line-height:1.5;}
 
-/* check icon for done */
-.inav-btn.done .inav-circle .icon-normal{display:none;}
-.inav-btn.done .inav-circle .icon-check{display:block;}
-.inav-btn:not(.done) .inav-circle .icon-check{display:none;}
-.inav-btn:not(.done) .inav-circle .icon-normal{display:block;}
-
-.inav-label{font-size:10px;color:#7a8fa6;font-weight:500;text-align:center;white-space:nowrap;line-height:1.3;}
-.inav-btn.active .inav-label{color:#1a7a6e;font-weight:700;}
-.inav-btn.done .inav-label{color:#1a7a6e;}
-
-/* connector line between steps */
-.inav-connector{flex:1;height:2px;background:#e0e6ed;min-width:6px;max-width:20px;align-self:center;margin-bottom:18px;}
-.inav-connector.done{background:#1a7a6e;}
-
-/* MAIN */
-.main{max-width:100%;margin:0;padding:28px 48px 80px;}
-
-/* SECTION HEADING */
-.sec-heading{margin-bottom:20px;}
-.sec-num{font-size:11px;font-weight:700;color:#1a7a6e;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;}
-.sec-title{font-size:20px;font-weight:800;color:#1a2533;}
-.sec-desc{font-size:12px;color:#7a8fa6;margin-top:4px;}
-
-/* CARDS */
-.card{background:#fff;border-radius:12px;border:1px solid #e0e6ed;margin-bottom:20px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
-.card-header{background:#1a7a6e;color:#fff;padding:10px 18px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;}
+/* ── CARDS ── */
+.card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);margin-bottom:20px;overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow 0.2s;}
+.card:hover{box-shadow:var(--shadow-md);}
+.card-header{padding:14px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.card-header-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);flex-shrink:0;}
+.card-header-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--slate);}
+.card-header-sub{font-size:11px;color:var(--slate-light);margin-left:auto;}
 .card-body{padding:24px;}
 
-/* FORM */
-.field{margin-bottom:14px;}
-.field-lbl{font-size:11px;font-weight:700;color:#4a6070;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;}
-.field-hint{font-size:11px;color:#aab8c2;margin-bottom:4px;font-style:italic;}
-input[type=text],input[type=date],input[type=email],input[type=tel],textarea,select{width:100%;padding:9px 11px;border:1px solid #d0dce8;border-radius:6px;font-size:13px;background:#fafbfc;color:#1a2533;outline:none;transition:border 0.18s,box-shadow 0.18s;font-family:inherit;}
-input:focus,textarea:focus,select:focus{border-color:#1a7a6e;box-shadow:0 0 0 3px rgba(26,122,110,0.1);background:#fff;}
-textarea{min-height:130px;resize:vertical;}
+/* ── FORM ── */
+.field{margin-bottom:18px;}
+.field-lbl{font-size:11px;font-weight:600;color:var(--slate-mid);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.field-hint{font-size:11px;color:#a0b4c4;margin-bottom:6px;}
+.field-req{color:var(--teal);font-size:10px;}
+input[type=text],input[type=date],input[type=email],input[type=tel],textarea,select{
+  width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  font-size:13.5px;background:var(--white);color:var(--slate);outline:none;
+  transition:border-color 0.2s,box-shadow 0.2s;font-family:'Inter',sans-serif;
+  -webkit-appearance:none;appearance:none;
+}
+input:focus,textarea:focus,select:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(13,110,99,0.1);}
+input::placeholder,textarea::placeholder{color:#b8ccd8;}
+textarea{min-height:120px;resize:vertical;line-height:1.6;}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7f94' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;}
 
-/* TABLE */
-.tbl-head{display:grid;gap:8px;padding:8px 12px;background:#eaf3f1;border-radius:6px 6px 0 0;font-size:11px;font-weight:700;color:#1a7a6e;text-transform:uppercase;letter-spacing:0.4px;}
-.tbl-row{display:grid;gap:8px;padding:8px 12px;border-bottom:1px solid #f0f4f7;align-items:center;}
+/* ── TABLE ── */
+.tbl-wrap{border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;}
+.tbl-head{display:grid;gap:12px;padding:10px 16px;background:#f8fafc;font-size:10px;font-weight:700;color:var(--slate-light);text-transform:uppercase;letter-spacing:0.8px;border-bottom:1px solid var(--border);}
+.tbl-row{display:grid;gap:12px;padding:10px 16px;border-bottom:1px solid #f0f4f8;align-items:center;transition:background 0.1s;}
 .tbl-row:last-child{border-bottom:none;}
-.tbl-fixed{background:#f4f7fa;color:#5a7080;font-weight:600;font-size:13px;padding:9px 11px;border-radius:6px;border:1px solid #e0e6ed;}
+.tbl-row:hover{background:#fafcff;}
+.tbl-row input,.tbl-row select{border-radius:6px;padding:7px 10px;font-size:13px;}
+.tbl-fixed{background:#f8fafc;color:var(--slate-mid);font-weight:600;font-size:13px;padding:9px 12px;border-radius:6px;border:1px solid var(--border);}
 
-/* BUTTONS */
-.btn-add{background:#eaf3f1;color:#1a7a6e;border:1px dashed #1a7a6e;padding:7px 16px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;margin-top:10px;transition:background 0.18s;}
-.btn-add:hover{background:#d0ebe6;}
-.btn-rm{background:#fff0f0;color:#c0392b;border:1px solid #f5c6c6;padding:5px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700;}
-.btn-rm:hover{background:#fde8e8;}
-.btn-next{background:#1a7a6e;color:#fff;border:none;padding:11px 28px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;margin-left:auto;margin-top:6px;transition:background 0.18s;}
-.btn-next:hover{background:#155f56;}
-.btn-submit-final{background:#1a7a6e;color:#fff;border:none;padding:13px 36px;border-radius:8px;font-size:15px;font-weight:800;cursor:pointer;transition:background 0.18s;}
-.btn-submit-final:hover{background:#155f56;}
+/* ── BUTTONS ── */
+.btn-add{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--teal);border:1.5px dashed #9dd0c8;padding:8px 16px;border-radius:var(--radius-sm);cursor:pointer;font-size:12px;font-weight:600;margin-top:14px;transition:all 0.15s;font-family:'Inter',sans-serif;}
+.btn-add:hover{background:var(--teal-pale);border-color:var(--teal);}
+.btn-rm{background:transparent;color:#94a3b8;border:none;padding:6px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
+.btn-rm:hover{background:var(--red-light);color:var(--red);}
+.btn-rm svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
+.btn-next{background:var(--teal);color:#fff;border:none;padding:12px 28px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;margin-left:auto;transition:all 0.2s;font-family:'Inter',sans-serif;box-shadow:0 2px 8px rgba(13,110,99,0.3);letter-spacing:0.1px;}
+.btn-next:hover{background:#0a5a51;box-shadow:0 4px 16px rgba(13,110,99,0.4);transform:translateY(-1px);}
+.btn-next svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.btn-actions{display:flex;justify-content:flex-end;margin-top:8px;}
+.btn-submit-final{background:linear-gradient(135deg,var(--teal),#1aab9b);color:#fff;border:none;padding:14px 40px;border-radius:var(--radius-sm);font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:all 0.2s;font-family:'Inter',sans-serif;box-shadow:0 4px 20px rgba(13,110,99,0.35);letter-spacing:0.2px;}
+.btn-submit-final:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(13,110,99,0.45);}
+.btn-submit-final svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
 
-/* HSE */
-.hse-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid #f0f4f7;}
-.hse-item:last-child{border-bottom:none;}
-.hse-item input[type=checkbox]{width:16px;height:16px;accent-color:#1a7a6e;margin-top:2px;cursor:pointer;flex-shrink:0;}
-.hse-text{font-size:13px;color:#1a2533;line-height:1.4;}
+/* ── HSE ── */
+.hse-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.hse-item{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-bottom:1px solid #f0f4f8;border-right:1px solid #f0f4f8;transition:background 0.1s;}
+.hse-item:hover{background:var(--teal-pale);}
+.hse-item:nth-child(even){border-right:none;}
+.hse-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--teal);margin-top:1px;cursor:pointer;flex-shrink:0;}
+.hse-text{font-size:13px;color:var(--slate-mid);line-height:1.4;}
 
-/* PHOTO */
-.upload-zone{border:2px dashed #b8d4ce;border-radius:10px;padding:28px;text-align:center;background:#f0f8f6;cursor:pointer;transition:all 0.18s;}
-.upload-zone:hover{border-color:#1a7a6e;background:#e4f2ef;}
-.upload-zone svg{width:36px;height:36px;stroke:#1a7a6e;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;margin-bottom:8px;}
-.upload-zone p{color:#5a8a80;font-size:13px;font-weight:600;}
-.upload-zone small{color:#aabbb8;font-size:11px;}
-.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;margin-top:14px;}
-.p-thumb{position:relative;border-radius:8px;overflow:hidden;aspect-ratio:1;background:#e0e8ee;}
+/* ── UPLOAD ── */
+.upload-zone{border:2px dashed #c8deda;border-radius:var(--radius);padding:48px 32px;text-align:center;background:var(--teal-pale);cursor:pointer;transition:all 0.2s;}
+.upload-zone:hover{border-color:var(--teal);background:var(--teal-light);}
+.upload-zone svg{width:40px;height:40px;stroke:var(--teal);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px;opacity:0.7;}
+.upload-zone .uz-title{font-size:14px;font-weight:600;color:var(--teal);margin-bottom:4px;}
+.upload-zone .uz-sub{font-size:12px;color:var(--slate-light);}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px;margin-top:16px;}
+.p-thumb{position:relative;border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1;background:#e8eef4;box-shadow:var(--shadow-sm);}
 .p-thumb img{width:100%;height:100%;object-fit:cover;}
-.p-rm{position:absolute;top:4px;right:4px;background:rgba(180,0,0,0.85);color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:11px;}
+.p-rm{position:absolute;top:5px;right:5px;background:rgba(0,0,0,0.5);color:#fff;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
 
-/* AI */
-.ai-badge{background:#e8f4f0;border:1px solid #b0d8d0;border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:14px;font-size:13px;color:#1a7a6e;font-weight:600;}
-.ai-badge svg{width:18px;height:18px;stroke:#1a7a6e;fill:none;stroke-width:1.8;flex-shrink:0;}
-.ai-text-area{background:#f7faf9;border:1px solid #c8deda;border-radius:8px;padding:14px;font-size:13px;color:#2a3d3a;line-height:1.7;min-height:160px;white-space:pre-wrap;outline:none;}
-.ai-text-area:focus{border-color:#1a7a6e;}
+/* ── AI SECTION ── */
+.ai-badge{background:linear-gradient(135deg,#e6f4f2,#f0faf8);border:1px solid #b8ddd6;border-radius:var(--radius-sm);padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.ai-badge-icon{width:32px;height:32px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ai-badge-icon svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:1.8;}
+.ai-badge-text{font-size:13px;color:var(--teal);font-weight:500;line-height:1.4;}
+.ai-text-area{background:#f8fafa;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:18px;font-size:13.5px;color:var(--slate-mid);line-height:1.8;min-height:180px;white-space:pre-wrap;outline:none;font-family:'Inter',sans-serif;transition:border-color 0.2s;}
+.ai-text-area:focus{border-color:var(--teal);}
+.ai-tag{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,var(--teal),#1aab9b);color:#fff;font-size:10px;padding:3px 10px;border-radius:20px;vertical-align:middle;font-weight:700;margin-left:8px;letter-spacing:0.3px;}
 
-/* RELEASE SUMMARY */
-.rel-summary{background:#f0f8f6;border:1px solid #c8e0db;border-radius:8px;padding:14px 16px;margin-bottom:16px;}
-.rs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.rs-lbl{font-size:10px;font-weight:700;color:#7a9a94;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:2px;}
-.rs-val{font-size:13px;font-weight:600;color:#1a2533;}
+/* ── RELEASE SUMMARY ── */
+.rel-summary{background:linear-gradient(135deg,var(--teal-pale),var(--teal-light));border:1px solid #c0e0da;border-radius:var(--radius-sm);padding:16px 20px;margin-bottom:20px;}
+.rel-summary-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--teal);margin-bottom:12px;}
+.rs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.rs-lbl{font-size:10px;font-weight:600;color:#7a9a94;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px;}
+.rs-val{font-size:13px;font-weight:600;color:var(--slate);}
 
-/* NCR */
-.ncr-banner{background:#fff8e8;border-left:4px solid #e8a020;border-radius:0 8px 8px 0;padding:14px 16px;font-size:13px;color:#5a4010;margin-bottom:16px;}
+/* ── NCR BANNER ── */
+.ncr-banner{background:var(--amber-light);border:1px solid #fde68a;border-radius:var(--radius-sm);padding:14px 18px;display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;}
+.ncr-banner svg{width:18px;height:18px;stroke:var(--amber);fill:none;stroke-width:2;flex-shrink:0;margin-top:1px;}
+.ncr-banner-text{font-size:13px;color:#92400e;line-height:1.5;}
 
-/* REVIEW */
-.review-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f0f4f7;font-size:13px;}
-.review-row:last-child{border-bottom:none;}
-.review-lbl{color:#7a8fa6;font-weight:500;}
-.review-val{color:#1a2533;font-weight:600;text-align:right;}
+/* ── REVIEW ── */
+.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border-radius:var(--radius-sm);overflow:hidden;}
+.review-cell{background:var(--white);padding:14px 18px;}
+.review-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:var(--slate-light);margin-bottom:4px;}
+.review-val{font-size:14px;font-weight:600;color:var(--slate);}
+.submit-wrap{text-align:center;margin-top:32px;padding:32px;background:var(--white);border-radius:var(--radius);border:1px solid var(--border);}
+.submit-wrap-title{font-family:'DM Sans',sans-serif;font-size:18px;font-weight:700;color:var(--slate);margin-bottom:6px;}
+.submit-wrap-sub{font-size:13px;color:var(--slate-light);margin-bottom:24px;}
 
-/* SCREENS */
+/* ── SCREEN ── */
 .screen{display:none;}
 .screen.active{display:block;}
 
-@media(max-width:600px){.g2,.g3{grid-template-columns:1fr;}.main{padding:0 16px 80px;}.inav-connector{min-width:3px;max-width:8px;}.inav-btn{min-width:52px;padding:6px 5px;}.inav-label{font-size:9px;}}
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--slate);color:#fff;padding:12px 20px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;box-shadow:var(--shadow-lg);z-index:1000;transform:translateY(100px);opacity:0;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);}
+.toast.show{transform:translateY(0);opacity:1;}
+
+@media(max-width:900px){.sidebar{display:none;}.main{padding:24px 24px 80px;}.hdr{padding:0 20px;}.step-bar,.icon-nav{padding:0 20px;}.hse-grid{grid-template-columns:1fr;}.rs-grid{grid-template-columns:1fr 1fr;}.review-grid{grid-template-columns:1fr;}}
+@media(max-width:600px){.g2,.g3{grid-template-columns:1fr;}.inav-connector{max-width:8px;min-width:4px;}.inav-btn{min-width:56px;padding:10px 6px;}}
 </style>
 </head>
 <body>
 
 <!-- HEADER -->
 <div class="hdr">
-  <div class="hdr-left">
-    <div class="logo-wrap">
-      <div class="logo-gqs">GQS</div>
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a7a6e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
-    <div style="border-left:1px solid #e0e6ed;padding-left:12px;">
+  <div class="logo-wrap">
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#0d6e63"/><polyline points="9,17 14,22 23,11" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="logo-text">GQS</div>
+    <div class="logo-divider"></div>
+    <div class="hdr-info">
       <div class="hdr-title">Inspection Portal</div>
       <div class="hdr-sub">Inspection Release Certificate Timeline</div>
     </div>
   </div>
-  <div class="hdr-user">
-    <div class="hdr-avatar">JS</div>
-    <div>
-      <div class="hdr-uname">John Smith</div>
-      <div class="hdr-urole">Inspector</div>
+  <div class="hdr-right">
+    <button class="hdr-save" onclick="showToast('Draft saved')">Save draft</button>
+    <div class="hdr-user">
+      <div class="hdr-avatar">JS</div>
+      <div>
+        <div class="hdr-uname">John Smith</div>
+        <div class="hdr-urole">Inspector</div>
+      </div>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aab8c2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
   </div>
 </div>
 
@@ -174,137 +241,102 @@ textarea{min-height:130px;resize:vertical;}
   <div class="step-label" id="stepLabel">Step 1 of 10 — Contact details</div>
   <div class="step-pct" id="stepPct">10%</div>
 </div>
-<div class="progress-track"><div class="progress-fill" id="progressFill" style="width:10%;"></div></div>
+<div class="progress-track"><div class="progress-fill" id="progressFill" style="width:10%"></div></div>
 
 <!-- ICON NAV -->
-<div class="icon-nav" id="iconNav">
-
-  <button class="inav-btn active" onclick="goTab(0)" title="Contact">
-    <div class="inav-circle">
-      <svg class="icon-normal" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
+<div class="icon-nav">
+  <button class="inav-btn active" onclick="goTab(0)">
+    <div class="inav-circle"><svg class="icon-normal" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
     <div class="inav-label">Contact</div>
-  </button>
-  <div class="inav-connector" id="con-0"></div>
-
-  <button class="inav-btn" onclick="goTab(1)" title="Job Details">
-    <div class="inav-circle">
-      <svg class="icon-normal" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
+  </button><div class="inav-connector" id="con-0"></div>
+  <button class="inav-btn" onclick="goTab(1)">
+    <div class="inav-circle"><svg class="icon-normal" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
     <div class="inav-label">Job Details</div>
-  </button>
-  <div class="inav-connector" id="con-1"></div>
-
-  <button class="inav-btn" onclick="goTab(2)" title="Timesheet">
-    <div class="inav-circle">
-      <svg class="icon-normal" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
+  </button><div class="inav-connector" id="con-1"></div>
+  <button class="inav-btn" onclick="goTab(2)">
+    <div class="inav-circle"><svg class="icon-normal" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
     <div class="inav-label">Timesheet</div>
-  </button>
-  <div class="inav-connector" id="con-2"></div>
-
-  <button class="inav-btn" onclick="goTab(3)" title="HSE">
-    <div class="inav-circle">
-      <svg class="icon-normal" viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5 3.8 9.6 9 11 5.2-1.4 9-6 9-11V7z"/></svg>
-      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
+  </button><div class="inav-connector" id="con-2"></div>
+  <button class="inav-btn" onclick="goTab(3)">
+    <div class="inav-circle"><svg class="icon-normal" viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5 3.8 9.6 9 11 5.2-1.4 9-6 9-11V7z"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
     <div class="inav-label">HSE</div>
-  </button>
-  <div class="inav-connector" id="con-3"></div>
-
-  <button class="inav-btn" onclick="goTab(4)" title="Documents">
-    <div class="inav-circle">
-      <svg class="icon-normal" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
-      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
+  </button><div class="inav-connector" id="con-3"></div>
+  <button class="inav-btn" onclick="goTab(4)">
+    <div class="inav-circle"><svg class="icon-normal" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
     <div class="inav-label">Documents</div>
-  </button>
-  <div class="inav-connector" id="con-4"></div>
-
-  <button class="inav-btn" onclick="goTab(5)" title="Milestones">
-    <div class="inav-circle">
-      <svg class="icon-normal" viewBox="0 0 24 24"><polygon points="12 2 15.1 8.3 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 8.9 8.3 12 2"/></svg>
-      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
+  </button><div class="inav-connector" id="con-4"></div>
+  <button class="inav-btn" onclick="goTab(5)">
+    <div class="inav-circle"><svg class="icon-normal" viewBox="0 0 24 24"><polygon points="12 2 15.1 8.3 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 8.9 8.3 12 2"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
     <div class="inav-label">Milestones</div>
-  </button>
-  <div class="inav-connector" id="con-5"></div>
-
-  <button class="inav-btn" onclick="goTab(6)" title="Calibration">
-    <div class="inav-circle">
-      <svg class="icon-normal" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
+  </button><div class="inav-connector" id="con-5"></div>
+  <button class="inav-btn" onclick="goTab(6)">
+    <div class="inav-circle"><svg class="icon-normal" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
     <div class="inav-label">Calibration</div>
-  </button>
-  <div class="inav-connector" id="con-6"></div>
-
-  <button class="inav-btn" onclick="goTab(7)" title="Photos">
-    <div class="inav-circle">
-      <svg class="icon-normal" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
+  </button><div class="inav-connector" id="con-6"></div>
+  <button class="inav-btn" onclick="goTab(7)">
+    <div class="inav-circle"><svg class="icon-normal" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
     <div class="inav-label">Photos</div>
-  </button>
-  <div class="inav-connector" id="con-7"></div>
-
-  <button class="inav-btn" onclick="goTab(8)" title="All Report">
-    <div class="inav-circle">
-      <svg class="icon-normal" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
+  </button><div class="inav-connector" id="con-7"></div>
+  <button class="inav-btn" onclick="goTab(8)">
+    <div class="inav-circle"><svg class="icon-normal" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
     <div class="inav-label">All Report</div>
-  </button>
-  <div class="inav-connector" id="con-8"></div>
-
-  <button class="inav-btn" onclick="goTab(9)" title="Review & Submit">
-    <div class="inav-circle">
-      <svg class="icon-normal" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
+  </button><div class="inav-connector" id="con-8"></div>
+  <button class="inav-btn" onclick="goTab(9)">
+    <div class="inav-circle"><svg class="icon-normal" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
     <div class="inav-label">Review &amp;<br>Submit</div>
   </button>
+</div>
 
+<div class="layout">
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-title">Report Sections</div>
+  <div class="sidebar-item active" id="sb-0" onclick="goTab(0)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Contact details</div><div class="sidebar-check">✓</div></div>
+  <div class="sidebar-item" id="sb-1" onclick="goTab(1)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Job details</div><div class="sidebar-check">✓</div></div>
+  <div class="sidebar-item" id="sb-2" onclick="goTab(2)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Timesheet</div><div class="sidebar-check">✓</div></div>
+  <div class="sidebar-item" id="sb-3" onclick="goTab(3)"><div class="sidebar-dot"></div><div class="sidebar-lbl">HSE Checklist</div><div class="sidebar-check">✓</div></div>
+  <div class="sidebar-item" id="sb-4" onclick="goTab(4)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Document details</div><div class="sidebar-check">✓</div></div>
+  <div class="sidebar-item" id="sb-5" onclick="goTab(5)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Milestones</div><div class="sidebar-check">✓</div></div>
+  <div class="sidebar-item" id="sb-6" onclick="goTab(6)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Calibration Status</div><div class="sidebar-check">✓</div></div>
+  <div class="sidebar-item" id="sb-7" onclick="goTab(7)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Photographs</div><div class="sidebar-check">✓</div></div>
+  <div class="sidebar-item" id="sb-8" onclick="goTab(8)"><div class="sidebar-dot"></div><div class="sidebar-lbl">All Report (AI)</div><div class="sidebar-check">✓</div></div>
+  <div class="sidebar-item" id="sb-9" onclick="goTab(9)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Review &amp; Submit</div><div class="sidebar-check">✓</div></div>
 </div>
 
 <div class="main">
 
-<!-- TAB 0: CONTACT -->
+<!-- TAB 0 -->
 <div id="tab-0" class="screen active">
-  <div class="sec-heading">
-    <div class="sec-num">Section 1.0 — Contact details</div>
-    <div class="sec-title">Contact details</div>
-    <div class="sec-desc">Please access Visit Report, Release Certificate and Timesheet</div>
-  </div>
+  <div class="sec-eyebrow">Section 1.0 — Contact details</div>
+  <div class="sec-title">Contact details</div>
+  <div class="sec-desc">Please access Visit Report, Release Certificate and Timesheet</div>
   <div class="card">
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Inspector &amp; Client Information</div><div class="card-header-sub">Fields marked with * are required</div></div>
     <div class="card-body">
       <div class="g2">
-        <div class="field"><div class="field-lbl">Client</div><input type="text" id="f-client" placeholder="Enter company name"/></div>
-        <div class="field"><div class="field-lbl">Inspector</div><input type="text" id="f-inspector" placeholder="Your full name…"/></div>
-        <div class="field"><div class="field-lbl">Client Contact Name</div><input type="text" id="f-clientContact" placeholder="Enter contact name"/></div>
-        <div class="field"><div class="field-lbl">GQS Contact</div><input type="text" id="f-gqsContact" placeholder="GQS contact name…"/></div>
-        <div class="field"><div class="field-lbl">Client Contact Number</div><input type="tel" id="f-clientTel" placeholder="Enter contact number"/></div>
-        <div class="field"><div class="field-lbl">GQS Contact Number</div><input type="tel" id="f-gqsTel" placeholder="Enter contact number"/></div>
+        <div class="field"><div class="field-lbl">Client <span class="field-req">*</span></div><input type="text" id="f-client" placeholder="Enter company name"/></div>
+        <div class="field"><div class="field-lbl">Inspector <span class="field-req">*</span></div><input type="text" id="f-inspector" placeholder="Your full name"/></div>
+        <div class="field"><div class="field-lbl">Client Contact Name</div><input type="text" id="f-clientContact" placeholder="Contact person name"/></div>
+        <div class="field"><div class="field-lbl">GQS Contact</div><input type="text" id="f-gqsContact" placeholder="GQS contact name"/></div>
+        <div class="field"><div class="field-lbl">Client Contact Number</div><input type="tel" id="f-clientTel" placeholder="+1 000 000 0000"/></div>
+        <div class="field"><div class="field-lbl">GQS Contact Number</div><input type="tel" id="f-gqsTel" placeholder="+1 000 000 0000"/></div>
       </div>
-      <div class="field"><div class="field-lbl">Email <span style="font-weight:400;color:#aab8c2;">(for sharing / coordinator)</span></div><input type="email" id="f-email" placeholder="Enter email address"/></div>
+      <div class="field"><div class="field-lbl">Email <span style="text-transform:none;font-weight:400;color:#a0b4c4;font-size:11px;">(for sharing / coordinator)</span></div><input type="email" id="f-email" placeholder="email@company.com"/></div>
     </div>
   </div>
-  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(1)">Next — Job details <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+  <div class="btn-actions"><button class="btn-next" onclick="goTab(1)">Next — Job details<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
 </div>
 
-<!-- TAB 1: JOB DETAILS -->
+<!-- TAB 1 -->
 <div id="tab-1" class="screen">
-  <div class="sec-heading">
-    <div class="sec-num">Section 2.0 — Job details</div>
-    <div class="sec-title">Job details</div>
-  </div>
+  <div class="sec-eyebrow">Section 2.0 — Job details</div>
+  <div class="sec-title">Job details</div>
+  <div class="sec-desc">Enter all job and vendor information for this inspection</div>
   <div class="card">
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Assignment Information</div></div>
     <div class="card-body">
       <div class="g2">
-        <div class="field"><div class="field-lbl">GQS Number</div><div class="field-hint">Sometimes filled by Coordinator</div><input type="text" id="f-gqsNum" placeholder="e.g. GQS550"/></div>
+        <div class="field"><div class="field-lbl">GQS Number <span class="field-req">*</span></div><div class="field-hint">Sometimes filled by Coordinator</div><input type="text" id="f-gqsNum" placeholder="e.g. GQS550"/></div>
         <div class="field"><div class="field-lbl">PO Number</div><input type="text" id="f-po" placeholder="e.g. PO-2026-001"/></div>
         <div class="field"><div class="field-lbl">Vendor Name</div><input type="text" id="f-vendor" placeholder="Vendor / supplier name"/></div>
         <div class="field"><div class="field-lbl">Vendor Location</div><input type="text" id="f-vendorLoc" placeholder="City, Country"/></div>
@@ -314,184 +346,183 @@ textarea{min-height:130px;resize:vertical;}
         <div class="field"><div class="field-lbl">Visit Date From</div><input type="date" id="f-dateFrom"/></div>
         <div class="field"><div class="field-lbl">Visit Date To</div><input type="date" id="f-dateTo"/></div>
       </div>
-      <div class="field"><div class="field-lbl">Scope of Work</div><textarea id="f-scope" placeholder="Describe the scope of work for this inspection visit…"></textarea></div>
+      <div class="field"><div class="field-lbl">Scope of Work</div><textarea id="f-scope" placeholder="Describe the scope of work for this inspection visit in detail…"></textarea></div>
     </div>
   </div>
-  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(2)">Next — Timesheet <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+  <div class="btn-actions"><button class="btn-next" onclick="goTab(2)">Next — Timesheet<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
 </div>
 
-<!-- TAB 2: TIMESHEET -->
+<!-- TAB 2 -->
 <div id="tab-2" class="screen">
-  <div class="sec-heading">
-    <div class="sec-num">Section 3.0 — Timesheet</div>
-    <div class="sec-title">Timesheet</div>
-    <div class="sec-desc">Record time spent on each inspection activity</div>
-  </div>
+  <div class="sec-eyebrow">Section 3.0 — Timesheet</div>
+  <div class="sec-title">Timesheet</div>
+  <div class="sec-desc">Record time spent on each inspection activity per day</div>
   <div class="card">
-    <div class="card-header">Daily Time Entries</div>
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Daily Time Entries</div></div>
     <div class="card-body">
-      <div class="tbl-head" style="grid-template-columns:1.8fr 1.2fr 1.2fr 2fr 1fr 50px;"><span>Date</span><span>Start</span><span>End</span><span>Activity</span><span>Hours</span><span></span></div>
-      <div id="timesheetList">
-        <div class="tbl-row" style="grid-template-columns:1.8fr 1.2fr 1.2fr 2fr 1fr 50px;">
-          <input type="date"/><input type="text" placeholder="08:00"/><input type="text" placeholder="17:00"/><input type="text" placeholder="Inspection activity"/><input type="text" placeholder="8"/>
-          <button class="btn-rm" onclick="removeRow(this)">✕</button>
+      <div class="tbl-wrap">
+        <div class="tbl-head" style="grid-template-columns:1.8fr 1.2fr 1.2fr 2.5fr 1fr 44px;"><span>Date</span><span>Start</span><span>End</span><span>Activity</span><span>Hours</span><span></span></div>
+        <div id="timesheetList">
+          <div class="tbl-row" style="grid-template-columns:1.8fr 1.2fr 1.2fr 2.5fr 1fr 44px;"><input type="date"/><input type="text" placeholder="08:00"/><input type="text" placeholder="17:00"/><input type="text" placeholder="Inspection activity"/><input type="text" placeholder="8"/><button class="btn-rm" onclick="removeRow(this)"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
         </div>
       </div>
-      <button class="btn-add" onclick="addTimesheet()">+ Add Day</button>
+      <button class="btn-add" onclick="addTimesheet()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add day</button>
     </div>
   </div>
-  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(3)">Next — HSE <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+  <div class="btn-actions"><button class="btn-next" onclick="goTab(3)">Next — HSE<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
 </div>
 
-<!-- TAB 3: HSE -->
+<!-- TAB 3 -->
 <div id="tab-3" class="screen">
-  <div class="sec-heading">
-    <div class="sec-num">Section 4.0 — HSE Checklist</div>
-    <div class="sec-title">Health, Safety &amp; Environmental Observations</div>
-  </div>
+  <div class="sec-eyebrow">Section 4.0 — HSE Checklist</div>
+  <div class="sec-title">Health, Safety &amp; Environmental</div>
+  <div class="sec-desc">Check all items observed and compliant during the inspection visit</div>
   <div class="card">
-    <div class="card-header">HSE Checklist</div>
-    <div class="card-body">
-      <div class="hse-item"><input type="checkbox"/><div class="hse-text">Personal Protective Equipment (PPE) worn correctly by all personnel</div></div>
-      <div class="hse-item"><input type="checkbox"/><div class="hse-text">Work area is clean, tidy and free from hazards</div></div>
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">HSE Observations Checklist</div></div>
+    <div class="hse-grid">
+      <div class="hse-item"><input type="checkbox"/><div class="hse-text">PPE worn correctly by all personnel</div></div>
+      <div class="hse-item"><input type="checkbox"/><div class="hse-text">Work area clean, tidy and free from hazards</div></div>
       <div class="hse-item"><input type="checkbox"/><div class="hse-text">Emergency exits clearly marked and unobstructed</div></div>
       <div class="hse-item"><input type="checkbox"/><div class="hse-text">Fire extinguishers present and within inspection date</div></div>
       <div class="hse-item"><input type="checkbox"/><div class="hse-text">First aid kit available and adequately stocked</div></div>
       <div class="hse-item"><input type="checkbox"/><div class="hse-text">Hazardous materials correctly labelled and stored</div></div>
       <div class="hse-item"><input type="checkbox"/><div class="hse-text">Lifting equipment inspected and certified</div></div>
-      <div class="hse-item"><input type="checkbox"/><div class="hse-text">No unsafe acts or conditions observed during visit</div></div>
+      <div class="hse-item"><input type="checkbox"/><div class="hse-text">No unsafe acts or conditions observed</div></div>
       <div class="hse-item"><input type="checkbox"/><div class="hse-text">Toolbox talk conducted prior to work commencing</div></div>
       <div class="hse-item"><input type="checkbox"/><div class="hse-text">Risk assessment / JSA available and signed off</div></div>
-      <div class="hse-item"><input type="checkbox"/><div class="hse-text">Environmental controls in place (spill kits, waste disposal)</div></div>
+      <div class="hse-item"><input type="checkbox"/><div class="hse-text">Environmental controls in place (spill kits, waste)</div></div>
       <div class="hse-item"><input type="checkbox"/><div class="hse-text">Electrical equipment tagged and tested</div></div>
-      <div class="field" style="margin-top:14px;"><div class="field-lbl">Additional HSE Observations</div><textarea placeholder="Any additional safety or environmental observations…"></textarea></div>
+    </div>
+    <div class="card-body" style="border-top:1px solid var(--border);">
+      <div class="field"><div class="field-lbl">Additional HSE Observations</div><textarea placeholder="Any additional safety or environmental observations…"></textarea></div>
     </div>
   </div>
-  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(4)">Next — Documents <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+  <div class="btn-actions"><button class="btn-next" onclick="goTab(4)">Next — Documents<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
 </div>
 
-<!-- TAB 4: DOCUMENTS -->
+<!-- TAB 4 -->
 <div id="tab-4" class="screen">
-  <div class="sec-heading">
-    <div class="sec-num">Section 5.4.2.4 — Document details</div>
-    <div class="sec-title">Document details</div>
-    <div class="sec-desc">A/s = first the inspection at Report and Release Certificate</div>
-  </div>
+  <div class="sec-eyebrow">Section 5.4.2.4 — Document details</div>
+  <div class="sec-title">Document details</div>
+  <div class="sec-desc">A/s = first the inspection at Report and Release Certificate</div>
   <div class="card">
-    <div class="card-header">Section A.2 — Documentation issued</div>
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Section A.2 — Documentation issued</div></div>
     <div class="card-body">
-      <div class="tbl-head" style="grid-template-columns:2.5fr 1.5fr 2fr 2.5fr;"><span>Document type</span><span>Yes / No</span><span>Document number</span><span>Details</span></div>
-      <div class="tbl-row" style="grid-template-columns:2.5fr 1.5fr 2fr 2.5fr;"><div class="tbl-fixed">IRC / IRN</div><select><option value="">—</option><option>Yes</option><option>No</option></select><input type="text" placeholder="Doc no…"/><input type="text" placeholder="Details…"/></div>
-      <div class="tbl-row" style="grid-template-columns:2.5fr 1.5fr 2fr 2.5fr;"><div class="tbl-fixed">NCR</div><select><option value="">—</option><option>Yes</option><option>No</option></select><input type="text" placeholder="Doc no…"/><input type="text" placeholder="Details…"/></div>
-      <div class="tbl-row" style="grid-template-columns:2.5fr 1.5fr 2fr 2.5fr;"><div class="tbl-fixed">Other</div><select><option value="">—</option><option>Yes</option><option>No</option></select><input type="text" placeholder="Doc no…"/><input type="text" placeholder="Details…"/></div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-header">Section A.5.1.0 — Documentation used</div>
-    <div class="card-body">
-      <div class="ai-badge"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Those entries taken per ASNT SNT-TC-1C for Release Certificates.</div>
-      <div class="tbl-head" style="grid-template-columns:3fr 2fr 2fr 50px;"><span>Document title</span><span>Document number</span><span>Revision status</span><span></span></div>
-      <div id="docList">
-        <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr 50px;"><div class="tbl-fixed">Inspection &amp; Test Plan (ITP)</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><span></span></div>
-        <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr 50px;"><div class="tbl-fixed">Procedure</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><span></span></div>
-        <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr 50px;"><div class="tbl-fixed">Drawings</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><span></span></div>
+      <div class="tbl-wrap">
+        <div class="tbl-head" style="grid-template-columns:2.5fr 1.5fr 2fr 2.5fr;"><span>Document type</span><span>Yes / No</span><span>Document number</span><span>Details</span></div>
+        <div class="tbl-row" style="grid-template-columns:2.5fr 1.5fr 2fr 2.5fr;"><div class="tbl-fixed">IRC / IRN</div><select><option value="">—</option><option>Yes</option><option>No</option></select><input type="text" placeholder="Doc no…"/><input type="text" placeholder="Details…"/></div>
+        <div class="tbl-row" style="grid-template-columns:2.5fr 1.5fr 2fr 2.5fr;"><div class="tbl-fixed">NCR</div><select><option value="">—</option><option>Yes</option><option>No</option></select><input type="text" placeholder="Doc no…"/><input type="text" placeholder="Details…"/></div>
+        <div class="tbl-row" style="grid-template-columns:2.5fr 1.5fr 2fr 2.5fr;"><div class="tbl-fixed">Other</div><select><option value="">—</option><option>Yes</option><option>No</option></select><input type="text" placeholder="Doc no…"/><input type="text" placeholder="Details…"/></div>
       </div>
-      <button class="btn-add" onclick="addDoc()">+ Add Document</button>
     </div>
   </div>
   <div class="card">
-    <div class="card-header">Attendees</div>
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Section A.5.1.0 — Documentation used</div></div>
     <div class="card-body">
-      <div class="tbl-head" style="grid-template-columns:2fr 2fr 2fr 50px;"><span>Name</span><span>Company</span><span>Position</span><span></span></div>
-      <div id="attendeeList">
-        <div class="tbl-row" style="grid-template-columns:2fr 2fr 2fr 50px;"><input type="text" placeholder="Full name"/><input type="text" placeholder="Company"/><input type="text" placeholder="Position"/><button class="btn-rm" onclick="removeRow(this)">✕</button></div>
+      <div class="ai-badge"><div class="ai-badge-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="ai-badge-text">Those entries taken per ASNT SNT-TC-1C for Release Certificates.</div></div>
+      <div class="tbl-wrap">
+        <div class="tbl-head" style="grid-template-columns:3fr 2fr 2fr 44px;"><span>Document title</span><span>Document number</span><span>Revision status</span><span></span></div>
+        <div id="docList">
+          <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr 44px;"><div class="tbl-fixed">Inspection &amp; Test Plan (ITP)</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><span></span></div>
+          <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr 44px;"><div class="tbl-fixed">Procedure</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><span></span></div>
+          <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr 44px;"><div class="tbl-fixed">Drawings</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><span></span></div>
+        </div>
       </div>
-      <button class="btn-add" onclick="addAttendee()">+ Add Attendee</button>
+      <button class="btn-add" onclick="addDoc()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add document</button>
     </div>
   </div>
-  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(5)">Next — Milestones <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+  <div class="card">
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Attendees</div></div>
+    <div class="card-body">
+      <div class="tbl-wrap">
+        <div class="tbl-head" style="grid-template-columns:2fr 2fr 2fr 44px;"><span>Name</span><span>Company</span><span>Position</span><span></span></div>
+        <div id="attendeeList">
+          <div class="tbl-row" style="grid-template-columns:2fr 2fr 2fr 44px;"><input type="text" placeholder="Full name"/><input type="text" placeholder="Company"/><input type="text" placeholder="Position"/><button class="btn-rm" onclick="removeRow(this)"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+        </div>
+      </div>
+      <button class="btn-add" onclick="addAttendee()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add attendee</button>
+    </div>
+  </div>
+  <div class="btn-actions"><button class="btn-next" onclick="goTab(5)">Next — Milestones<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
 </div>
 
-<!-- TAB 5: MILESTONES -->
+<!-- TAB 5 -->
 <div id="tab-5" class="screen">
-  <div class="sec-heading">
-    <div class="sec-num">Section 5.0 — Milestones</div>
-    <div class="sec-title">Inspection Milestones</div>
-  </div>
+  <div class="sec-eyebrow">Section 5.0 — Milestones</div>
+  <div class="sec-title">Inspection Milestones</div>
+  <div class="sec-desc">Record key hold points and milestones for this inspection</div>
   <div class="card">
-    <div class="card-header">Milestone Tracker</div>
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Milestone Tracker</div></div>
     <div class="card-body">
-      <div class="tbl-head" style="grid-template-columns:2fr 2fr 1.5fr 1.5fr 50px;"><span>Milestone</span><span>Description</span><span>Planned Date</span><span>Status</span><span></span></div>
-      <div id="milestoneList">
-        <div class="tbl-row" style="grid-template-columns:2fr 2fr 1.5fr 1.5fr 50px;"><input type="text" placeholder="e.g. Pre-Inspection Meeting"/><input type="text" placeholder="Details…"/><input type="date"/><select><option>Pending</option><option>Complete</option><option>Waived</option></select><button class="btn-rm" onclick="removeRow(this)">✕</button></div>
+      <div class="tbl-wrap">
+        <div class="tbl-head" style="grid-template-columns:2fr 2.5fr 1.5fr 1.5fr 44px;"><span>Milestone</span><span>Description</span><span>Planned Date</span><span>Status</span><span></span></div>
+        <div id="milestoneList">
+          <div class="tbl-row" style="grid-template-columns:2fr 2.5fr 1.5fr 1.5fr 44px;"><input type="text" placeholder="e.g. Pre-Inspection Meeting"/><input type="text" placeholder="Details…"/><input type="date"/><select><option>Pending</option><option>Complete</option><option>Waived</option></select><button class="btn-rm" onclick="removeRow(this)"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+        </div>
       </div>
-      <button class="btn-add" onclick="addMilestone()">+ Add Milestone</button>
+      <button class="btn-add" onclick="addMilestone()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add milestone</button>
     </div>
   </div>
-  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(6)">Next — Calibration <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+  <div class="btn-actions"><button class="btn-next" onclick="goTab(6)">Next — Calibration<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
 </div>
 
-<!-- TAB 6: CALIBRATION -->
+<!-- TAB 6 -->
 <div id="tab-6" class="screen">
-  <div class="sec-heading">
-    <div class="sec-num">Section 6.0 — Calibration Status</div>
-    <div class="sec-title">Calibration Status</div>
-  </div>
+  <div class="sec-eyebrow">Section 6.0 — Calibration Status</div>
+  <div class="sec-title">Calibration Status</div>
+  <div class="sec-desc">List all instruments used during this inspection with calibration details</div>
   <div class="card">
-    <div class="card-header">Instruments Used</div>
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Instruments Used</div></div>
     <div class="card-body">
-      <div class="tbl-head" style="grid-template-columns:2fr 1.5fr 2fr 1.5fr 50px;"><span>Instrument Description</span><span>Tag No.</span><span>Calibration Cert. No.</span><span>Expiry Date</span><span></span></div>
-      <div id="calibList">
-        <div class="tbl-row" style="grid-template-columns:2fr 1.5fr 2fr 1.5fr 50px;"><input type="text" placeholder="e.g. Ultrasonic Thickness Gauge"/><input type="text" placeholder="Tag no."/><input type="text" placeholder="Cert. number"/><input type="date"/><button class="btn-rm" onclick="removeRow(this)">✕</button></div>
+      <div class="tbl-wrap">
+        <div class="tbl-head" style="grid-template-columns:2fr 1.5fr 2fr 1.5fr 44px;"><span>Instrument Description</span><span>Tag No.</span><span>Calibration Cert. No.</span><span>Expiry Date</span><span></span></div>
+        <div id="calibList">
+          <div class="tbl-row" style="grid-template-columns:2fr 1.5fr 2fr 1.5fr 44px;"><input type="text" placeholder="e.g. Ultrasonic Thickness Gauge"/><input type="text" placeholder="Tag no."/><input type="text" placeholder="Cert. number"/><input type="date"/><button class="btn-rm" onclick="removeRow(this)"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+        </div>
       </div>
-      <button class="btn-add" onclick="addCalib()">+ Add Instrument</button>
+      <button class="btn-add" onclick="addCalib()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add instrument</button>
     </div>
   </div>
-  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(7)">Next — Photos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+  <div class="btn-actions"><button class="btn-next" onclick="goTab(7)">Next — Photos<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
 </div>
 
-<!-- TAB 7: PHOTOS -->
+<!-- TAB 7 -->
 <div id="tab-7" class="screen">
-  <div class="sec-heading">
-    <div class="sec-num">Section 7.0 — Photographs</div>
-    <div class="sec-title">Photographs</div>
-  </div>
+  <div class="sec-eyebrow">Section 7.0 — Photographs</div>
+  <div class="sec-title">Photographs</div>
+  <div class="sec-desc">Upload photographic evidence from the inspection visit</div>
   <div class="card">
     <div class="card-body">
       <div class="upload-zone" onclick="document.getElementById('photoInput').click()">
         <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        <p>Click to upload inspection photos</p>
-        <small>JPG, PNG, HEIC — multiple files supported</small>
+        <div class="uz-title">Click to upload inspection photos</div>
+        <div class="uz-sub">JPG, PNG, HEIC — multiple files supported</div>
       </div>
       <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="handlePhotos(event)"/>
       <div class="photo-grid" id="photoGrid"></div>
     </div>
   </div>
-  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(8)">Next — All Report <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+  <div class="btn-actions"><button class="btn-next" onclick="goTab(8)">Next — All Report<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
 </div>
 
-<!-- TAB 8: ALL REPORT -->
+<!-- TAB 8 -->
 <div id="tab-8" class="screen">
-  <div class="sec-heading">
-    <div class="sec-num">Section 4.6 &amp; 4.7 — AI-generated report</div>
-    <div class="sec-title">All Report <span style="display:inline-block;background:#1a7a6e;color:#fff;font-size:11px;padding:3px 10px;border-radius:20px;vertical-align:middle;font-weight:700;margin-left:8px;">Guided AI</span></div>
-    <div class="sec-desc">AI writes the inspection narrative using your scope of work, photos uploaded, and all data entered</div>
-  </div>
-  <div class="ai-badge">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
-    Both sections drafted by AI. Click to review &amp; edit before submitting.
-  </div>
+  <div class="sec-eyebrow">Section 4.6 &amp; 4.7 — AI-generated report</div>
+  <div class="sec-title">All Report <span class="ai-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:inline;vertical-align:middle;margin-right:2px"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Guided AI</span></div>
+  <div class="sec-desc">AI writes the inspection narrative using your scope, photos, and all data entered</div>
+  <div class="ai-badge"><div class="ai-badge-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="ai-badge-text">Both sections drafted by AI. Click to review &amp; edit before submitting.</div></div>
   <div class="card">
-    <div class="card-header">Section 4.6 — Visit Report Narrative</div>
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Section 4.6 — Visit Report Narrative</div></div>
     <div class="card-body">
       <div id="aiNarrative" class="ai-text-area" contenteditable="true">Click "Generate Report" to produce the AI-drafted visit narrative based on your entries above…</div>
-      <button class="btn-add" style="margin-top:12px;" onclick="generateReport()">✨ Generate AI Report</button>
+      <button class="btn-add" style="margin-top:14px;" onclick="generateReport()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Generate AI Report</button>
     </div>
   </div>
   <div class="card">
-    <div class="card-header">Section 4.7 — Release Certificate Summary</div>
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Section 4.7 — Release Certificate Summary</div></div>
     <div class="card-body">
-      <div class="rel-summary">
+      <div class="rel-summary" id="relSummary">
+        <div class="rel-summary-title">Pulled from your entries</div>
         <div class="rs-grid">
           <div><div class="rs-lbl">Client</div><div class="rs-val" id="rc-client">—</div></div>
           <div><div class="rs-lbl">GQS Number</div><div class="rs-val" id="rc-gqsNum">—</div></div>
@@ -509,57 +540,64 @@ textarea{min-height:130px;resize:vertical;}
     </div>
   </div>
   <div class="card">
-    <div class="card-header">Non-Conformance (NCR)</div>
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Non-Conformance (NCR)</div></div>
     <div class="card-body">
-      <div class="ncr-banner">🔔 The NCR section is currently <strong>under discussion</strong>. Add any preliminary notes below.</div>
+      <div class="ncr-banner"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><div class="ncr-banner-text">The NCR section is currently <strong>under discussion</strong>. Add any preliminary notes below — the full NCR form will be added once requirements are finalised.</div></div>
       <div class="field"><div class="field-lbl">Preliminary NCR Notes</div><textarea placeholder="Add any preliminary non-conformance observations…"></textarea></div>
     </div>
   </div>
-  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(9);buildReview()">Next — Review &amp; Submit <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+  <div class="btn-actions"><button class="btn-next" onclick="goTab(9);buildReview()">Next — Review &amp; Submit<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
 </div>
 
-<!-- TAB 9: REVIEW & SUBMIT -->
+<!-- TAB 9 -->
 <div id="tab-9" class="screen">
-  <div class="sec-heading">
-    <div class="sec-num">Section 10.0 — Review &amp; Submit</div>
-    <div class="sec-title">Review &amp; Submit</div>
-    <div class="sec-desc">Check your entries before final submission</div>
-  </div>
+  <div class="sec-eyebrow">Section 10.0 — Review &amp; Submit</div>
+  <div class="sec-title">Review &amp; Submit</div>
+  <div class="sec-desc">Confirm your entries are correct before final submission</div>
   <div class="card">
-    <div class="card-header">Summary</div>
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Report Summary</div></div>
     <div class="card-body">
-      <div class="review-row"><span class="review-lbl">Client</span><span class="review-val" id="rv-client">—</span></div>
-      <div class="review-row"><span class="review-lbl">Inspector</span><span class="review-val" id="rv-inspector">—</span></div>
-      <div class="review-row"><span class="review-lbl">GQS Number</span><span class="review-val" id="rv-gqs">—</span></div>
-      <div class="review-row"><span class="review-lbl">PO Number</span><span class="review-val" id="rv-po">—</span></div>
-      <div class="review-row"><span class="review-lbl">Vendor</span><span class="review-val" id="rv-vendor">—</span></div>
-      <div class="review-row"><span class="review-lbl">Vendor Location</span><span class="review-val" id="rv-vendorLoc">—</span></div>
-      <div class="review-row"><span class="review-lbl">Project</span><span class="review-val" id="rv-project">—</span></div>
-      <div class="review-row"><span class="review-lbl">Visit Period</span><span class="review-val" id="rv-dates">—</span></div>
-      <div class="review-row"><span class="review-lbl">Email</span><span class="review-val" id="rv-email">—</span></div>
+      <div class="review-grid">
+        <div class="review-cell"><div class="review-lbl">Client</div><div class="review-val" id="rv-client">—</div></div>
+        <div class="review-cell"><div class="review-lbl">Inspector</div><div class="review-val" id="rv-inspector">—</div></div>
+        <div class="review-cell"><div class="review-lbl">GQS Number</div><div class="review-val" id="rv-gqs">—</div></div>
+        <div class="review-cell"><div class="review-lbl">PO Number</div><div class="review-val" id="rv-po">—</div></div>
+        <div class="review-cell"><div class="review-lbl">Vendor</div><div class="review-val" id="rv-vendor">—</div></div>
+        <div class="review-cell"><div class="review-lbl">Vendor Location</div><div class="review-val" id="rv-vendorLoc">—</div></div>
+        <div class="review-cell"><div class="review-lbl">Project</div><div class="review-val" id="rv-project">—</div></div>
+        <div class="review-cell"><div class="review-lbl">Visit Period</div><div class="review-val" id="rv-dates">—</div></div>
+        <div class="review-cell"><div class="review-lbl">Email</div><div class="review-val" id="rv-email">—</div></div>
+        <div class="review-cell"><div class="review-lbl">GQS Contact</div><div class="review-val" id="rv-gqsContact">—</div></div>
+      </div>
     </div>
   </div>
-  <div style="text-align:center;margin-top:28px;">
+  <div class="submit-wrap">
+    <div class="submit-wrap-title">Ready to submit?</div>
+    <div class="submit-wrap-sub">This will finalise your report and send it to the GQS coordinator for review.</div>
     <button class="btn-submit-final" onclick="submitReport()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:6px;"><polyline points="20 6 9 17 4 12"/></svg>
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
       Submit Inspection Report
     </button>
-    <div style="font-size:11px;color:#aab8c2;margin-top:10px;">This will finalise and send your report to the GQS coordinator</div>
   </div>
 </div>
 
-</div>
+</div><!-- /main -->
+</div><!-- /layout -->
+
+<div class="toast" id="toast"></div>
 
 <script>
 const TAB_NAMES=['Contact details','Job details','Timesheet','HSE Checklist','Document details','Milestones','Calibration','Photographs','All Report','Review & Submit'];
 let currentTab=0;
 
 function goTab(idx){
-  // Mark old as done
   const btns=document.querySelectorAll('.inav-btn');
+  const sbs=document.querySelectorAll('.sidebar-item');
+
   btns[currentTab].classList.remove('active');
   btns[currentTab].classList.add('done');
-  // Update connector
+  sbs[currentTab].classList.remove('active');
+  sbs[currentTab].classList.add('done');
   const con=document.getElementById('con-'+currentTab);
   if(con) con.classList.add('done');
 
@@ -567,16 +605,19 @@ function goTab(idx){
   currentTab=idx;
   document.getElementById('tab-'+idx).classList.add('active');
 
-  btns.forEach((b,i)=>{if(i!==idx)b.classList.remove('active');});
+  btns.forEach((b,i)=>{if(i!==idx){b.classList.remove('active');}});
+  sbs.forEach((s,i)=>{if(i!==idx){s.classList.remove('active');}});
   btns[idx].classList.add('active');
   btns[idx].classList.remove('done');
+  sbs[idx].classList.add('active');
+  sbs[idx].classList.remove('done');
 
   const pct=Math.round((idx+1)/10*100);
   document.getElementById('progressFill').style.width=pct+'%';
   document.getElementById('stepPct').textContent=pct+'%';
   document.getElementById('stepLabel').textContent='Step '+(idx+1)+' of 10 — '+TAB_NAMES[idx];
   if(idx===8) updateReleaseSummary();
-  window.scrollTo(0,0);
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function updateReleaseSummary(){
@@ -600,6 +641,7 @@ function buildReview(){
   const df=document.getElementById('f-dateFrom').value,dt=document.getElementById('f-dateTo').value;
   document.getElementById('rv-dates').textContent=(df&&dt)?df+' → '+dt:(df||dt||'—');
   document.getElementById('rv-email').textContent=document.getElementById('f-email').value||'—';
+  document.getElementById('rv-gqsContact').textContent=document.getElementById('f-gqsContact').value||'—';
 }
 
 function generateReport(){
@@ -611,23 +653,19 @@ function generateReport(){
   const df=document.getElementById('f-dateFrom').value||'the visit date';
   const proj=document.getElementById('f-project').value||'the project';
   document.getElementById('aiNarrative').textContent=`The inspection visit was conducted by ${inspector} on behalf of GQS Group, representing ${client}.\n\nThe inspection was carried out at ${vendor}, located in ${loc}, in relation to the ${proj} project. The visit was undertaken on ${df} in accordance with the agreed scope: ${scope}.\n\nAll inspection activities were carried out in compliance with applicable standards and contractual requirements. Documentation was reviewed and verified against the purchase order and relevant procedures. Inspection findings were recorded and any non-conformances identified have been noted in the NCR section of this report.\n\nAll results observed during this inspection were assessed against the applicable acceptance criteria. The GQS Inspector has reviewed all documentation, witnessed the relevant activities, and has prepared this report as a true and accurate record of the inspection visit.`;
+  showToast('AI report generated — review and edit as needed');
 }
 
-function toggleCond(){
-  document.getElementById('condDetails').style.display=document.getElementById('condRelease').value==='Yes'?'block':'none';
-}
+function toggleCond(){document.getElementById('condDetails').style.display=document.getElementById('condRelease').value==='Yes'?'block':'none';}
 
 function removeRow(btn){btn.closest('.tbl-row').remove();}
-
-function addRow(id,cols,html){
-  const r=document.createElement('div');r.className='tbl-row';r.style.gridTemplateColumns=cols;r.innerHTML=html;
-  document.getElementById(id).appendChild(r);
-}
-function addAttendee(){addRow('attendeeList','2fr 2fr 2fr 50px','<input type="text" placeholder="Full name"/><input type="text" placeholder="Company"/><input type="text" placeholder="Position"/><button class="btn-rm" onclick="removeRow(this)">✕</button>');}
-function addCalib(){addRow('calibList','2fr 1.5fr 2fr 1.5fr 50px','<input type="text" placeholder="Instrument description"/><input type="text" placeholder="Tag no."/><input type="text" placeholder="Cert. number"/><input type="date"/><button class="btn-rm" onclick="removeRow(this)">✕</button>');}
-function addDoc(){addRow('docList','3fr 2fr 2fr 50px','<input type="text" placeholder="Document title"/><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><button class="btn-rm" onclick="removeRow(this)">✕</button>');}
-function addTimesheet(){addRow('timesheetList','1.8fr 1.2fr 1.2fr 2fr 1fr 50px','<input type="date"/><input type="text" placeholder="08:00"/><input type="text" placeholder="17:00"/><input type="text" placeholder="Activity"/><input type="text" placeholder="8"/><button class="btn-rm" onclick="removeRow(this)">✕</button>');}
-function addMilestone(){addRow('milestoneList','2fr 2fr 1.5fr 1.5fr 50px','<input type="text" placeholder="Milestone"/><input type="text" placeholder="Details…"/><input type="date"/><select><option>Pending</option><option>Complete</option><option>Waived</option></select><button class="btn-rm" onclick="removeRow(this)">✕</button>');}
+function addRow(id,cols,html){const r=document.createElement('div');r.className='tbl-row';r.style.gridTemplateColumns=cols;r.innerHTML=html;document.getElementById(id).appendChild(r);}
+const rmBtn='<button class="btn-rm" onclick="removeRow(this)"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
+function addAttendee(){addRow('attendeeList','2fr 2fr 2fr 44px','<input type="text" placeholder="Full name"/><input type="text" placeholder="Company"/><input type="text" placeholder="Position"/>'+rmBtn);}
+function addCalib(){addRow('calibList','2fr 1.5fr 2fr 1.5fr 44px','<input type="text" placeholder="Instrument description"/><input type="text" placeholder="Tag no."/><input type="text" placeholder="Cert. number"/><input type="date"/>'+rmBtn);}
+function addDoc(){addRow('docList','3fr 2fr 2fr 44px','<input type="text" placeholder="Document title"/><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/>'+rmBtn);}
+function addTimesheet(){addRow('timesheetList','1.8fr 1.2fr 1.2fr 2.5fr 1fr 44px','<input type="date"/><input type="text" placeholder="08:00"/><input type="text" placeholder="17:00"/><input type="text" placeholder="Activity"/><input type="text" placeholder="8"/>'+rmBtn);}
+function addMilestone(){addRow('milestoneList','2fr 2.5fr 1.5fr 1.5fr 44px','<input type="text" placeholder="Milestone"/><input type="text" placeholder="Details…"/><input type="date"/><select><option>Pending</option><option>Complete</option><option>Waived</option></select>'+rmBtn);}
 
 function handlePhotos(e){
   const grid=document.getElementById('photoGrid');
@@ -639,10 +677,16 @@ function handlePhotos(e){
   e.target.value='';
 }
 
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
 function submitReport(){
   const c=document.getElementById('f-client').value,g=document.getElementById('f-gqsNum').value;
-  if(!c||!g){alert('Please complete at least Client name and GQS Number before submitting.');return;}
-  alert('✅ Report submitted successfully!\n\nClient: '+c+'\nGQS Number: '+g+'\nInspector: '+(document.getElementById('f-inspector').value||'—')+'\n\nYour report has been sent to the GQS coordinator.');
+  if(!c||!g){showToast('Please complete Client name and GQS Number first');return;}
+  showToast('✓ Report submitted to GQS coordinator');
 }
 </script>
 </body>
