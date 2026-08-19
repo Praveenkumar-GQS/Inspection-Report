@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GQS Inspection Portal</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f4f6f8;color:#1a2533;font-size:14px;min-height:100vh;}
+
+/* HEADER */
+.hdr{background:#fff;border-bottom:1px solid #e0e6ed;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:62px;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.hdr-left{display:flex;align-items:center;gap:12px;}
+.logo-wrap{display:flex;align-items:center;gap:4px;}
+.logo-gqs{font-size:22px;font-weight:900;color:#1a7a6e;letter-spacing:0.5px;}
+.logo-check{color:#1a7a6e;}
+.hdr-title{font-size:14px;font-weight:700;color:#1a2533;}
+.hdr-sub{font-size:11px;color:#7a8fa6;margin-top:1px;}
+.hdr-user{display:flex;align-items:center;gap:8px;background:#f0f6f5;border:1px solid #c8e6e2;border-radius:8px;padding:6px 12px;cursor:pointer;}
+.hdr-avatar{width:28px;height:28px;border-radius:50%;background:#1a7a6e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+.hdr-uname{font-size:13px;font-weight:600;color:#1a2533;}
+.hdr-urole{font-size:11px;color:#7a8fa6;}
+
+/* STEP BAR */
+.step-bar{background:#fff;border-bottom:1px solid #e0e6ed;padding:8px 28px;display:flex;align-items:center;justify-content:space-between;}
+.step-label{font-size:12px;color:#7a8fa6;font-weight:500;}
+.step-pct{font-size:12px;font-weight:700;color:#1a7a6e;}
+.progress-track{height:3px;background:#e0e6ed;}
+.progress-fill{height:100%;background:#1a7a6e;transition:width 0.4s;}
+
+/* ICON NAV */
+.icon-nav{background:#fff;border-bottom:1px solid #e0e6ed;padding:8px 20px;overflow-x:auto;display:flex;align-items:center;gap:0;white-space:nowrap;}
+.icon-nav::-webkit-scrollbar{height:3px;}
+.icon-nav::-webkit-scrollbar-thumb{background:#c8e6e2;border-radius:2px;}
+
+.inav-btn{display:inline-flex;flex-direction:column;align-items:center;gap:4px;padding:6px 10px;border:none;background:transparent;cursor:pointer;border-bottom:3px solid transparent;min-width:68px;transition:border-color 0.2s;position:relative;}
+.inav-btn.active{border-bottom:3px solid #1a7a6e;}
+
+.inav-circle{width:36px;height:36px;border-radius:50%;border:2px solid #c8d8e8;display:flex;align-items:center;justify-content:center;transition:all 0.2s;background:#fff;}
+.inav-btn:hover .inav-circle{border-color:#1a7a6e;}
+.inav-btn.active .inav-circle{border-color:#1a7a6e;background:#1a7a6e;}
+.inav-btn.done .inav-circle{border-color:#1a7a6e;background:#1a7a6e;}
+
+.inav-circle svg{width:16px;height:16px;stroke:#9ab0c0;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke 0.2s;}
+.inav-btn:hover .inav-circle svg{stroke:#1a7a6e;}
+.inav-btn.active .inav-circle svg{stroke:#fff;}
+.inav-btn.done .inav-circle svg{stroke:#fff;}
+
+/* check icon for done */
+.inav-btn.done .inav-circle .icon-normal{display:none;}
+.inav-btn.done .inav-circle .icon-check{display:block;}
+.inav-btn:not(.done) .inav-circle .icon-check{display:none;}
+.inav-btn:not(.done) .inav-circle .icon-normal{display:block;}
+
+.inav-label{font-size:10px;color:#7a8fa6;font-weight:500;text-align:center;white-space:nowrap;line-height:1.3;}
+.inav-btn.active .inav-label{color:#1a7a6e;font-weight:700;}
+.inav-btn.done .inav-label{color:#1a7a6e;}
+
+/* connector line between steps */
+.inav-connector{flex:1;height:2px;background:#e0e6ed;min-width:6px;max-width:20px;align-self:center;margin-bottom:18px;}
+.inav-connector.done{background:#1a7a6e;}
+
+/* MAIN */
+.main{max-width:820px;margin:24px auto;padding:0 16px 80px;}
+
+/* SECTION HEADING */
+.sec-heading{margin-bottom:20px;}
+.sec-num{font-size:11px;font-weight:700;color:#1a7a6e;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;}
+.sec-title{font-size:20px;font-weight:800;color:#1a2533;}
+.sec-desc{font-size:12px;color:#7a8fa6;margin-top:4px;}
+
+/* CARDS */
+.card{background:#fff;border-radius:10px;border:1px solid #e0e6ed;margin-bottom:16px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.05);}
+.card-header{background:#1a7a6e;color:#fff;padding:10px 18px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;}
+.card-body{padding:18px;}
+
+/* FORM */
+.field{margin-bottom:14px;}
+.field-lbl{font-size:11px;font-weight:700;color:#4a6070;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;}
+.field-hint{font-size:11px;color:#aab8c2;margin-bottom:4px;font-style:italic;}
+input[type=text],input[type=date],input[type=email],input[type=tel],textarea,select{width:100%;padding:9px 11px;border:1px solid #d0dce8;border-radius:6px;font-size:13px;background:#fafbfc;color:#1a2533;outline:none;transition:border 0.18s,box-shadow 0.18s;font-family:inherit;}
+input:focus,textarea:focus,select:focus{border-color:#1a7a6e;box-shadow:0 0 0 3px rgba(26,122,110,0.1);background:#fff;}
+textarea{min-height:110px;resize:vertical;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+
+/* TABLE */
+.tbl-head{display:grid;gap:8px;padding:8px 12px;background:#eaf3f1;border-radius:6px 6px 0 0;font-size:11px;font-weight:700;color:#1a7a6e;text-transform:uppercase;letter-spacing:0.4px;}
+.tbl-row{display:grid;gap:8px;padding:8px 12px;border-bottom:1px solid #f0f4f7;align-items:center;}
+.tbl-row:last-child{border-bottom:none;}
+.tbl-fixed{background:#f4f7fa;color:#5a7080;font-weight:600;font-size:13px;padding:9px 11px;border-radius:6px;border:1px solid #e0e6ed;}
+
+/* BUTTONS */
+.btn-add{background:#eaf3f1;color:#1a7a6e;border:1px dashed #1a7a6e;padding:7px 16px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;margin-top:10px;transition:background 0.18s;}
+.btn-add:hover{background:#d0ebe6;}
+.btn-rm{background:#fff0f0;color:#c0392b;border:1px solid #f5c6c6;padding:5px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700;}
+.btn-rm:hover{background:#fde8e8;}
+.btn-next{background:#1a7a6e;color:#fff;border:none;padding:11px 28px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;margin-left:auto;margin-top:6px;transition:background 0.18s;}
+.btn-next:hover{background:#155f56;}
+.btn-submit-final{background:#1a7a6e;color:#fff;border:none;padding:13px 36px;border-radius:8px;font-size:15px;font-weight:800;cursor:pointer;transition:background 0.18s;}
+.btn-submit-final:hover{background:#155f56;}
+
+/* HSE */
+.hse-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid #f0f4f7;}
+.hse-item:last-child{border-bottom:none;}
+.hse-item input[type=checkbox]{width:16px;height:16px;accent-color:#1a7a6e;margin-top:2px;cursor:pointer;flex-shrink:0;}
+.hse-text{font-size:13px;color:#1a2533;line-height:1.4;}
+
+/* PHOTO */
+.upload-zone{border:2px dashed #b8d4ce;border-radius:10px;padding:28px;text-align:center;background:#f0f8f6;cursor:pointer;transition:all 0.18s;}
+.upload-zone:hover{border-color:#1a7a6e;background:#e4f2ef;}
+.upload-zone svg{width:36px;height:36px;stroke:#1a7a6e;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;margin-bottom:8px;}
+.upload-zone p{color:#5a8a80;font-size:13px;font-weight:600;}
+.upload-zone small{color:#aabbb8;font-size:11px;}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;margin-top:14px;}
+.p-thumb{position:relative;border-radius:8px;overflow:hidden;aspect-ratio:1;background:#e0e8ee;}
+.p-thumb img{width:100%;height:100%;object-fit:cover;}
+.p-rm{position:absolute;top:4px;right:4px;background:rgba(180,0,0,0.85);color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:11px;}
+
+/* AI */
+.ai-badge{background:#e8f4f0;border:1px solid #b0d8d0;border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:14px;font-size:13px;color:#1a7a6e;font-weight:600;}
+.ai-badge svg{width:18px;height:18px;stroke:#1a7a6e;fill:none;stroke-width:1.8;flex-shrink:0;}
+.ai-text-area{background:#f7faf9;border:1px solid #c8deda;border-radius:8px;padding:14px;font-size:13px;color:#2a3d3a;line-height:1.7;min-height:160px;white-space:pre-wrap;outline:none;}
+.ai-text-area:focus{border-color:#1a7a6e;}
+
+/* RELEASE SUMMARY */
+.rel-summary{background:#f0f8f6;border:1px solid #c8e0db;border-radius:8px;padding:14px 16px;margin-bottom:16px;}
+.rs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.rs-lbl{font-size:10px;font-weight:700;color:#7a9a94;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:2px;}
+.rs-val{font-size:13px;font-weight:600;color:#1a2533;}
+
+/* NCR */
+.ncr-banner{background:#fff8e8;border-left:4px solid #e8a020;border-radius:0 8px 8px 0;padding:14px 16px;font-size:13px;color:#5a4010;margin-bottom:16px;}
+
+/* REVIEW */
+.review-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f0f4f7;font-size:13px;}
+.review-row:last-child{border-bottom:none;}
+.review-lbl{color:#7a8fa6;font-weight:500;}
+.review-val{color:#1a2533;font-weight:600;text-align:right;}
+
+/* SCREENS */
+.screen{display:none;}
+.screen.active{display:block;}
+
+@media(max-width:600px){.g2,.g3{grid-template-columns:1fr;}.main{padding:0 8px 80px;}.inav-connector{min-width:3px;max-width:8px;}.inav-btn{min-width:52px;padding:6px 5px;}.inav-label{font-size:9px;}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="logo-wrap">
+      <div class="logo-gqs">GQS</div>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a7a6e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div style="border-left:1px solid #e0e6ed;padding-left:12px;">
+      <div class="hdr-title">Inspection Portal</div>
+      <div class="hdr-sub">Inspection Release Certificate Timeline</div>
+    </div>
+  </div>
+  <div class="hdr-user">
+    <div class="hdr-avatar">JS</div>
+    <div>
+      <div class="hdr-uname">John Smith</div>
+      <div class="hdr-urole">Inspector</div>
+    </div>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aab8c2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</div>
+
+<!-- STEP BAR -->
+<div class="step-bar">
+  <div class="step-label" id="stepLabel">Step 1 of 10 — Contact details</div>
+  <div class="step-pct" id="stepPct">10%</div>
+</div>
+<div class="progress-track"><div class="progress-fill" id="progressFill" style="width:10%;"></div></div>
+
+<!-- ICON NAV -->
+<div class="icon-nav" id="iconNav">
+
+  <button class="inav-btn active" onclick="goTab(0)" title="Contact">
+    <div class="inav-circle">
+      <svg class="icon-normal" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="inav-label">Contact</div>
+  </button>
+  <div class="inav-connector" id="con-0"></div>
+
+  <button class="inav-btn" onclick="goTab(1)" title="Job Details">
+    <div class="inav-circle">
+      <svg class="icon-normal" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="inav-label">Job Details</div>
+  </button>
+  <div class="inav-connector" id="con-1"></div>
+
+  <button class="inav-btn" onclick="goTab(2)" title="Timesheet">
+    <div class="inav-circle">
+      <svg class="icon-normal" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="inav-label">Timesheet</div>
+  </button>
+  <div class="inav-connector" id="con-2"></div>
+
+  <button class="inav-btn" onclick="goTab(3)" title="HSE">
+    <div class="inav-circle">
+      <svg class="icon-normal" viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5 3.8 9.6 9 11 5.2-1.4 9-6 9-11V7z"/></svg>
+      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="inav-label">HSE</div>
+  </button>
+  <div class="inav-connector" id="con-3"></div>
+
+  <button class="inav-btn" onclick="goTab(4)" title="Documents">
+    <div class="inav-circle">
+      <svg class="icon-normal" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="inav-label">Documents</div>
+  </button>
+  <div class="inav-connector" id="con-4"></div>
+
+  <button class="inav-btn" onclick="goTab(5)" title="Milestones">
+    <div class="inav-circle">
+      <svg class="icon-normal" viewBox="0 0 24 24"><polygon points="12 2 15.1 8.3 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 8.9 8.3 12 2"/></svg>
+      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="inav-label">Milestones</div>
+  </button>
+  <div class="inav-connector" id="con-5"></div>
+
+  <button class="inav-btn" onclick="goTab(6)" title="Calibration">
+    <div class="inav-circle">
+      <svg class="icon-normal" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="inav-label">Calibration</div>
+  </button>
+  <div class="inav-connector" id="con-6"></div>
+
+  <button class="inav-btn" onclick="goTab(7)" title="Photos">
+    <div class="inav-circle">
+      <svg class="icon-normal" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="inav-label">Photos</div>
+  </button>
+  <div class="inav-connector" id="con-7"></div>
+
+  <button class="inav-btn" onclick="goTab(8)" title="All Report">
+    <div class="inav-circle">
+      <svg class="icon-normal" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="inav-label">All Report</div>
+  </button>
+  <div class="inav-connector" id="con-8"></div>
+
+  <button class="inav-btn" onclick="goTab(9)" title="Review & Submit">
+    <div class="inav-circle">
+      <svg class="icon-normal" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      <svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="inav-label">Review &amp;<br>Submit</div>
+  </button>
+
+</div>
+
+<div class="main">
+
+<!-- TAB 0: CONTACT -->
+<div id="tab-0" class="screen active">
+  <div class="sec-heading">
+    <div class="sec-num">Section 1.0 — Contact details</div>
+    <div class="sec-title">Contact details</div>
+    <div class="sec-desc">Please access Visit Report, Release Certificate and Timesheet</div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="g2">
+        <div class="field"><div class="field-lbl">Client</div><input type="text" id="f-client" placeholder="Enter company name"/></div>
+        <div class="field"><div class="field-lbl">Inspector</div><input type="text" id="f-inspector" placeholder="Your full name…"/></div>
+        <div class="field"><div class="field-lbl">Client Contact Name</div><input type="text" id="f-clientContact" placeholder="Enter contact name"/></div>
+        <div class="field"><div class="field-lbl">GQS Contact</div><input type="text" id="f-gqsContact" placeholder="GQS contact name…"/></div>
+        <div class="field"><div class="field-lbl">Client Contact Number</div><input type="tel" id="f-clientTel" placeholder="Enter contact number"/></div>
+        <div class="field"><div class="field-lbl">GQS Contact Number</div><input type="tel" id="f-gqsTel" placeholder="Enter contact number"/></div>
+      </div>
+      <div class="field"><div class="field-lbl">Email <span style="font-weight:400;color:#aab8c2;">(for sharing / coordinator)</span></div><input type="email" id="f-email" placeholder="Enter email address"/></div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(1)">Next — Job details <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+</div>
+
+<!-- TAB 1: JOB DETAILS -->
+<div id="tab-1" class="screen">
+  <div class="sec-heading">
+    <div class="sec-num">Section 2.0 — Job details</div>
+    <div class="sec-title">Job details</div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="g2">
+        <div class="field"><div class="field-lbl">GQS Number</div><div class="field-hint">Sometimes filled by Coordinator</div><input type="text" id="f-gqsNum" placeholder="e.g. GQS550"/></div>
+        <div class="field"><div class="field-lbl">PO Number</div><input type="text" id="f-po" placeholder="e.g. PO-2026-001"/></div>
+        <div class="field"><div class="field-lbl">Vendor Name</div><input type="text" id="f-vendor" placeholder="Vendor / supplier name"/></div>
+        <div class="field"><div class="field-lbl">Vendor Location</div><input type="text" id="f-vendorLoc" placeholder="City, Country"/></div>
+        <div class="field"><div class="field-lbl">Project</div><input type="text" id="f-project" placeholder="Project name"/></div>
+      </div>
+      <div class="g2" style="margin-top:4px;">
+        <div class="field"><div class="field-lbl">Visit Date From</div><input type="date" id="f-dateFrom"/></div>
+        <div class="field"><div class="field-lbl">Visit Date To</div><input type="date" id="f-dateTo"/></div>
+      </div>
+      <div class="field"><div class="field-lbl">Scope of Work</div><textarea id="f-scope" placeholder="Describe the scope of work for this inspection visit…"></textarea></div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(2)">Next — Timesheet <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+</div>
+
+<!-- TAB 2: TIMESHEET -->
+<div id="tab-2" class="screen">
+  <div class="sec-heading">
+    <div class="sec-num">Section 3.0 — Timesheet</div>
+    <div class="sec-title">Timesheet</div>
+    <div class="sec-desc">Record time spent on each inspection activity</div>
+  </div>
+  <div class="card">
+    <div class="card-header">Daily Time Entries</div>
+    <div class="card-body">
+      <div class="tbl-head" style="grid-template-columns:1.8fr 1.2fr 1.2fr 2fr 1fr 50px;"><span>Date</span><span>Start</span><span>End</span><span>Activity</span><span>Hours</span><span></span></div>
+      <div id="timesheetList">
+        <div class="tbl-row" style="grid-template-columns:1.8fr 1.2fr 1.2fr 2fr 1fr 50px;">
+          <input type="date"/><input type="text" placeholder="08:00"/><input type="text" placeholder="17:00"/><input type="text" placeholder="Inspection activity"/><input type="text" placeholder="8"/>
+          <button class="btn-rm" onclick="removeRow(this)">✕</button>
+        </div>
+      </div>
+      <button class="btn-add" onclick="addTimesheet()">+ Add Day</button>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(3)">Next — HSE <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+</div>
+
+<!-- TAB 3: HSE -->
+<div id="tab-3" class="screen">
+  <div class="sec-heading">
+    <div class="sec-num">Section 4.0 — HSE Checklist</div>
+    <div class="sec-title">Health, Safety &amp; Environmental Observations</div>
+  </div>
+  <div class="card">
+    <div class="card-header">HSE Checklist</div>
+    <div class="card-body">
+      <div class="hse-item"><input type="checkbox"/><div class="hse-text">Personal Protective Equipment (PPE) worn correctly by all personnel</div></div>
+      <div class="hse-item"><input type="checkbox"/><div class="hse-text">Work area is clean, tidy and free from hazards</div></div>
+      <div class="hse-item"><input type="checkbox"/><div class="hse-text">Emergency exits clearly marked and unobstructed</div></div>
+      <div class="hse-item"><input type="checkbox"/><div class="hse-text">Fire extinguishers present and within inspection date</div></div>
+      <div class="hse-item"><input type="checkbox"/><div class="hse-text">First aid kit available and adequately stocked</div></div>
+      <div class="hse-item"><input type="checkbox"/><div class="hse-text">Hazardous materials correctly labelled and stored</div></div>
+      <div class="hse-item"><input type="checkbox"/><div class="hse-text">Lifting equipment inspected and certified</div></div>
+      <div class="hse-item"><input type="checkbox"/><div class="hse-text">No unsafe acts or conditions observed during visit</div></div>
+      <div class="hse-item"><input type="checkbox"/><div class="hse-text">Toolbox talk conducted prior to work commencing</div></div>
+      <div class="hse-item"><input type="checkbox"/><div class="hse-text">Risk assessment / JSA available and signed off</div></div>
+      <div class="hse-item"><input type="checkbox"/><div class="hse-text">Environmental controls in place (spill kits, waste disposal)</div></div>
+      <div class="hse-item"><input type="checkbox"/><div class="hse-text">Electrical equipment tagged and tested</div></div>
+      <div class="field" style="margin-top:14px;"><div class="field-lbl">Additional HSE Observations</div><textarea placeholder="Any additional safety or environmental observations…"></textarea></div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(4)">Next — Documents <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+</div>
+
+<!-- TAB 4: DOCUMENTS -->
+<div id="tab-4" class="screen">
+  <div class="sec-heading">
+    <div class="sec-num">Section 5.4.2.4 — Document details</div>
+    <div class="sec-title">Document details</div>
+    <div class="sec-desc">A/s = first the inspection at Report and Release Certificate</div>
+  </div>
+  <div class="card">
+    <div class="card-header">Section A.2 — Documentation issued</div>
+    <div class="card-body">
+      <div class="tbl-head" style="grid-template-columns:2.5fr 1.5fr 2fr 2.5fr;"><span>Document type</span><span>Yes / No</span><span>Document number</span><span>Details</span></div>
+      <div class="tbl-row" style="grid-template-columns:2.5fr 1.5fr 2fr 2.5fr;"><div class="tbl-fixed">IRC / IRN</div><select><option value="">—</option><option>Yes</option><option>No</option></select><input type="text" placeholder="Doc no…"/><input type="text" placeholder="Details…"/></div>
+      <div class="tbl-row" style="grid-template-columns:2.5fr 1.5fr 2fr 2.5fr;"><div class="tbl-fixed">NCR</div><select><option value="">—</option><option>Yes</option><option>No</option></select><input type="text" placeholder="Doc no…"/><input type="text" placeholder="Details…"/></div>
+      <div class="tbl-row" style="grid-template-columns:2.5fr 1.5fr 2fr 2.5fr;"><div class="tbl-fixed">Other</div><select><option value="">—</option><option>Yes</option><option>No</option></select><input type="text" placeholder="Doc no…"/><input type="text" placeholder="Details…"/></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">Section A.5.1.0 — Documentation used</div>
+    <div class="card-body">
+      <div class="ai-badge"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Those entries taken per ASNT SNT-TC-1C for Release Certificates.</div>
+      <div class="tbl-head" style="grid-template-columns:3fr 2fr 2fr 50px;"><span>Document title</span><span>Document number</span><span>Revision status</span><span></span></div>
+      <div id="docList">
+        <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr 50px;"><div class="tbl-fixed">Inspection &amp; Test Plan (ITP)</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><span></span></div>
+        <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr 50px;"><div class="tbl-fixed">Procedure</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><span></span></div>
+        <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr 50px;"><div class="tbl-fixed">Drawings</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><span></span></div>
+      </div>
+      <button class="btn-add" onclick="addDoc()">+ Add Document</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">Attendees</div>
+    <div class="card-body">
+      <div class="tbl-head" style="grid-template-columns:2fr 2fr 2fr 50px;"><span>Name</span><span>Company</span><span>Position</span><span></span></div>
+      <div id="attendeeList">
+        <div class="tbl-row" style="grid-template-columns:2fr 2fr 2fr 50px;"><input type="text" placeholder="Full name"/><input type="text" placeholder="Company"/><input type="text" placeholder="Position"/><button class="btn-rm" onclick="removeRow(this)">✕</button></div>
+      </div>
+      <button class="btn-add" onclick="addAttendee()">+ Add Attendee</button>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(5)">Next — Milestones <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+</div>
+
+<!-- TAB 5: MILESTONES -->
+<div id="tab-5" class="screen">
+  <div class="sec-heading">
+    <div class="sec-num">Section 5.0 — Milestones</div>
+    <div class="sec-title">Inspection Milestones</div>
+  </div>
+  <div class="card">
+    <div class="card-header">Milestone Tracker</div>
+    <div class="card-body">
+      <div class="tbl-head" style="grid-template-columns:2fr 2fr 1.5fr 1.5fr 50px;"><span>Milestone</span><span>Description</span><span>Planned Date</span><span>Status</span><span></span></div>
+      <div id="milestoneList">
+        <div class="tbl-row" style="grid-template-columns:2fr 2fr 1.5fr 1.5fr 50px;"><input type="text" placeholder="e.g. Pre-Inspection Meeting"/><input type="text" placeholder="Details…"/><input type="date"/><select><option>Pending</option><option>Complete</option><option>Waived</option></select><button class="btn-rm" onclick="removeRow(this)">✕</button></div>
+      </div>
+      <button class="btn-add" onclick="addMilestone()">+ Add Milestone</button>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(6)">Next — Calibration <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+</div>
+
+<!-- TAB 6: CALIBRATION -->
+<div id="tab-6" class="screen">
+  <div class="sec-heading">
+    <div class="sec-num">Section 6.0 — Calibration Status</div>
+    <div class="sec-title">Calibration Status</div>
+  </div>
+  <div class="card">
+    <div class="card-header">Instruments Used</div>
+    <div class="card-body">
+      <div class="tbl-head" style="grid-template-columns:2fr 1.5fr 2fr 1.5fr 50px;"><span>Instrument Description</span><span>Tag No.</span><span>Calibration Cert. No.</span><span>Expiry Date</span><span></span></div>
+      <div id="calibList">
+        <div class="tbl-row" style="grid-template-columns:2fr 1.5fr 2fr 1.5fr 50px;"><input type="text" placeholder="e.g. Ultrasonic Thickness Gauge"/><input type="text" placeholder="Tag no."/><input type="text" placeholder="Cert. number"/><input type="date"/><button class="btn-rm" onclick="removeRow(this)">✕</button></div>
+      </div>
+      <button class="btn-add" onclick="addCalib()">+ Add Instrument</button>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(7)">Next — Photos <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+</div>
+
+<!-- TAB 7: PHOTOS -->
+<div id="tab-7" class="screen">
+  <div class="sec-heading">
+    <div class="sec-num">Section 7.0 — Photographs</div>
+    <div class="sec-title">Photographs</div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="upload-zone" onclick="document.getElementById('photoInput').click()">
+        <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <p>Click to upload inspection photos</p>
+        <small>JPG, PNG, HEIC — multiple files supported</small>
+      </div>
+      <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="handlePhotos(event)"/>
+      <div class="photo-grid" id="photoGrid"></div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(8)">Next — All Report <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+</div>
+
+<!-- TAB 8: ALL REPORT -->
+<div id="tab-8" class="screen">
+  <div class="sec-heading">
+    <div class="sec-num">Section 4.6 &amp; 4.7 — AI-generated report</div>
+    <div class="sec-title">All Report <span style="display:inline-block;background:#1a7a6e;color:#fff;font-size:11px;padding:3px 10px;border-radius:20px;vertical-align:middle;font-weight:700;margin-left:8px;">Guided AI</span></div>
+    <div class="sec-desc">AI writes the inspection narrative using your scope of work, photos uploaded, and all data entered</div>
+  </div>
+  <div class="ai-badge">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 14 14"/></svg>
+    Both sections drafted by AI. Click to review &amp; edit before submitting.
+  </div>
+  <div class="card">
+    <div class="card-header">Section 4.6 — Visit Report Narrative</div>
+    <div class="card-body">
+      <div id="aiNarrative" class="ai-text-area" contenteditable="true">Click "Generate Report" to produce the AI-drafted visit narrative based on your entries above…</div>
+      <button class="btn-add" style="margin-top:12px;" onclick="generateReport()">✨ Generate AI Report</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">Section 4.7 — Release Certificate Summary</div>
+    <div class="card-body">
+      <div class="rel-summary">
+        <div class="rs-grid">
+          <div><div class="rs-lbl">Client</div><div class="rs-val" id="rc-client">—</div></div>
+          <div><div class="rs-lbl">GQS Number</div><div class="rs-val" id="rc-gqsNum">—</div></div>
+          <div><div class="rs-lbl">Vendor</div><div class="rs-val" id="rc-vendor">—</div></div>
+          <div><div class="rs-lbl">PO Number</div><div class="rs-val" id="rc-po">—</div></div>
+          <div><div class="rs-lbl">Visit Period</div><div class="rs-val" id="rc-dates">—</div></div>
+          <div><div class="rs-lbl">Inspector</div><div class="rs-val" id="rc-inspector">—</div></div>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="field"><div class="field-lbl">Material Released</div><select><option value="">— Select —</option><option>Yes</option><option>No</option></select></div>
+        <div class="field"><div class="field-lbl">Material Conditionally Released</div><select id="condRelease" onchange="toggleCond()"><option value="">— Select —</option><option>Yes</option><option>No</option></select></div>
+      </div>
+      <div class="field" id="condDetails" style="display:none;"><div class="field-lbl">Conditional Release Details</div><textarea placeholder="Please give details of the conditional release…"></textarea></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">Non-Conformance (NCR)</div>
+    <div class="card-body">
+      <div class="ncr-banner">🔔 The NCR section is currently <strong>under discussion</strong>. Add any preliminary notes below.</div>
+      <div class="field"><div class="field-lbl">Preliminary NCR Notes</div><textarea placeholder="Add any preliminary non-conformance observations…"></textarea></div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:flex-end;"><button class="btn-next" onclick="goTab(9);buildReview()">Next — Review &amp; Submit <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+</div>
+
+<!-- TAB 9: REVIEW & SUBMIT -->
+<div id="tab-9" class="screen">
+  <div class="sec-heading">
+    <div class="sec-num">Section 10.0 — Review &amp; Submit</div>
+    <div class="sec-title">Review &amp; Submit</div>
+    <div class="sec-desc">Check your entries before final submission</div>
+  </div>
+  <div class="card">
+    <div class="card-header">Summary</div>
+    <div class="card-body">
+      <div class="review-row"><span class="review-lbl">Client</span><span class="review-val" id="rv-client">—</span></div>
+      <div class="review-row"><span class="review-lbl">Inspector</span><span class="review-val" id="rv-inspector">—</span></div>
+      <div class="review-row"><span class="review-lbl">GQS Number</span><span class="review-val" id="rv-gqs">—</span></div>
+      <div class="review-row"><span class="review-lbl">PO Number</span><span class="review-val" id="rv-po">—</span></div>
+      <div class="review-row"><span class="review-lbl">Vendor</span><span class="review-val" id="rv-vendor">—</span></div>
+      <div class="review-row"><span class="review-lbl">Vendor Location</span><span class="review-val" id="rv-vendorLoc">—</span></div>
+      <div class="review-row"><span class="review-lbl">Project</span><span class="review-val" id="rv-project">—</span></div>
+      <div class="review-row"><span class="review-lbl">Visit Period</span><span class="review-val" id="rv-dates">—</span></div>
+      <div class="review-row"><span class="review-lbl">Email</span><span class="review-val" id="rv-email">—</span></div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:28px;">
+    <button class="btn-submit-final" onclick="submitReport()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:6px;"><polyline points="20 6 9 17 4 12"/></svg>
+      Submit Inspection Report
+    </button>
+    <div style="font-size:11px;color:#aab8c2;margin-top:10px;">This will finalise and send your report to the GQS coordinator</div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const TAB_NAMES=['Contact details','Job details','Timesheet','HSE Checklist','Document details','Milestones','Calibration','Photographs','All Report','Review & Submit'];
+let currentTab=0;
+
+function goTab(idx){
+  // Mark old as done
+  const btns=document.querySelectorAll('.inav-btn');
+  btns[currentTab].classList.remove('active');
+  btns[currentTab].classList.add('done');
+  // Update connector
+  const con=document.getElementById('con-'+currentTab);
+  if(con) con.classList.add('done');
+
+  document.getElementById('tab-'+currentTab).classList.remove('active');
+  currentTab=idx;
+  document.getElementById('tab-'+idx).classList.add('active');
+
+  btns.forEach((b,i)=>{if(i!==idx)b.classList.remove('active');});
+  btns[idx].classList.add('active');
+  btns[idx].classList.remove('done');
+
+  const pct=Math.round((idx+1)/10*100);
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('stepPct').textContent=pct+'%';
+  document.getElementById('stepLabel').textContent='Step '+(idx+1)+' of 10 — '+TAB_NAMES[idx];
+  if(idx===8) updateReleaseSummary();
+  window.scrollTo(0,0);
+}
+
+function updateReleaseSummary(){
+  document.getElementById('rc-client').textContent=document.getElementById('f-client').value||'—';
+  document.getElementById('rc-gqsNum').textContent=document.getElementById('f-gqsNum').value||'—';
+  document.getElementById('rc-vendor').textContent=document.getElementById('f-vendor').value||'—';
+  document.getElementById('rc-po').textContent=document.getElementById('f-po').value||'—';
+  document.getElementById('rc-inspector').textContent=document.getElementById('f-inspector').value||'—';
+  const df=document.getElementById('f-dateFrom').value,dt=document.getElementById('f-dateTo').value;
+  document.getElementById('rc-dates').textContent=(df&&dt)?df+' → '+dt:(df||dt||'—');
+}
+
+function buildReview(){
+  document.getElementById('rv-client').textContent=document.getElementById('f-client').value||'—';
+  document.getElementById('rv-inspector').textContent=document.getElementById('f-inspector').value||'—';
+  document.getElementById('rv-gqs').textContent=document.getElementById('f-gqsNum').value||'—';
+  document.getElementById('rv-po').textContent=document.getElementById('f-po').value||'—';
+  document.getElementById('rv-vendor').textContent=document.getElementById('f-vendor').value||'—';
+  document.getElementById('rv-vendorLoc').textContent=document.getElementById('f-vendorLoc').value||'—';
+  document.getElementById('rv-project').textContent=document.getElementById('f-project').value||'—';
+  const df=document.getElementById('f-dateFrom').value,dt=document.getElementById('f-dateTo').value;
+  document.getElementById('rv-dates').textContent=(df&&dt)?df+' → '+dt:(df||dt||'—');
+  document.getElementById('rv-email').textContent=document.getElementById('f-email').value||'—';
+}
+
+function generateReport(){
+  const client=document.getElementById('f-client').value||'the client';
+  const vendor=document.getElementById('f-vendor').value||'the vendor';
+  const loc=document.getElementById('f-vendorLoc').value||'the specified location';
+  const scope=document.getElementById('f-scope').value||'the agreed scope of work';
+  const inspector=document.getElementById('f-inspector').value||'the GQS Inspector';
+  const df=document.getElementById('f-dateFrom').value||'the visit date';
+  const proj=document.getElementById('f-project').value||'the project';
+  document.getElementById('aiNarrative').textContent=`The inspection visit was conducted by ${inspector} on behalf of GQS Group, representing ${client}.\n\nThe inspection was carried out at ${vendor}, located in ${loc}, in relation to the ${proj} project. The visit was undertaken on ${df} in accordance with the agreed scope: ${scope}.\n\nAll inspection activities were carried out in compliance with applicable standards and contractual requirements. Documentation was reviewed and verified against the purchase order and relevant procedures. Inspection findings were recorded and any non-conformances identified have been noted in the NCR section of this report.\n\nAll results observed during this inspection were assessed against the applicable acceptance criteria. The GQS Inspector has reviewed all documentation, witnessed the relevant activities, and has prepared this report as a true and accurate record of the inspection visit.`;
+}
+
+function toggleCond(){
+  document.getElementById('condDetails').style.display=document.getElementById('condRelease').value==='Yes'?'block':'none';
+}
+
+function removeRow(btn){btn.closest('.tbl-row').remove();}
+
+function addRow(id,cols,html){
+  const r=document.createElement('div');r.className='tbl-row';r.style.gridTemplateColumns=cols;r.innerHTML=html;
+  document.getElementById(id).appendChild(r);
+}
+function addAttendee(){addRow('attendeeList','2fr 2fr 2fr 50px','<input type="text" placeholder="Full name"/><input type="text" placeholder="Company"/><input type="text" placeholder="Position"/><button class="btn-rm" onclick="removeRow(this)">✕</button>');}
+function addCalib(){addRow('calibList','2fr 1.5fr 2fr 1.5fr 50px','<input type="text" placeholder="Instrument description"/><input type="text" placeholder="Tag no."/><input type="text" placeholder="Cert. number"/><input type="date"/><button class="btn-rm" onclick="removeRow(this)">✕</button>');}
+function addDoc(){addRow('docList','3fr 2fr 2fr 50px','<input type="text" placeholder="Document title"/><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><button class="btn-rm" onclick="removeRow(this)">✕</button>');}
+function addTimesheet(){addRow('timesheetList','1.8fr 1.2fr 1.2fr 2fr 1fr 50px','<input type="date"/><input type="text" placeholder="08:00"/><input type="text" placeholder="17:00"/><input type="text" placeholder="Activity"/><input type="text" placeholder="8"/><button class="btn-rm" onclick="removeRow(this)">✕</button>');}
+function addMilestone(){addRow('milestoneList','2fr 2fr 1.5fr 1.5fr 50px','<input type="text" placeholder="Milestone"/><input type="text" placeholder="Details…"/><input type="date"/><select><option>Pending</option><option>Complete</option><option>Waived</option></select><button class="btn-rm" onclick="removeRow(this)">✕</button>');}
+
+function handlePhotos(e){
+  const grid=document.getElementById('photoGrid');
+  Array.from(e.target.files).forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=ev=>{const div=document.createElement('div');div.className='p-thumb';div.innerHTML=`<img src="${ev.target.result}"/><button class="p-rm" onclick="this.parentElement.remove()">✕</button>`;grid.appendChild(div);};
+    reader.readAsDataURL(file);
+  });
+  e.target.value='';
+}
+
+function submitReport(){
+  const c=document.getElementById('f-client').value,g=document.getElementById('f-gqsNum').value;
+  if(!c||!g){alert('Please complete at least Client name and GQS Number before submitting.');return;}
+  alert('✅ Report submitted successfully!\n\nClient: '+c+'\nGQS Number: '+g+'\nInspector: '+(document.getElementById('f-inspector').value||'—')+'\n\nYour report has been sent to the GQS coordinator.');
+}
+</script>
+</body>
+</html>
