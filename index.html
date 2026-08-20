@@ -304,7 +304,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="sidebar-item" id="sb-5" onclick="goTab(5)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Milestones</div><div class="sidebar-check">✓</div></div>
   <div class="sidebar-item" id="sb-6" onclick="goTab(6)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Calibration Status</div><div class="sidebar-check">✓</div></div>
   <div class="sidebar-item" id="sb-7" onclick="goTab(7)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Photographs</div><div class="sidebar-check">✓</div></div>
-  <div class="sidebar-item" id="sb-8" onclick="goTab(8)"><div class="sidebar-dot"></div><div class="sidebar-lbl">All Report (AI)</div><div class="sidebar-check">✓</div></div>
+  <div class="sidebar-item" id="sb-8" onclick="goTab(8)"><div class="sidebar-dot"></div><div class="sidebar-lbl">All Report</div><div class="sidebar-check">✓</div></div>
   <div class="sidebar-item" id="sb-9" onclick="goTab(9)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Review &amp; Submit</div><div class="sidebar-check">✓</div></div>
 </div>
 
@@ -512,15 +512,15 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 
 <!-- TAB 8 -->
 <div id="tab-8" class="screen">
-  <div class="sec-eyebrow">Section 4.6 &amp; 4.7 — AI-generated report</div>
-  <div class="sec-title">All Report <span class="ai-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:inline;vertical-align:middle;margin-right:2px"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Guided AI</span></div>
-  <div class="sec-desc">AI writes the inspection narrative using your scope, photos, and all data entered</div>
-  <div class="ai-badge"><div class="ai-badge-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="ai-badge-text">Both sections drafted by AI. Click to review &amp; edit before submitting.</div></div>
+  <div class="sec-eyebrow">Section 4.6 &amp; 4.7 — Visit Report</div>
+  <div class="sec-title">All Report</div>
+  <div class="sec-desc">Enter the full inspection narrative and release certificate details</div>
+  
   <div class="card">
     <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Section 4.6 — Visit Report Narrative</div></div>
     <div class="card-body">
-      <div id="aiNarrative" class="ai-text-area" contenteditable="true">Click "Generate Report" to produce the AI-drafted visit narrative based on your entries above…</div>
-      <button class="btn-add" style="margin-top:14px;" onclick="generateReport()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Generate AI Report</button>
+      <div id="aiNarrative" class="ai-text-area" contenteditable="true">Enter your inspection narrative here — describe activities carried out, observations, findings and results…</div>
+      
     </div>
   </div>
   <div class="card">
