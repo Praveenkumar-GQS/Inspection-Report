@@ -376,7 +376,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         <tbody>
           <tr>
             <td style="padding:10px 14px;border:1px solid #e2e8f0;width:16%;font-weight:600;font-size:13px;color:var(--slate-mid);background:#f8fafc;">Work Time</td>
-            <td style="padding:6px 10px;border:1px solid #e2e8f0;width:12%;"><input type="text" id="ts-workTime" placeholder="0" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
+            <td style="padding:6px 10px;border:1px solid #e2e8f0;width:12%;"><input type="text" id="ts-workTime" placeholder="0" oninput="calcTotal()" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
             <td style="padding:10px 14px;border:1px solid #e2e8f0;width:16%;font-weight:600;font-size:13px;background:#f8fafc;">Mileage</td>
             <td style="padding:6px 10px;border:1px solid #e2e8f0;width:12%;"><input type="text" id="ts-mileage" placeholder="0.00" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
             <td style="padding:10px 14px;border:1px solid #e2e8f0;width:12%;font-weight:600;font-size:13px;background:#f8fafc;">Flights</td>
@@ -386,7 +386,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
           </tr>
           <tr>
             <td style="padding:10px 14px;border:1px solid #e2e8f0;font-weight:600;font-size:13px;background:#f8fafc;">Travel Time</td>
-            <td style="padding:6px 10px;border:1px solid #e2e8f0;"><input type="text" id="ts-travelTime" placeholder="0" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
+            <td style="padding:6px 10px;border:1px solid #e2e8f0;"><input type="text" id="ts-travelTime" placeholder="0" oninput="calcTotal()" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
             <td style="padding:10px 14px;border:1px solid #e2e8f0;font-weight:600;font-size:13px;background:#f8fafc;">Accommodation</td>
             <td style="padding:6px 10px;border:1px solid #e2e8f0;"><input type="text" id="ts-accommodation" placeholder="0.00" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
             <td style="padding:10px 14px;border:1px solid #e2e8f0;font-weight:600;font-size:13px;background:#f8fafc;">Per Diem</td>
@@ -394,17 +394,17 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
           </tr>
           <tr>
             <td style="padding:10px 14px;border:1px solid #e2e8f0;font-weight:600;font-size:13px;background:#f8fafc;">Report Time</td>
-            <td style="padding:6px 10px;border:1px solid #e2e8f0;"><input type="text" id="ts-reportTime" placeholder="0" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
+            <td style="padding:6px 10px;border:1px solid #e2e8f0;"><input type="text" id="ts-reportTime" placeholder="0" oninput="calcTotal()" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
             <td style="padding:10px 14px;border:1px solid #e2e8f0;font-weight:600;font-size:13px;background:#f8fafc;" rowspan="2">Other Costs Description</td>
             <td colspan="5" rowspan="2" style="padding:6px 10px;border:1px solid #e2e8f0;"><textarea id="ts-otherDesc" placeholder="Describe any other costs…" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;resize:none;height:60px;"></textarea></td>
           </tr>
           <tr>
             <td style="padding:10px 14px;border:1px solid #e2e8f0;font-weight:600;font-size:13px;background:#f8fafc;">Over Time</td>
-            <td style="padding:6px 10px;border:1px solid #e2e8f0;"><input type="text" id="ts-overTime" placeholder="0" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
+            <td style="padding:6px 10px;border:1px solid #e2e8f0;"><input type="text" id="ts-overTime" placeholder="0" oninput="calcTotal()" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
           </tr>
           <tr>
             <td style="padding:10px 14px;border:1px solid #e2e8f0;font-weight:700;font-size:13px;color:var(--teal);background:var(--teal-light);">Total Days / Hours</td>
-            <td style="padding:6px 10px;border:1px solid #e2e8f0;background:var(--teal-light);"><input type="text" id="ts-totalDays" placeholder="0" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;font-weight:700;color:#008B9B;"/></td>
+            <td style="padding:6px 10px;border:1px solid #e2e8f0;background:var(--teal-light);"><div id="ts-totalDays" style="font-size:14px;font-weight:700;color:var(--teal);padding:2px 4px;">0</div></td>
             <td colspan="6" style="border:1px solid #e2e8f0;background:var(--teal-light);"></td>
           </tr>
         </tbody>
@@ -973,6 +973,15 @@ function addNCR(){
   r.style.gridTemplateColumns = '1.5fr 2fr 3fr 44px';
   r.innerHTML = '<input type="text" placeholder="e.g. NCR-001"/><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Description of non-conformance…"/>' + rmBtn;
   document.getElementById('ncrList').appendChild(r);
+}
+
+function calcTotal(){
+  const w = parseFloat(document.getElementById('ts-workTime')?.value)||0;
+  const tr = parseFloat(document.getElementById('ts-travelTime')?.value)||0;
+  const r = parseFloat(document.getElementById('ts-reportTime')?.value)||0;
+  const o = parseFloat(document.getElementById('ts-overTime')?.value)||0;
+  const total = w + tr + r + o;
+  document.getElementById('ts-totalDays').textContent = total % 1 === 0 ? total : total.toFixed(1);
 }
 
 function checkConditional(){
