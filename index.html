@@ -914,6 +914,7 @@ function goTab(idx){
   document.getElementById('stepLabel').textContent = 'Step '+(idx+1)+' of 11 — '+TAB_NAMES[idx];
   if(idx===8) updateReleaseSummary();
   if(idx===9) populateReleaseCert();
+  if(idx===10) buildReview();
   document.querySelector('.main').scrollTop = 0;
 }
 
