@@ -585,8 +585,33 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="card">
     <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Non-Conformance (NCR)</div></div>
     <div class="card-body">
-      <div class="ncr-banner"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><div class="ncr-banner-text">The NCR section is currently <strong>under discussion</strong>. Add any preliminary notes below — the full NCR form will be added once requirements are finalised.</div></div>
-      <div class="field"><div class="field-lbl">Preliminary NCR Notes</div><textarea placeholder="Add any preliminary non-conformance observations…"></textarea></div>
+      <div class="field" style="margin-bottom:20px;">
+        <div class="field-lbl">Non-Conformance Raised?</div>
+        <div style="display:flex;gap:16px;margin-top:8px;">
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;cursor:pointer;padding:10px 20px;border:1.5px solid var(--border);border-radius:var(--radius-sm);transition:all 0.2s;" onclick="toggleNCR('yes')">
+            <input type="radio" name="ncrRaised" value="yes" style="accent-color:var(--teal);width:16px;height:16px;"/> Yes
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;cursor:pointer;padding:10px 20px;border:1.5px solid var(--border);border-radius:var(--radius-sm);transition:all 0.2s;" onclick="toggleNCR('no')">
+            <input type="radio" name="ncrRaised" value="no" style="accent-color:var(--teal);width:16px;height:16px;"/> No
+          </label>
+        </div>
+      </div>
+      <div id="ncrDetails" style="display:none;">
+        <div class="tbl-wrap">
+          <div class="tbl-head" style="grid-template-columns:1.5fr 2fr 3fr 44px;">
+            <span>NCR Number</span><span>Document Number</span><span>Details</span><span></span>
+          </div>
+          <div id="ncrList">
+            <div class="tbl-row" style="grid-template-columns:1.5fr 2fr 3fr 44px;">
+              <input type="text" placeholder="e.g. NCR-001"/>
+              <input type="text" placeholder="Doc number…"/>
+              <input type="text" placeholder="Description of non-conformance…"/>
+              <button class="btn-rm" onclick="removeRow(this)"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <button class="btn-add" onclick="addNCR()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add NCR</button>
+      </div>
     </div>
   </div>
   <div class="btn-actions"><button class="btn-next" onclick="goTab(9);buildReview()">Next — Review &amp; Submit<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
@@ -803,6 +828,19 @@ function showToast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+function toggleNCR(val){
+  document.getElementById('ncrDetails').style.display = val === 'yes' ? 'block' : 'none';
+}
+
+function addNCR(){
+  const rmBtn = '<button class="btn-rm" onclick="removeRow(this)"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
+  const r = document.createElement('div');
+  r.className = 'tbl-row';
+  r.style.gridTemplateColumns = '1.5fr 2fr 3fr 44px';
+  r.innerHTML = '<input type="text" placeholder="e.g. NCR-001"/><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Description of non-conformance…"/>' + rmBtn;
+  document.getElementById('ncrList').appendChild(r);
 }
 
 function checkConditional(){
