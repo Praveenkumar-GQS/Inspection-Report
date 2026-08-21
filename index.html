@@ -367,18 +367,51 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="sec-eyebrow">Section 3.0 — Timesheet</div>
   <div class="sec-title">Timesheet</div>
   <div class="sec-desc">Record time spent on each inspection activity per day</div>
+
+  <!-- Visit Expenses Table -->
   <div class="card">
-    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Daily Time Entries</div></div>
-    <div class="card-body">
-      <div class="tbl-wrap">
-        <div class="tbl-head" style="grid-template-columns:1.8fr 1.2fr 1.2fr 2.5fr 1fr 44px;"><span>Date</span><span>Start</span><span>End</span><span>Activity</span><span>Hours</span><span></span></div>
-        <div id="timesheetList">
-          <div class="tbl-row" style="grid-template-columns:1.8fr 1.2fr 1.2fr 2.5fr 1fr 44px;"><input type="date"/><input type="text" placeholder="08:00"/><input type="text" placeholder="17:00"/><input type="text" placeholder="Inspection activity"/><input type="text" placeholder="8"/><button class="btn-rm" onclick="removeRow(this)"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
-        </div>
-      </div>
-      <button class="btn-add" onclick="addTimesheet()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add day</button>
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Section 3.0 — Visit Expenses</div></div>
+    <div class="card-body" style="padding:0;">
+      <table style="width:100%;border-collapse:collapse;">
+        <tbody>
+          <tr>
+            <td style="padding:10px 14px;border:1px solid #e2e8f0;width:16%;font-weight:600;font-size:13px;color:var(--slate-mid);background:#f8fafc;">Work Time</td>
+            <td style="padding:6px 10px;border:1px solid #e2e8f0;width:12%;"><input type="text" id="ts-workTime" placeholder="0" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
+            <td style="padding:10px 14px;border:1px solid #e2e8f0;width:16%;font-weight:600;font-size:13px;background:#f8fafc;">Mileage</td>
+            <td style="padding:6px 10px;border:1px solid #e2e8f0;width:12%;"><input type="text" id="ts-mileage" placeholder="0.00" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
+            <td style="padding:10px 14px;border:1px solid #e2e8f0;width:12%;font-weight:600;font-size:13px;background:#f8fafc;">Flights</td>
+            <td style="padding:6px 10px;border:1px solid #e2e8f0;width:10%;"><input type="text" id="ts-flights" placeholder="0.00" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
+            <td style="padding:10px 14px;border:1px solid #e2e8f0;width:12%;font-weight:600;font-size:13px;background:#f8fafc;" rowspan="2">Other Costs</td>
+            <td style="padding:6px 10px;border:1px solid #e2e8f0;" rowspan="2"><input type="text" id="ts-otherCosts" placeholder="0.00" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px;border:1px solid #e2e8f0;font-weight:600;font-size:13px;background:#f8fafc;">Travel Time</td>
+            <td style="padding:6px 10px;border:1px solid #e2e8f0;"><input type="text" id="ts-travelTime" placeholder="0" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
+            <td style="padding:10px 14px;border:1px solid #e2e8f0;font-weight:600;font-size:13px;background:#f8fafc;">Accommodation</td>
+            <td style="padding:6px 10px;border:1px solid #e2e8f0;"><input type="text" id="ts-accommodation" placeholder="0.00" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
+            <td style="padding:10px 14px;border:1px solid #e2e8f0;font-weight:600;font-size:13px;background:#f8fafc;">Per Diem</td>
+            <td style="padding:6px 10px;border:1px solid #e2e8f0;"><input type="text" id="ts-perDiem" placeholder="0.00" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px;border:1px solid #e2e8f0;font-weight:600;font-size:13px;background:#f8fafc;">Report Time</td>
+            <td style="padding:6px 10px;border:1px solid #e2e8f0;"><input type="text" id="ts-reportTime" placeholder="0" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
+            <td style="padding:10px 14px;border:1px solid #e2e8f0;font-weight:600;font-size:13px;background:#f8fafc;" rowspan="2">Other Costs Description</td>
+            <td colspan="5" rowspan="2" style="padding:6px 10px;border:1px solid #e2e8f0;"><textarea id="ts-otherDesc" placeholder="Describe any other costs…" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;resize:none;height:60px;"></textarea></td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px;border:1px solid #e2e8f0;font-weight:600;font-size:13px;background:#f8fafc;">Over Time</td>
+            <td style="padding:6px 10px;border:1px solid #e2e8f0;"><input type="text" id="ts-overTime" placeholder="0" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;"/></td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px;border:1px solid #e2e8f0;font-weight:700;font-size:13px;color:var(--teal);background:var(--teal-light);">Total Days / Hours</td>
+            <td style="padding:6px 10px;border:1px solid #e2e8f0;background:var(--teal-light);"><input type="text" id="ts-totalDays" placeholder="0" style="border:none;background:transparent;width:100%;font-size:13px;outline:none;font-weight:700;color:#008B9B;"/></td>
+            <td colspan="6" style="border:1px solid #e2e8f0;background:var(--teal-light);"></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+
   <div class="btn-actions"><button class="btn-next" onclick="goTab(3)">Next — HSE<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
 </div>
 
