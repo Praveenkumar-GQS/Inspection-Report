@@ -365,17 +365,17 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 <!-- SIDEBAR -->
 <div class="sidebar">
   <div class="sidebar-title">Report Sections</div>
-  <div class="sidebar-item active" id="sb-0" onclick="goTab(0)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Contact details</div><div class="sidebar-check">✓</div></div>
-  <div class="sidebar-item" id="sb-1" onclick="goTab(1)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Job details</div><div class="sidebar-check">✓</div></div>
-  <div class="sidebar-item" id="sb-2" onclick="goTab(2)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Timesheet</div><div class="sidebar-check">✓</div></div>
-  <div class="sidebar-item" id="sb-3" onclick="goTab(3)"><div class="sidebar-dot"></div><div class="sidebar-lbl">HSE Checklist</div><div class="sidebar-check">✓</div></div>
-  <div class="sidebar-item" id="sb-4" onclick="goTab(4)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Attendees</div><div class="sidebar-check">✓</div></div>
-  <div class="sidebar-item" id="sb-5" onclick="goTab(5)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Document details</div><div class="sidebar-check">✓</div></div>
-  <div class="sidebar-item" id="sb-6" onclick="goTab(6)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Calibration Status</div><div class="sidebar-check">✓</div></div>
-  <div class="sidebar-item" id="sb-7" onclick="goTab(7)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Photographs</div><div class="sidebar-check">✓</div></div>
-  <div class="sidebar-item" id="sb-8" onclick="goTab(8)"><div class="sidebar-dot"></div><div class="sidebar-lbl">All Report</div><div class="sidebar-check">✓</div></div>
-  <div class="sidebar-item" id="sb-9" onclick="goTab(9)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Release Certificate</div><div class="sidebar-check">✓</div></div>
-  <div class="sidebar-item" id="sb-10" onclick="goTab(10)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Review &amp; Submit</div><div class="sidebar-check">✓</div></div></div>
+  <div class="sidebar-item active" id="sb-0" onclick="goTab(0)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Contact details</div><div class="sidebar-check">✓</div><div class="sidebar-num">1</div></div>
+  <div class="sidebar-item" id="sb-1" onclick="goTab(1)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Job details</div><div class="sidebar-check">✓</div><div class="sidebar-num">2</div></div>
+  <div class="sidebar-item" id="sb-2" onclick="goTab(2)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Timesheet</div><div class="sidebar-check">✓</div><div class="sidebar-num">3</div></div>
+  <div class="sidebar-item" id="sb-3" onclick="goTab(3)"><div class="sidebar-dot"></div><div class="sidebar-lbl">HSE Checklist</div><div class="sidebar-check">✓</div><div class="sidebar-num">4</div></div>
+  <div class="sidebar-item" id="sb-4" onclick="goTab(4)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Attendees</div><div class="sidebar-check">✓</div><div class="sidebar-num">5</div></div>
+  <div class="sidebar-item" id="sb-5" onclick="goTab(5)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Document details</div><div class="sidebar-check">✓</div><div class="sidebar-num">6</div></div>
+  <div class="sidebar-item" id="sb-6" onclick="goTab(6)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Calibration Status</div><div class="sidebar-check">✓</div><div class="sidebar-num">7</div></div>
+  <div class="sidebar-item" id="sb-7" onclick="goTab(7)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Photographs</div><div class="sidebar-check">✓</div><div class="sidebar-num">8</div></div>
+  <div class="sidebar-item" id="sb-8" onclick="goTab(8)"><div class="sidebar-dot"></div><div class="sidebar-lbl">All Report</div><div class="sidebar-check">✓</div><div class="sidebar-num">9</div></div>
+  <div class="sidebar-item" id="sb-9" onclick="goTab(9)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Release Certificate</div><div class="sidebar-check">✓</div><div class="sidebar-num">10</div></div>
+  <div class="sidebar-item" id="sb-10" onclick="goTab(10)"><div class="sidebar-dot"></div><div class="sidebar-lbl">Review &amp; Submit</div><div class="sidebar-check">✓</div><div class="sidebar-num">11</div></div></div>
 
 <div class="main">
 
@@ -876,32 +876,44 @@ const TAB_NAMES=['Contact details','Job details','Timesheet','HSE Checklist','At
 let currentTab=0;
 
 function goTab(idx){
-  const btns=document.querySelectorAll('.inav-btn');
-  const sbs=document.querySelectorAll('.sidebar-item');
+  const btns = document.querySelectorAll('.inav-btn');
+  const sbs = document.querySelectorAll('.sidebar-item');
 
-  btns[currentTab].classList.remove('active');
-  btns[currentTab].classList.add('done');
-  sbs[currentTab].classList.remove('active');
-  sbs[currentTab].classList.add('done');
-  const con=document.getElementById('con-'+currentTab);
-  if(con) con.classList.add('done');
+  // Reset ALL tabs — only mark as done if they were previously visited
+  btns.forEach((b, i) => {
+    b.classList.remove('active');
+    if(i < idx) {
+      b.classList.add('done');
+      const con = document.getElementById('con-'+i);
+      if(con) con.classList.add('done');
+    } else if(i > idx) {
+      b.classList.remove('done');
+    }
+  });
 
-  document.getElementById('tab-'+currentTab).classList.remove('active');
-  currentTab=idx;
-  document.getElementById('tab-'+idx).classList.add('active');
+  sbs.forEach((s, i) => {
+    s.classList.remove('active');
+    if(i < idx) s.classList.add('done');
+    else s.classList.remove('done');
+  });
 
-  btns.forEach((b,i)=>{if(i!==idx){b.classList.remove('active');}});
-  sbs.forEach((s,i)=>{if(i!==idx){s.classList.remove('active');}});
+  // Set active on current
   btns[idx].classList.add('active');
   btns[idx].classList.remove('done');
   sbs[idx].classList.add('active');
   sbs[idx].classList.remove('done');
 
-  const pct=Math.round((idx+1)/11*100);
-  document.getElementById('progressFill').style.width=pct+'%';
-  document.getElementById('stepPct').textContent=pct+'%';
-  document.getElementById('stepLabel').textContent='Step '+(idx+1)+' of 11 — '+TAB_NAMES[idx];
-  if(idx===8) updateReleaseSummary(); if(idx===9) populateReleaseCert();
+  // Switch tab content
+  document.getElementById('tab-'+currentTab).classList.remove('active');
+  currentTab = idx;
+  document.getElementById('tab-'+idx).classList.add('active');
+
+  const pct = Math.round((idx+1)/11*100);
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('stepPct').textContent = pct+'%';
+  document.getElementById('stepLabel').textContent = 'Step '+(idx+1)+' of 11 — '+TAB_NAMES[idx];
+  if(idx===8) updateReleaseSummary();
+  if(idx===9) populateReleaseCert();
   document.querySelector('.main').scrollTop = 0;
 }
 
