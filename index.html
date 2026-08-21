@@ -611,7 +611,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
         .doc-issued-input:focus{border-color:var(--teal);}
         .doc-issued-head{display:grid;grid-template-columns:2fr 1.5fr 2fr 2.5fr;padding:10px 20px;background:#f8fafc;border-bottom:1px solid var(--border);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--slate-light);gap:12px;}
       </style>
-      <div class="doc-issued-head"><span>Document Type</span><span>Yes / No</span><span>Document Number</span><span>Revision Status</span></div>
+      <div class="doc-issued-head"><span>Document Type</span><span>Yes / No</span><span>Document Number</span><span>Details</span></div>
       <div class="doc-issued-row">
         <div class="doc-type-label">IRC / IRN</div>
         <div class="doc-pill-wrap">
@@ -619,7 +619,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
           <button class="doc-pill" onclick="selectDocPill(this,'irc','no')">No</button>
         </div>
         <input class="doc-issued-input" type="text" placeholder="Doc no…" id="irc-docno" style="display:none;"/>
-        <input class="doc-issued-input" type="text" placeholder="Revision status…" id="irc-details" placeholder="Revision status…" style="display:none;"/>
+        <input class="doc-issued-input" type="text" placeholder="Details…" id="irc-details" placeholder="Details…" style="display:none;"/>
       </div>
       <div class="doc-issued-row">
         <div class="doc-type-label">NCR</div>
@@ -628,7 +628,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
           <button class="doc-pill" onclick="selectDocPill(this,'ncr','no')">No</button>
         </div>
         <input class="doc-issued-input" type="text" placeholder="Doc no…" id="ncr-docno" style="display:none;"/>
-        <input class="doc-issued-input" type="text" placeholder="Revision status…" id="ncr-details" placeholder="Revision status…" style="display:none;"/>
+        <input class="doc-issued-input" type="text" placeholder="Details…" id="ncr-details" placeholder="Details…" style="display:none;"/>
       </div>
       <div class="doc-issued-row">
         <div class="doc-type-label">Other</div>
@@ -637,7 +637,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
           <button class="doc-pill" onclick="selectDocPill(this,'other','no')">No</button>
         </div>
         <input class="doc-issued-input" type="text" placeholder="Doc no…" id="other-docno" style="display:none;"/>
-        <input class="doc-issued-input" type="text" placeholder="Revision status…" id="other-details" placeholder="Revision status…" style="display:none;"/>
+        <input class="doc-issued-input" type="text" placeholder="Details…" id="other-details" placeholder="Details…" style="display:none;"/>
       </div>
     </div>
   </div>
@@ -1048,7 +1048,7 @@ function addAttendee(){addRow('attendeeList','2fr 2fr 2fr 44px','<input type="te
 function addCalib(){addRow('calibList','2fr 1.5fr 2fr 1.5fr 44px','<input type="text" placeholder="Instrument description"/><input type="text" placeholder="Tag no."/><input type="text" placeholder="Cert. number"/><input type="date"/>'+rmBtn);}
 function addDoc(){addRow('docList','3fr 2fr 2fr 44px','<input type="text" placeholder="Document title"/><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/>'+rmBtn);}
 function addTimesheet(){const r=document.createElement('div');r.className='tbl-row';r.style.gridTemplateColumns='1.8fr 1.2fr 1.2fr 2.5fr 1fr 44px';r.innerHTML='<input type="date"/><input type="text" placeholder="08:00"/><input type="text" placeholder="17:00"/><input type="text" placeholder="Inspection activity"/><input type="text" placeholder="8"/>'+rmBtn;document.getElementById('timesheetList').appendChild(r);}
-function addMilestone(){addRow('milestoneList','2fr 2.5fr 1.5fr 1.5fr 44px','<input type="text" placeholder="Milestone"/><input type="text" placeholder="Revision status…"/><input type="date"/><select><option>Pending</option><option>Complete</option><option>Waived</option></select>'+rmBtn);}
+function addMilestone(){addRow('milestoneList','2fr 2.5fr 1.5fr 1.5fr 44px','<input type="text" placeholder="Milestone"/><input type="text" placeholder="Details…"/><input type="date"/><select><option>Pending</option><option>Complete</option><option>Waived</option></select>'+rmBtn);}
 
 function handlePhotos(e){
   const grid=document.getElementById('photoGrid');
@@ -1104,17 +1104,12 @@ function selectDocPill(btn, group, val){
   const wrap = btn.closest('.doc-pill-wrap');
   wrap.querySelectorAll('.doc-pill').forEach(b => b.classList.remove('yes-active','no-active'));
   btn.classList.add(val === 'yes' ? 'yes-active' : 'no-active');
-  // Show/hide doc number and details fields
   const docno = document.getElementById(group+'-docno');
   const details = document.getElementById(group+'-details');
-  if(docno) docno.style.display = val === 'yes' ? 'block' : 'none';
-  if(details) details.style.display = val === 'yes' ? 'block' : 'none';
-  // Animate in
-  if(val === 'yes' && docno){
-    docno.style.animation = 'fadeIn 0.2s ease';
-    details.style.animation = 'fadeIn 0.2s ease';
-    setTimeout(()=>docno.focus(), 100);
-  }
+  const show = val === 'yes';
+  if(docno){ docno.style.display = show ? 'inline-block' : 'none'; docno.style.width = show ? '100%' : ''; }
+  if(details){ details.style.display = show ? 'inline-block' : 'none'; details.style.width = show ? '100%' : ''; }
+  if(show && docno){ docno.style.animation = 'fadeIn 0.25s ease'; setTimeout(()=>docno.focus(), 100); }
 }
 
 function selectPill(btn, group, val){
