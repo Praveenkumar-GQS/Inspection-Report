@@ -907,6 +907,32 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
     </div>
   </div>
 
+  <!-- 8. Documents -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">8. Document Details</div></div>
+    <div class="card-body"><div id="rv-documents"><div style="color:var(--slate-light);font-size:13px;">No documents recorded.</div></div></div>
+  </div>
+
+  <!-- 9. Visit Report -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">9. Visit Report Narrative</div></div>
+    <div class="card-body">
+      <div id="rv-narrative" style="font-size:13px;color:var(--slate);line-height:1.7;white-space:pre-wrap;background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:14px;min-height:60px;">—</div>
+    </div>
+  </div>
+
+  <!-- 10. Photos -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">10. Photographs</div></div>
+    <div class="card-body"><div id="rv-photos"><div style="color:var(--slate-light);font-size:13px;">No photos uploaded.</div></div></div>
+  </div>
+
+  <!-- 11. NCR -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">11. Non-Conformance (NCR)</div></div>
+    <div class="card-body"><div id="rv-ncr"><div style="color:var(--slate-light);font-size:13px;">No NCR raised.</div></div></div>
+  </div>
+
     <div class="submit-wrap">
     <div class="submit-wrap-title">Ready to submit?</div>
     <div class="submit-wrap-sub">This will finalise your report and send it to the GQS coordinator for review.</div>
@@ -1088,6 +1114,58 @@ function buildReview(){ calcProgressScore();
   if(condRel && condRel.value === 'Yes' && condDet && condDet.value){
     document.getElementById('rv-conditionalDetailsWrap').style.display = 'block';
     document.getElementById('rv-conditionalDetails').textContent = condDet.value;
+  }
+
+  // Documents
+  const docRows = document.querySelectorAll('.doc-issued-row');
+  let docHtml = '<table style="width:100%;border-collapse:collapse;"><tr style="background:#f8fafc;"><th style="padding:8px 12px;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);text-align:left;">Document Type</th><th style="padding:8px 12px;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);text-align:left;">Issued</th><th style="padding:8px 12px;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);text-align:left;">Doc Number</th><th style="padding:8px 12px;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);text-align:left;">Details</th></tr>';
+  let hasDoc = false;
+  docRows.forEach(row => {
+    const label = row.querySelector('.doc-type-label');
+    const yesBtn = row.querySelector('.doc-pill.yes-active');
+    const noBtn = row.querySelector('.doc-pill.no-active');
+    const docno = row.querySelector('input[id$="-docno"]');
+    const det = row.querySelector('input[id$="-details"]');
+    if(label) {
+      hasDoc = true;
+      const status = yesBtn ? '<span style="color:#4CAF50;font-weight:700;">Yes</span>' : noBtn ? '<span style="color:#dc2626;font-weight:700;">No</span>' : '—';
+      docHtml += `<tr style="border-bottom:1px solid #f0f4f8;"><td style="padding:10px 12px;font-size:13px;font-weight:600;">${label.textContent}</td><td style="padding:10px 12px;">${status}</td><td style="padding:10px 12px;font-size:13px;">${docno?.value||'—'}</td><td style="padding:10px 12px;font-size:13px;">${det?.value||'—'}</td></tr>`;
+    }
+  });
+  docHtml += '</table>';
+  document.getElementById('rv-documents').innerHTML = hasDoc ? docHtml : '<div style="color:var(--slate-light);font-size:13px;">No documents recorded.</div>';
+
+  // Visit Report Narrative
+  const narrative = document.getElementById('aiNarrative');
+  const narrativeText = narrative ? narrative.textContent.trim() : '';
+  document.getElementById('rv-narrative').textContent = narrativeText && narrativeText !== 'Enter your inspection narrative here — describe activities carried out, observations, findings and results…' ? narrativeText : 'No narrative entered.';
+
+  // Photos
+  const photos = document.querySelectorAll('#photoGrid .p-thumb img');
+  if(photos.length > 0){
+    let photoHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;">';
+    photos.forEach(img => { photoHtml += `<img src="${img.src}" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;"/>`; });
+    photoHtml += '</div>';
+    document.getElementById('rv-photos').innerHTML = photoHtml;
+  } else {
+    document.getElementById('rv-photos').innerHTML = '<div style="color:var(--slate-light);font-size:13px;">No photos uploaded.</div>';
+  }
+
+  // NCR
+  const ncrRaised = document.querySelector('input[name="ncrRaised"]:checked');
+  if(ncrRaised && ncrRaised.value === 'yes'){
+    const ncrRows = document.querySelectorAll('#ncrList .tbl-row');
+    let ncrHtml = '<table style="width:100%;border-collapse:collapse;"><tr style="background:#f8fafc;"><th style="padding:8px 12px;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);text-align:left;">NCR Number</th><th style="padding:8px 12px;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);text-align:left;">Doc Number</th><th style="padding:8px 12px;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);text-align:left;">Details</th></tr>';
+    ncrRows.forEach(row => {
+      const inputs = row.querySelectorAll('input');
+      if(inputs.length >= 3 && inputs[0].value){
+        ncrHtml += `<tr style="border-bottom:1px solid #f0f4f8;"><td style="padding:10px 12px;font-size:13px;font-weight:600;">${inputs[0].value}</td><td style="padding:10px 12px;font-size:13px;">${inputs[1].value||'—'}</td><td style="padding:10px 12px;font-size:13px;">${inputs[2].value||'—'}</td></tr>`;
+      }
+    });
+    ncrHtml += '</table>';
+    document.getElementById('rv-ncr').innerHTML = ncrHtml;
+  } else {
+    document.getElementById('rv-ncr').innerHTML = '<div style="color:var(--slate-light);font-size:13px;">No NCR raised.</div>';
   }
 }
 
