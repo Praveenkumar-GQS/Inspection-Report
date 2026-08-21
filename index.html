@@ -778,17 +778,116 @@ function updateReleaseSummary(){
 }
 
 function buildReview(){
-  document.getElementById('rv-client').textContent=document.getElementById('f-client').value||'—';
-  document.getElementById('rv-inspector').textContent=document.getElementById('f-inspector').value||'—';
-  document.getElementById('rv-gqs').textContent=document.getElementById('f-gqsNum').value||'—';
-  document.getElementById('rv-po').textContent=document.getElementById('f-po').value||'—';
-  document.getElementById('rv-vendor').textContent=document.getElementById('f-vendor').value||'—';
-  document.getElementById('rv-vendorLoc').textContent=document.getElementById('f-vendorLoc').value||'—';
-  document.getElementById('rv-project').textContent=document.getElementById('f-project').value||'—';
-  const df=document.getElementById('f-dateFrom').value,dt=document.getElementById('f-dateTo').value;
-  document.getElementById('rv-dates').textContent=(df&&dt)?df+' → '+dt:(df||dt||'—');
-  document.getElementById('rv-email').textContent=document.getElementById('f-email').value||'—';
-  document.getElementById('rv-gqsContact').textContent=document.getElementById('f-gqsContact').value||'—';
+  const v = id => document.getElementById(id) ? (document.getElementById(id).value||'—') : '—';
+
+  // Contact
+  document.getElementById('rv-client').textContent = v('f-client');
+  document.getElementById('rv-inspector').textContent = v('f-inspector');
+  document.getElementById('rv-clientContact').textContent = v('f-clientContact');
+  document.getElementById('rv-gqsContact').textContent = v('f-gqsContact');
+
+  // Job Details
+  document.getElementById('rv-gqs').textContent = v('f-gqsNum');
+  document.getElementById('rv-po').textContent = v('f-po');
+  document.getElementById('rv-vendor').textContent = v('f-vendor');
+  document.getElementById('rv-vendorLoc').textContent = v('f-vendorLoc');
+  document.getElementById('rv-project').textContent = v('f-project');
+  document.getElementById('rv-scope').textContent = v('f-scope');
+  const df=document.getElementById('f-dateFrom').value, dt=document.getElementById('f-dateTo').value;
+  document.getElementById('rv-dates').textContent = (df&&dt)?df+' → '+dt:(df||dt||'—');
+
+  // HSE
+  const hseQuestions = [
+    'Safety induction received',
+    'PPE worn correctly by all personnel',
+    'Site clean and well organised',
+    'All personnel working safely',
+    'Machinery well maintained and operated safely',
+    'Visit free from incidents / accidents',
+    'Management conveys positive H&S culture'
+  ];
+  const hseRadios = document.querySelectorAll('input[name^="hse"]');
+  let hseHtml = '<table style="width:100%;border-collapse:collapse;">';
+  hseHtml += '<tr style="background:#f8fafc;"><th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">#</th><th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">Item</th><th style="padding:8px 12px;text-align:center;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">Response</th></tr>';
+  for(let i=0;i<7;i++){
+    const yes = document.querySelector(`input[name="hse${i+1}"][value="yes"]`);
+    const no = document.querySelector(`input[name="hse${i+1}"][value="no"]`);
+    const ans = yes&&yes.checked ? '<span style="color:#4CAF50;font-weight:700;">Yes</span>' : no&&no.checked ? '<span style="color:#dc2626;font-weight:700;">No</span>' : '<span style="color:#aaa;">—</span>';
+    hseHtml += `<tr style="border-bottom:1px solid #f0f4f8;"><td style="padding:10px 12px;font-weight:700;color:var(--teal);">${i+1}</td><td style="padding:10px 12px;font-size:13px;">${hseQuestions[i]}</td><td style="padding:10px 12px;text-align:center;">${ans}</td></tr>`;
+  }
+  hseHtml += '</table>';
+  document.getElementById('rv-hse-list').innerHTML = hseHtml;
+
+  // Timesheet
+  const tsRows = document.querySelectorAll('#timesheetList .tbl-row');
+  let tsHtml = '<table style="width:100%;border-collapse:collapse;"><tr style="background:#f8fafc;"><th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">Date</th><th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">Start</th><th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">End</th><th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">Activity</th><th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">Hours</th></tr>';
+  let hasTs = false;
+  tsRows.forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    if(inputs.length >= 5 && (inputs[0].value||inputs[3].value)) {
+      hasTs = true;
+      tsHtml += `<tr style="border-bottom:1px solid #f0f4f8;"><td style="padding:10px 12px;font-size:13px;">${inputs[0].value||'—'}</td><td style="padding:10px 12px;font-size:13px;">${inputs[1].value||'—'}</td><td style="padding:10px 12px;font-size:13px;">${inputs[2].value||'—'}</td><td style="padding:10px 12px;font-size:13px;">${inputs[3].value||'—'}</td><td style="padding:10px 12px;font-size:13px;">${inputs[4].value||'—'}</td></tr>`;
+    }
+  });
+  tsHtml += '</table>';
+  document.getElementById('rv-timesheet').innerHTML = hasTs ? tsHtml : '<div style="color:var(--slate-light);font-size:13px;">No timesheet entries recorded.</div>';
+  // Add time & costs summary to timesheet review
+  const tsCosts = [
+    ['Work Time', document.getElementById('ts-workTime')?.value],
+    ['Travel Time', document.getElementById('ts-travelTime')?.value],
+    ['Report Time', document.getElementById('ts-reportTime')?.value],
+    ['Mileage', document.getElementById('ts-mileage')?.value],
+    ['Accommodation', document.getElementById('ts-accommodation')?.value],
+    ['Flights', document.getElementById('ts-flights')?.value],
+    ['Per Diem', document.getElementById('ts-perDiem')?.value],
+    ['Other Costs', document.getElementById('ts-otherCosts')?.value],
+    ['Other Costs Description', document.getElementById('ts-otherDesc')?.value],
+  ].filter(([,v]) => v);
+  if(tsCosts.length){
+    let costHtml = '<div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border-radius:var(--radius-sm);overflow:hidden;">';
+    tsCosts.forEach(([l,v]) => { costHtml += `<div style="background:#fff;padding:12px 16px;"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--slate-light);margin-bottom:4px;">${l}</div><div style="font-size:14px;font-weight:600;color:var(--slate);">${v}</div></div>`; });
+    costHtml += '</div>';
+    document.getElementById('rv-timesheet').innerHTML += costHtml;
+  }
+
+  // Attendees
+  const attRows = document.querySelectorAll('#attendeeList .tbl-row');
+  let attHtml = '<table style="width:100%;border-collapse:collapse;"><tr style="background:#f8fafc;"><th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">Name</th><th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">Company</th><th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">Position</th></tr>';
+  let hasAtt = false;
+  attRows.forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    if(inputs.length >= 3 && inputs[0].value) {
+      hasAtt = true;
+      attHtml += `<tr style="border-bottom:1px solid #f0f4f8;"><td style="padding:10px 12px;font-size:13px;">${inputs[0].value}</td><td style="padding:10px 12px;font-size:13px;">${inputs[1].value||'—'}</td><td style="padding:10px 12px;font-size:13px;">${inputs[2].value||'—'}</td></tr>`;
+    }
+  });
+  attHtml += '</table>';
+  document.getElementById('rv-attendees').innerHTML = hasAtt ? attHtml : '<div style="color:var(--slate-light);font-size:13px;">No attendees recorded.</div>';
+
+  // Calibration
+  const calRows = document.querySelectorAll('#calibList .tbl-row');
+  let calHtml = '<table style="width:100%;border-collapse:collapse;"><tr style="background:#f8fafc;"><th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">Instrument</th><th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">Tag No.</th><th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">Cert No.</th><th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">Expiry</th></tr>';
+  let hasCal = false;
+  calRows.forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    if(inputs.length >= 4 && inputs[0].value) {
+      hasCal = true;
+      calHtml += `<tr style="border-bottom:1px solid #f0f4f8;"><td style="padding:10px 12px;font-size:13px;">${inputs[0].value}</td><td style="padding:10px 12px;font-size:13px;">${inputs[1].value||'—'}</td><td style="padding:10px 12px;font-size:13px;">${inputs[2].value||'—'}</td><td style="padding:10px 12px;font-size:13px;">${inputs[3].value||'—'}</td></tr>`;
+    }
+  });
+  calHtml += '</table>';
+  document.getElementById('rv-calibration').innerHTML = hasCal ? calHtml : '<div style="color:var(--slate-light);font-size:13px;">No instruments recorded.</div>';
+
+  // Release Certificate
+  const matRel = document.getElementById('rel-materialReleased');
+  const condRel = document.getElementById('rel-conditionalRelease');
+  const condDet = document.getElementById('rel-conditionalDetails');
+  document.getElementById('rv-materialReleased').textContent = matRel ? (matRel.value||'—') : '—';
+  document.getElementById('rv-conditionalRelease').textContent = condRel ? (condRel.value||'—') : '—';
+  if(condRel && condRel.value === 'Yes' && condDet && condDet.value){
+    document.getElementById('rv-conditionalDetailsWrap').style.display = 'block';
+    document.getElementById('rv-conditionalDetails').textContent = condDet.value;
+  }
 }
 
 function generateReport(){
@@ -811,7 +910,7 @@ const rmBtn='<button class="btn-rm" onclick="removeRow(this)"><svg viewBox="0 0 
 function addAttendee(){addRow('attendeeList','2fr 2fr 2fr 44px','<input type="text" placeholder="Full name"/><input type="text" placeholder="Company"/><input type="text" placeholder="Position"/>'+rmBtn);}
 function addCalib(){addRow('calibList','2fr 1.5fr 2fr 1.5fr 44px','<input type="text" placeholder="Instrument description"/><input type="text" placeholder="Tag no."/><input type="text" placeholder="Cert. number"/><input type="date"/>'+rmBtn);}
 function addDoc(){addRow('docList','3fr 2fr 2fr 44px','<input type="text" placeholder="Document title"/><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/>'+rmBtn);}
-function addTimesheet(){addRow('timesheetList','1.8fr 1.2fr 1.2fr 2.5fr 1fr 44px','<input type="date"/><input type="text" placeholder="08:00"/><input type="text" placeholder="17:00"/><input type="text" placeholder="Activity"/><input type="text" placeholder="8"/>'+rmBtn);}
+function addTimesheet(){const r=document.createElement('div');r.className='tbl-row';r.style.gridTemplateColumns='1.8fr 1.2fr 1.2fr 2.5fr 1fr 44px';r.innerHTML='<input type="date"/><input type="text" placeholder="08:00"/><input type="text" placeholder="17:00"/><input type="text" placeholder="Inspection activity"/><input type="text" placeholder="8"/>'+rmBtn;document.getElementById('timesheetList').appendChild(r);}
 function addMilestone(){addRow('milestoneList','2fr 2.5fr 1.5fr 1.5fr 44px','<input type="text" placeholder="Milestone"/><input type="text" placeholder="Details…"/><input type="date"/><select><option>Pending</option><option>Complete</option><option>Waived</option></select>'+rmBtn);}
 
 function handlePhotos(e){
