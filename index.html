@@ -210,6 +210,69 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 @media(max-width:600px){.g2,.g3{grid-template-columns:1fr;}.inav-connector{max-width:8px;min-width:4px;}.inav-btn{min-width:56px;padding:10px 6px;}}
 
   .banner-img { width:100%; display:block; max-height:420px; object-fit:cover; object-position:center center; }
+
+/* Floating label inputs */
+.field-wrap{position:relative;margin-bottom:18px;}
+.field-wrap input,.field-wrap textarea,.field-wrap select{padding:18px 14px 6px 40px;height:52px;}
+.field-wrap textarea{height:120px;padding-top:24px;}
+.field-wrap .f-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--slate-light);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;transition:stroke 0.2s;}
+.field-wrap textarea~.f-icon{top:20px;transform:none;}
+.field-wrap .f-label{position:absolute;left:40px;top:50%;transform:translateY(-50%);font-size:13px;color:#a0b4c4;font-weight:500;pointer-events:none;transition:all 0.18s;background:transparent;}
+.field-wrap textarea~.f-label{top:18px;transform:none;}
+.field-wrap input:focus~.f-icon,.field-wrap input:not(:placeholder-shown)~.f-icon{stroke:var(--teal);}
+.field-wrap input:focus~.f-label,.field-wrap input:not(:placeholder-shown)~.f-label,
+.field-wrap textarea:focus~.f-label,.field-wrap textarea:not(:placeholder-shown)~.f-label,
+.field-wrap select:focus~.f-label,.field-wrap select:valid~.f-label{top:10px;transform:none;font-size:10px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:0.5px;}
+
+/* Attendee cards */
+.att-card{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1.5px solid var(--border);border-radius:var(--radius-sm);margin-bottom:10px;background:#fff;transition:all 0.2s;}
+.att-card:hover{border-color:var(--teal);box-shadow:0 2px 8px rgba(0,139,155,0.08);}
+.att-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--teal),#4CAF50);color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.att-fields{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;flex:1;}
+.att-fields input{padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;outline:none;transition:border 0.2s;}
+.att-fields input:focus{border-color:var(--teal);}
+
+/* Calibration status badge */
+.cal-row{display:grid;gap:12px;padding:12px 16px;border-bottom:1px solid #f0f4f8;align-items:center;}
+.cal-row:last-child{border-bottom:none;}
+.cal-badge{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;display:inline-block;}
+.cal-badge.valid{background:#e6f4f0;color:#4CAF50;}
+.cal-badge.expired{background:#fef2f2;color:#dc2626;}
+.cal-badge.unknown{background:#f0f4f8;color:#94a3b8;}
+
+/* Photo upload premium */
+.photo-dropzone{border:2px dashed #c8deda;border-radius:16px;padding:48px 32px;text-align:center;background:linear-gradient(135deg,#f0faf8,#f7faff);cursor:pointer;transition:all 0.25s;position:relative;}
+.photo-dropzone:hover,.photo-dropzone.dragover{border-color:var(--teal);background:linear-gradient(135deg,#e0f4f0,#eaf4ff);transform:scale(1.01);}
+.photo-dropzone .dz-icon{width:56px;height:56px;background:var(--teal-light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+.photo-dropzone .dz-icon svg{width:28px;height:28px;stroke:var(--teal);fill:none;stroke-width:1.5;}
+.photo-dropzone .dz-title{font-size:15px;font-weight:700;color:var(--slate);margin-bottom:6px;}
+.photo-dropzone .dz-sub{font-size:12px;color:var(--slate-light);}
+
+/* Release cert pill buttons */
+.rel-pill-wrap{display:flex;gap:10px;margin-top:8px;}
+.rel-pill{padding:10px 28px;border-radius:8px;border:1.5px solid var(--border);font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;background:#fff;color:var(--slate-light);}
+.rel-pill:hover{border-color:var(--teal);color:var(--teal);}
+.rel-pill.yes-active{background:#e6f4f0;border-color:#4CAF50;color:#4CAF50;box-shadow:0 2px 8px rgba(76,175,80,0.2);}
+.rel-pill.no-active{background:#fef2f2;border-color:#dc2626;color:#dc2626;box-shadow:0 2px 8px rgba(220,38,38,0.2);}
+
+/* Progress score */
+.progress-score{background:linear-gradient(135deg,var(--teal),#4CAF50);border-radius:var(--radius);padding:20px 24px;color:#fff;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.ps-label{font-size:13px;font-weight:500;opacity:0.85;}
+.ps-score{font-size:32px;font-weight:800;letter-spacing:-1px;}
+.ps-bar{height:6px;background:rgba(255,255,255,0.3);border-radius:3px;margin-top:8px;overflow:hidden;}
+.ps-bar-fill{height:100%;background:#fff;border-radius:3px;transition:width 0.5s;}
+
+/* Nav glow on active */
+.inav-btn.active .inav-circle{box-shadow:0 0 0 4px rgba(0,139,155,0.15),0 3px 12px rgba(0,139,155,0.4);}
+
+/* Doc row premium */
+.doc-row-card{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1.5px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px;background:#fff;transition:all 0.2s;}
+.doc-row-card:hover{border-color:var(--teal);box-shadow:0 2px 8px rgba(0,139,155,0.08);}
+.doc-icon{width:36px;height:36px;border-radius:8px;background:var(--teal-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.doc-icon svg{width:18px;height:18px;stroke:var(--teal);fill:none;stroke-width:1.8;}
+.doc-fields{display:grid;grid-template-columns:2fr 1.5fr 1.5fr;gap:10px;flex:1;}
+.doc-fields input{padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:13px;outline:none;transition:border 0.2s;}
+.doc-fields input:focus{border-color:var(--teal);}
 </style>
 </head>
 <body>
@@ -423,72 +486,76 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="card">
     <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">HSE Observations Checklist</div></div>
     <style>
-.hse-table{width:100%;border-collapse:collapse;}
-.hse-table th{background:#f8fafc;padding:10px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--slate-light);border-bottom:2px solid var(--border);text-align:left;}
-.hse-table th.yn{text-align:center;width:80px;}
-.hse-table td{padding:12px 16px;border-bottom:1px solid #f0f4f8;font-size:13px;color:var(--slate-mid);vertical-align:middle;}
-.hse-table td.yn{text-align:center;vertical-align:middle;}
-.hse-table tr:last-child td{border-bottom:none;}
-.hse-table tr:hover td{background:#fafcff;}
-.yn-wrap{display:flex;align-items:center;justify-content:center;gap:6px;}
-.yn-label{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:600;cursor:pointer;}
-.yn-label input[type=radio]{accent-color:var(--teal);width:15px;height:15px;cursor:pointer;}
-.item-num{font-weight:700;color:var(--teal);margin-right:8px;}
+.hse-premium-item{display:flex;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid #f0f4f8;transition:background 0.15s;}
+.hse-premium-item:last-child{border-bottom:none;}
+.hse-premium-item:hover{background:#f8fafc;}
+.hse-num{width:28px;height:28px;border-radius:50%;background:var(--teal-light);color:var(--teal);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.hse-q{flex:1;font-size:13.5px;color:var(--slate);line-height:1.5;}
+.hse-btns{display:flex;gap:8px;flex-shrink:0;}
+.hse-yn-btn{padding:7px 20px;border-radius:6px;border:1.5px solid var(--border);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;background:#fff;color:var(--slate-light);letter-spacing:0.3px;}
+.hse-yn-btn:hover{border-color:var(--teal);color:var(--teal);}
+.hse-yn-btn.yes-active{background:#e6f4f0;border-color:#4CAF50;color:#4CAF50;}
+.hse-yn-btn.no-active{background:#fef2f2;border-color:#dc2626;color:#dc2626;}
 </style>
-<table class="hse-table">
-  <thead>
-    <tr>
-      <th style="width:40px;">#</th>
-      <th>Item</th>
-      <th class="yn">Yes</th>
-      <th class="yn">No</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><span class="item-num">1</span></td>
-      <td>Have you received a safety induction (and/or toolbox health and safety talk for visit), detailing the risks &amp; rules relevant to your visit?</td>
-      <td class="yn"><input type="radio" name="hse1" value="yes"/></td>
-      <td class="yn"><input type="radio" name="hse1" value="no"/></td>
-    </tr>
-    <tr>
-      <td><span class="item-num">2</span></td>
-      <td>Are all persons in view correctly wearing suitable and sufficient personal protective equipment that is appropriate for the risks?</td>
-      <td class="yn"><input type="radio" name="hse2" value="yes"/></td>
-      <td class="yn"><input type="radio" name="hse2" value="no"/></td>
-    </tr>
-    <tr>
-      <td><span class="item-num">3</span></td>
-      <td>Is the site clean and well organised with good housekeeping and waste disposal arrangements?</td>
-      <td class="yn"><input type="radio" name="hse3" value="yes"/></td>
-      <td class="yn"><input type="radio" name="hse3" value="no"/></td>
-    </tr>
-    <tr>
-      <td><span class="item-num">4</span></td>
-      <td>Are all personnel seen to be working in a safe manner during your visit?</td>
-      <td class="yn"><input type="radio" name="hse4" value="yes"/></td>
-      <td class="yn"><input type="radio" name="hse4" value="no"/></td>
-    </tr>
-    <tr>
-      <td><span class="item-num">5</span></td>
-      <td>Is the machinery and equipment seen to be well maintained and operated in a safe manner?</td>
-      <td class="yn"><input type="radio" name="hse5" value="yes"/></td>
-      <td class="yn"><input type="radio" name="hse5" value="no"/></td>
-    </tr>
-    <tr>
-      <td><span class="item-num">6</span></td>
-      <td>Has your visit been free from any incidents, accidents or dangerous occurrences (Slips, Trips, Dropped Equipment, CoSHH)?</td>
-      <td class="yn"><input type="radio" name="hse6" value="yes"/></td>
-      <td class="yn"><input type="radio" name="hse6" value="no"/></td>
-    </tr>
-    <tr>
-      <td><span class="item-num">7</span></td>
-      <td>Do the Management of the premises visited convey a positive Health and Safety Culture?</td>
-      <td class="yn"><input type="radio" name="hse7" value="yes"/></td>
-      <td class="yn"><input type="radio" name="hse7" value="no"/></td>
-    </tr>
-  </tbody>
-</table>
+
+<div id="hse-items">
+  <div class="hse-premium-item">
+    <div class="hse-num">1</div>
+    <div class="hse-q">Have you received a safety induction (and/or toolbox health and safety talk for visit), detailing the risks &amp; rules relevant to your visit?</div>
+    <div class="hse-btns">
+      <button class="hse-yn-btn" onclick="selectHSE(this,'hse1','yes')" data-group="hse1" data-val="yes">Yes</button>
+      <button class="hse-yn-btn" onclick="selectHSE(this,'hse1','no')" data-group="hse1" data-val="no">No</button>
+    </div>
+  </div>
+  <div class="hse-premium-item">
+    <div class="hse-num">2</div>
+    <div class="hse-q">Are all persons in view correctly wearing suitable and sufficient personal protective equipment that is appropriate for the risks?</div>
+    <div class="hse-btns">
+      <button class="hse-yn-btn" onclick="selectHSE(this,'hse2','yes')" data-group="hse2" data-val="yes">Yes</button>
+      <button class="hse-yn-btn" onclick="selectHSE(this,'hse2','no')" data-group="hse2" data-val="no">No</button>
+    </div>
+  </div>
+  <div class="hse-premium-item">
+    <div class="hse-num">3</div>
+    <div class="hse-q">Is the site clean and well organised with good housekeeping and waste disposal arrangements?</div>
+    <div class="hse-btns">
+      <button class="hse-yn-btn" onclick="selectHSE(this,'hse3','yes')" data-group="hse3" data-val="yes">Yes</button>
+      <button class="hse-yn-btn" onclick="selectHSE(this,'hse3','no')" data-group="hse3" data-val="no">No</button>
+    </div>
+  </div>
+  <div class="hse-premium-item">
+    <div class="hse-num">4</div>
+    <div class="hse-q">Are all personnel seen to be working in a safe manner during your visit?</div>
+    <div class="hse-btns">
+      <button class="hse-yn-btn" onclick="selectHSE(this,'hse4','yes')" data-group="hse4" data-val="yes">Yes</button>
+      <button class="hse-yn-btn" onclick="selectHSE(this,'hse4','no')" data-group="hse4" data-val="no">No</button>
+    </div>
+  </div>
+  <div class="hse-premium-item">
+    <div class="hse-num">5</div>
+    <div class="hse-q">Is the machinery and equipment seen to be well maintained and operated in a safe manner?</div>
+    <div class="hse-btns">
+      <button class="hse-yn-btn" onclick="selectHSE(this,'hse5','yes')" data-group="hse5" data-val="yes">Yes</button>
+      <button class="hse-yn-btn" onclick="selectHSE(this,'hse5','no')" data-group="hse5" data-val="no">No</button>
+    </div>
+  </div>
+  <div class="hse-premium-item">
+    <div class="hse-num">6</div>
+    <div class="hse-q">Has your visit been free from any incidents, accidents or dangerous occurrences (Slips, Trips, Dropped Equipment, CoSHH)?</div>
+    <div class="hse-btns">
+      <button class="hse-yn-btn" onclick="selectHSE(this,'hse6','yes')" data-group="hse6" data-val="yes">Yes</button>
+      <button class="hse-yn-btn" onclick="selectHSE(this,'hse6','no')" data-group="hse6" data-val="no">No</button>
+    </div>
+  </div>
+  <div class="hse-premium-item">
+    <div class="hse-num">7</div>
+    <div class="hse-q">Do the Management of the premises visited convey a positive Health and Safety Culture?</div>
+    <div class="hse-btns">
+      <button class="hse-yn-btn" onclick="selectHSE(this,'hse7','yes')" data-group="hse7" data-val="yes">Yes</button>
+      <button class="hse-yn-btn" onclick="selectHSE(this,'hse7','no')" data-group="hse7" data-val="no">No</button>
+    </div>
+  </div>
+</div>
     <div class="card-body" style="border-top:1px solid var(--border);">
       <div class="field"><div class="field-lbl">Additional HSE Observations</div><textarea placeholder="Any additional safety or environmental observations…"></textarea></div>
     </div>
@@ -505,13 +572,18 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="card">
     <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Attendees</div></div>
     <div class="card-body">
-      <div class="tbl-wrap">
-        <div class="tbl-head" style="grid-template-columns:2fr 2fr 2fr 44px;"><span>Name</span><span>Company</span><span>Position</span><span></span></div>
-        <div id="attendeeList">
-          <div class="tbl-row" style="grid-template-columns:2fr 2fr 2fr 44px;"><input type="text" placeholder="Full name"/><input type="text" placeholder="Company"/><input type="text" placeholder="Position"/><button class="btn-rm" onclick="removeRow(this)"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+      <div id="attendeeList">
+        <div class="att-card">
+          <div class="att-avatar" id="att-av-0">?</div>
+          <div class="att-fields">
+            <input type="text" placeholder="Full name" oninput="updateAvatar(this,0)"/>
+            <input type="text" placeholder="Company"/>
+            <input type="text" placeholder="Position"/>
+          </div>
+          <button class="btn-rm" onclick="removeAttCard(this)"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
         </div>
       </div>
-      <button class="btn-add" onclick="addAttendee()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add attendee</button>
+      <button class="btn-add" onclick="addAttendeeCard()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add attendee</button>
     </div>
   </div>
   <div class="btn-actions"><button class="btn-next" onclick="goTab(5)">Next — Documents<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
@@ -589,10 +661,10 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="sec-desc">Upload photographic evidence from the inspection visit</div>
   <div class="card">
     <div class="card-body">
-      <div class="upload-zone" onclick="document.getElementById('photoInput').click()">
-        <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-        <div class="uz-title">Click to upload inspection photos</div>
-        <div class="uz-sub">JPG, PNG, HEIC — multiple files supported</div>
+      <div class="photo-dropzone" onclick="document.getElementById('photoInput').click()" id="dropzone">
+        <div class="dz-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+        <div class="dz-title">Drop photos here or click to upload</div>
+        <div class="dz-sub">JPG, PNG, HEIC — multiple files supported</div>
       </div>
       <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="handlePhotos(event)"/>
       <div class="photo-grid" id="photoGrid"></div>
@@ -705,19 +777,19 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div class="g2">
         <div class="field">
           <div class="field-lbl">Material Released</div>
-          <select id="rel-materialReleased" onchange="checkConditional()">
-            <option value="">— Select —</option>
-            <option>Yes</option>
-            <option>No</option>
-          </select>
+          <div class="rel-pill-wrap">
+            <button class="rel-pill" onclick="selectPill(this,'rel-materialReleased','Yes')" data-relgroup="rel-materialReleased" data-val="Yes">✓ Yes</button>
+            <button class="rel-pill" onclick="selectPill(this,'rel-materialReleased','No')" data-relgroup="rel-materialReleased" data-val="No">✗ No</button>
+          </div>
+          <input type="hidden" id="rel-materialReleased" value=""/>
         </div>
         <div class="field">
           <div class="field-lbl">Material Conditionally Released</div>
-          <select id="rel-conditionalRelease" onchange="checkConditional()">
-            <option value="">— Select —</option>
-            <option>Yes</option>
-            <option>No</option>
-          </select>
+          <div class="rel-pill-wrap">
+            <button class="rel-pill" onclick="selectPill(this,'rel-conditionalRelease','Yes')" data-relgroup="rel-conditionalRelease" data-val="Yes">✓ Yes</button>
+            <button class="rel-pill" onclick="selectPill(this,'rel-conditionalRelease','No')" data-relgroup="rel-conditionalRelease" data-val="No">✗ No</button>
+          </div>
+          <input type="hidden" id="rel-conditionalRelease" value=""/>
         </div>
       </div>
       <div class="field" id="rel-conditionalDetailsWrap" style="display:none;">
@@ -734,6 +806,14 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="sec-eyebrow">Section 10.0 — Review &amp; Submit</div>
   <div class="sec-title">Review &amp; Submit</div>
   <div class="sec-desc">Confirm your entries are correct before final submission</div>
+  <div class="progress-score" id="progressScore">
+    <div>
+      <div class="ps-label">Sections Completed</div>
+      <div class="ps-score" id="ps-score-num">0 / 10</div>
+      <div class="ps-bar"><div class="ps-bar-fill" id="ps-bar-fill" style="width:0%"></div></div>
+    </div>
+    <div style="font-size:48px;opacity:0.3;">✓</div>
+  </div>
   <div class="card">
     <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Report Summary</div></div>
     <div class="card-body">
@@ -810,7 +890,7 @@ function updateReleaseSummary(){
   document.getElementById('rc-dates').textContent=(df&&dt)?df+' → '+dt:(df||dt||'—');
 }
 
-function buildReview(){
+function buildReview(){ calcProgressScore();
   const v = id => document.getElementById(id) ? (document.getElementById(id).value||'—') : '—';
 
   // Contact
@@ -839,13 +919,12 @@ function buildReview(){
     'Visit free from incidents / accidents',
     'Management conveys positive H&S culture'
   ];
-  const hseRadios = document.querySelectorAll('input[name^="hse"]');
   let hseHtml = '<table style="width:100%;border-collapse:collapse;">';
   hseHtml += '<tr style="background:#f8fafc;"><th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">#</th><th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">Item</th><th style="padding:8px 12px;text-align:center;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;border-bottom:1px solid var(--border);">Response</th></tr>';
   for(let i=0;i<7;i++){
-    const yes = document.querySelector(`input[name="hse${i+1}"][value="yes"]`);
-    const no = document.querySelector(`input[name="hse${i+1}"][value="no"]`);
-    const ans = yes&&yes.checked ? '<span style="color:#4CAF50;font-weight:700;">Yes</span>' : no&&no.checked ? '<span style="color:#dc2626;font-weight:700;">No</span>' : '<span style="color:#aaa;">—</span>';
+    const inp = document.getElementById(`hse-input-hse${i+1}`);
+    const val = inp ? inp.value : '';
+    const ans = val==='yes' ? '<span style="background:#e6f4f0;color:#4CAF50;font-weight:700;padding:3px 12px;border-radius:20px;font-size:12px;">Yes</span>' : val==='no' ? '<span style="background:#fef2f2;color:#dc2626;font-weight:700;padding:3px 12px;border-radius:20px;font-size:12px;">No</span>' : '<span style="color:#aaa;">—</span>';
     hseHtml += `<tr style="border-bottom:1px solid #f0f4f8;"><td style="padding:10px 12px;font-weight:700;color:var(--teal);">${i+1}</td><td style="padding:10px 12px;font-size:13px;">${hseQuestions[i]}</td><td style="padding:10px 12px;text-align:center;">${ans}</td></tr>`;
   }
   hseHtml += '</table>';
@@ -975,6 +1054,101 @@ function addNCR(){
   document.getElementById('ncrList').appendChild(r);
 }
 
+function updateAvatar(input, idx){
+  const av = document.getElementById('att-av-'+idx);
+  if(av && input.value){
+    const parts = input.value.trim().split(' ');
+    av.textContent = parts.length>1 ? (parts[0][0]+parts[parts.length-1][0]).toUpperCase() : parts[0][0].toUpperCase();
+  } else if(av){
+    av.textContent = '?';
+  }
+}
+
+let attCount = 1;
+function addAttendeeCard(){
+  const list = document.getElementById('attendeeList');
+  const idx = attCount++;
+  const card = document.createElement('div');
+  card.className = 'att-card';
+  card.innerHTML = `<div class="att-avatar" id="att-av-${idx}">?</div><div class="att-fields"><input type="text" placeholder="Full name" oninput="updateAvatar(this,${idx})"/><input type="text" placeholder="Company"/><input type="text" placeholder="Position"/></div><button class="btn-rm" onclick="removeAttCard(this)"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`;
+  list.appendChild(card);
+}
+function removeAttCard(btn){ btn.closest('.att-card').remove(); }
+
+function selectPill(btn, group, val){
+  document.querySelectorAll(`[data-relgroup="${group}"]`).forEach(b=>{
+    b.classList.remove('yes-active','no-active');
+  });
+  btn.classList.add(val==='Yes'?'yes-active':'no-active');
+  const inp = document.getElementById(group);
+  if(inp) inp.value = val;
+  if(group==='rel-conditionalRelease') checkConditional();
+}
+
+function calcProgressScore(){
+  let done = 0;
+  const checks = [
+    ()=>document.getElementById('f-client')?.value,
+    ()=>document.getElementById('f-gqsNum')?.value,
+    ()=>document.getElementById('f-scope')?.value,
+    ()=>document.querySelector('#hse-items .yes-active, #hse-items .no-active'),
+    ()=>document.querySelector('#attendeeList .att-card input')?.value,
+    ()=>document.querySelector('#docList .tbl-row input')?.value,
+    ()=>document.querySelector('#calibList .tbl-row input')?.value,
+    ()=>document.querySelector('#photoGrid .p-thumb'),
+    ()=>document.getElementById('aiNarrative')?.textContent?.length > 50,
+    ()=>document.getElementById('rel-materialReleased')?.value,
+  ];
+  checks.forEach(c=>{ try{ if(c()) done++; }catch(e){} });
+  const pct = Math.round(done/checks.length*100);
+  const el = document.getElementById('ps-score-num');
+  const bar = document.getElementById('ps-bar-fill');
+  if(el) el.textContent = done+' / '+checks.length;
+  if(bar) bar.style.width = pct+'%';
+}
+
+// Drag and drop for photos
+document.addEventListener('DOMContentLoaded', ()=>{
+  const dz = document.getElementById('dropzone');
+  if(dz){
+    dz.addEventListener('dragover', e=>{ e.preventDefault(); dz.classList.add('dragover'); });
+    dz.addEventListener('dragleave', ()=>dz.classList.remove('dragover'));
+    dz.addEventListener('drop', e=>{ e.preventDefault(); dz.classList.remove('dragover'); handlePhotosFromFiles(e.dataTransfer.files); });
+  }
+});
+
+function handlePhotosFromFiles(files){
+  const grid = document.getElementById('photoGrid');
+  Array.from(files).forEach(file=>{
+    if(!file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = ev=>{
+      const div = document.createElement('div'); div.className='p-thumb';
+      div.innerHTML=`<img src="${ev.target.result}"/><button class="p-rm" onclick="this.parentElement.remove()">✕</button>`;
+      grid.appendChild(div);
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function selectHSE(btn, group, val){
+  // Reset all buttons in group
+  document.querySelectorAll(`[data-group="${group}"]`).forEach(b => {
+    b.classList.remove('yes-active','no-active');
+  });
+  // Set active
+  btn.classList.add(val === 'yes' ? 'yes-active' : 'no-active');
+  // Store value in hidden input for review
+  let input = document.getElementById('hse-input-'+group);
+  if(!input){
+    input = document.createElement('input');
+    input.type = 'hidden';
+    input.id = 'hse-input-'+group;
+    document.body.appendChild(input);
+  }
+  input.value = val;
+}
+
 function calcTotal(){
   const w = parseFloat(document.getElementById('ts-workTime')?.value)||0;
   const tr = parseFloat(document.getElementById('ts-travelTime')?.value)||0;
@@ -985,8 +1159,10 @@ function calcTotal(){
 }
 
 function checkConditional(){
-  const val = document.getElementById('rel-conditionalRelease').value;
-  document.getElementById('rel-conditionalDetailsWrap').style.display = val === 'Yes' ? 'block' : 'none';
+  const inp = document.getElementById('rel-conditionalRelease');
+  const val = inp ? inp.value : '';
+  const wrap = document.getElementById('rel-conditionalDetailsWrap');
+  if(wrap) wrap.style.display = val === 'Yes' ? 'block' : 'none';
 }
 
 function populateReleaseCert(){
