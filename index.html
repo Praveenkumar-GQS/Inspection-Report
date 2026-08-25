@@ -163,10 +163,13 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .upload-zone svg{width:40px;height:40px;stroke:var(--teal);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px;opacity:0.7;}
 .upload-zone .uz-title{font-size:14px;font-weight:600;color:var(--teal);margin-bottom:4px;}
 .upload-zone .uz-sub{font-size:12px;color:var(--slate-light);}
-.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px;margin-top:16px;}
-.p-thumb{position:relative;border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1;background:#e8eef4;box-shadow:var(--shadow-sm);}
-.p-thumb img{width:100%;height:100%;object-fit:cover;}
-.p-rm{position:absolute;top:5px;right:5px;background:rgba(0,0,0,0.5);color:#fff;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin-top:16px;}
+.p-thumb{position:relative;border-radius:var(--radius-sm);overflow:hidden;background:#e8eef4;box-shadow:var(--shadow-sm);}
+.p-thumb img{width:100%;height:160px;object-fit:cover;display:block;}
+.p-rm{position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.55);color:#fff;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.p-caption{width:100%;padding:7px 10px;border:none;border-top:1px solid var(--border);font-size:12px;font-family:inherit;outline:none;background:#fff;color:var(--slate);resize:none;}
+.p-caption:focus{background:#f8fffe;}
+.p-caption::placeholder{color:#b8ccd8;}
 
 /* ── AI SECTION ── */
 .ai-badge{background:linear-gradient(135deg,#e6f4f2,#f0faf8);border:1px solid #b8ddd6;border-radius:var(--radius-sm);padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:16px;}
@@ -1140,11 +1143,18 @@ function buildReview(){ calcProgressScore();
   const narrativeText = narrative ? narrative.textContent.trim() : '';
   document.getElementById('rv-narrative').textContent = narrativeText && narrativeText !== 'Enter your inspection narrative here — describe activities carried out, observations, findings and results…' ? narrativeText : 'No narrative entered.';
 
-  // Photos
-  const photos = document.querySelectorAll('#photoGrid .p-thumb img');
-  if(photos.length > 0){
-    let photoHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;">';
-    photos.forEach(img => { photoHtml += `<img src="${img.src}" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;"/>`; });
+  // Photos with captions
+  const photoThumbs = document.querySelectorAll('#photoGrid .p-thumb');
+  if(photoThumbs.length > 0){
+    let photoHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;">';
+    photoThumbs.forEach(thumb => {
+      const img = thumb.querySelector('img');
+      const caption = thumb.querySelector('.p-caption')?.value || '';
+      photoHtml += `<div style="border-radius:8px;overflow:hidden;border:1px solid var(--border);">
+        <img src="${img.src}" style="width:100%;height:140px;object-fit:cover;display:block;"/>
+        ${caption ? `<div style="padding:6px 10px;font-size:12px;color:var(--slate-mid);background:#f8fafc;">${caption}</div>` : ''}
+      </div>`;
+    });
     photoHtml += '</div>';
     document.getElementById('rv-photos').innerHTML = photoHtml;
   } else {
