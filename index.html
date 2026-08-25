@@ -304,6 +304,8 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .coord-approve-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;}
 .coord-approved-badge{background:#e6f4f0;border:1.5px solid #4CAF50;color:#2d7a3a;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;}
 .coord-approved-badge svg{width:18px;height:18px;stroke:#4CAF50;fill:none;stroke-width:2.5;}
+
+.rc-val{padding:10px 14px;background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13.5px;color:var(--slate);min-height:42px;line-height:1.5;}
 </style>
 </head>
 <body>
@@ -441,6 +443,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="sidebar-item" id="sb-7" onclick="goTab(7)"><div class="sidebar-lbl">Photographs</div><div class="sidebar-check">✓</div></div>
   <div class="sidebar-item" id="sb-8" onclick="goTab(8)"><div class="sidebar-lbl">All Report</div><div class="sidebar-check">✓</div></div>
   <div class="sidebar-item" id="sb-9" onclick="goTab(9)"><div class="sidebar-lbl">Release Certificate</div><div class="sidebar-check">✓</div></div>
+  <div class="sidebar-item" id="sb-10" onclick="goTab(10)"><div class="sidebar-lbl">Supporting Docs</div><div class="sidebar-check">✓</div></div>
   <div class="sidebar-item" id="sb-11" onclick="goTab(11)"><div class="sidebar-lbl">Review &amp; Submit</div><div class="sidebar-check">✓</div></div></div>
 
 <div class="main">
@@ -820,7 +823,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="sec-title">Release Certificate</div>
   <div class="sec-desc">Is a Release Certificate required for this inspection?</div>
 
-  <!-- Yes/No Question -->
+  <!-- Yes/No -->
   <div class="card" style="margin-bottom:20px;">
     <div class="card-body" style="padding:20px 24px;">
       <div class="field-lbl" style="margin-bottom:12px;">Release Certificate Required?</div>
@@ -831,83 +834,140 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
     </div>
   </div>
 
-  <!-- Release Certificate Content (hidden by default) -->
+  <!-- Full Release Certificate (shown when Yes) -->
   <div id="release-cert-content" style="display:none;">
 
-  <!-- Contact Details Summary -->
+  <!-- Section 1.0 Contact Details -->
   <div class="card">
-    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">1. Contact Details</div></div>
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Section 1.0 — Contact Details</div></div>
     <div class="card-body">
       <div class="g2">
-        <div class="field"><div class="field-lbl">Client</div><div class="rel-val" id="rel-client" style="padding:10px 14px;background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13.5px;color:var(--slate);min-height:42px;">—</div></div>
-        <div class="field"><div class="field-lbl">Inspector</div><div class="rel-val" id="rel-inspector" style="padding:10px 14px;background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13.5px;color:var(--slate);min-height:42px;">—</div></div>
-        <div class="field"><div class="field-lbl">Client Contact</div><div class="rel-val" id="rel-clientContact" style="padding:10px 14px;background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13.5px;color:var(--slate);min-height:42px;">—</div></div>
-        <div class="field"><div class="field-lbl">GQS Contact</div><div class="rel-val" id="rel-gqsContact" style="padding:10px 14px;background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13.5px;color:var(--slate);min-height:42px;">—</div></div>
+        <div class="field"><div class="field-lbl">Client</div><div class="rc-val" id="rc-client">—</div></div>
+        <div class="field"><div class="field-lbl">Inspector</div><div class="rc-val" id="rc-inspector">—</div></div>
+        <div class="field"><div class="field-lbl">Client Contact</div><div class="rc-val" id="rc-clientContact">—</div></div>
+        <div class="field"><div class="field-lbl">GQS Contact</div><div class="rc-val" id="rc-gqsContact">—</div></div>
       </div>
     </div>
   </div>
 
-  <!-- Job Details Summary -->
+  <!-- Section 2.0 Job Details -->
   <div class="card">
-    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">2. Job Details</div></div>
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Section 2.0 — Job Details</div></div>
     <div class="card-body">
       <div class="g2">
-        <div class="field"><div class="field-lbl">GQS Number</div><div class="rel-val" id="rel-gqsNum" style="padding:10px 14px;background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13.5px;color:var(--slate);min-height:42px;">—</div></div>
-        <div class="field"><div class="field-lbl">PO Number</div><div class="rel-val" id="rel-po" style="padding:10px 14px;background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13.5px;color:var(--slate);min-height:42px;">—</div></div>
-        <div class="field"><div class="field-lbl">Vendor Name</div><div class="rel-val" id="rel-vendor" style="padding:10px 14px;background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13.5px;color:var(--slate);min-height:42px;">—</div></div>
-        <div class="field"><div class="field-lbl">Vendor Location</div><div class="rel-val" id="rel-vendorLoc" style="padding:10px 14px;background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13.5px;color:var(--slate);min-height:42px;">—</div></div>
-        <div class="field"><div class="field-lbl">Project</div><div class="rel-val" id="rel-project" style="padding:10px 14px;background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13.5px;color:var(--slate);min-height:42px;">—</div></div>
-        <div class="field"><div class="field-lbl">Visit Period</div><div class="rel-val" id="rel-dates" style="padding:10px 14px;background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13.5px;color:var(--slate);min-height:42px;">—</div></div>
+        <div class="field"><div class="field-lbl">GQS Number</div><div class="rc-val" id="rc-gqsNum">—</div></div>
+        <div class="field"><div class="field-lbl">PO Number</div><div class="rc-val" id="rc-po">—</div></div>
+        <div class="field"><div class="field-lbl">Vendor Name</div><div class="rc-val" id="rc-vendor">—</div></div>
+        <div class="field"><div class="field-lbl">Project</div><div class="rc-val" id="rc-project">—</div></div>
+        <div class="field"><div class="field-lbl">Vendor Location</div><div class="rc-val" id="rc-vendorLoc">—</div></div>
+        <div class="field"><div class="field-lbl">Call Off Number</div><input type="text" placeholder="Enter call off number"/></div>
+        <div class="field"><div class="field-lbl">Cost Centre</div><input type="text" placeholder="Enter cost centre"/></div>
       </div>
+      <div class="g2" style="margin-top:4px;">
+        <div class="field"><div class="field-lbl">Visit Date From</div><div class="rc-val" id="rc-dateFrom">—</div></div>
+        <div class="field"><div class="field-lbl">Visit Date To</div><div class="rc-val" id="rc-dateTo">—</div></div>
+      </div>
+      <div class="field"><div class="field-lbl">Scope of Work</div><div class="rc-val" id="rc-scope" style="min-height:60px;line-height:1.6;">—</div></div>
     </div>
   </div>
 
-  <!-- Document Details Summary -->
+  <!-- Section 3.0 Inspection Release Details -->
   <div class="card">
-    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">3. Document Details</div></div>
-    <div class="card-body">
-      <div class="tbl-wrap">
-        <div class="tbl-head" style="grid-template-columns:3fr 2fr 2fr;"><span>Document Title</span><span>Document Number</span><span>Revision Status</span></div>
-        <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr;"><div class="tbl-fixed">Inspection &amp; Test Plan (ITP)</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/></div>
-        <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr;"><div class="tbl-fixed">Procedure(s)</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/></div>
-        <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr;"><div class="tbl-fixed">Drawing(s)</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Inspection Release Details -->
-  <div class="card">
-    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">4. Inspection Release Details</div></div>
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Section 3.0 — Inspection Release Details</div></div>
     <div class="card-body">
       <div class="g2">
         <div class="field">
           <div class="field-lbl">Material Released</div>
-          <div class="rel-pill-wrap">
-            <button class="rel-pill" onclick="selectPill(this,'rel-materialReleased','Yes')" data-relgroup="rel-materialReleased" data-val="Yes">✓ Yes</button>
-            <button class="rel-pill" onclick="selectPill(this,'rel-materialReleased','No')" data-relgroup="rel-materialReleased" data-val="No">✗ No</button>
+          <div style="display:flex;gap:8px;margin-top:6px;">
+            <button class="rel-pill" onclick="selectPill(this,'rc-mat-released','Yes')" data-relgroup="rc-mat-released" data-val="Yes">✓ Yes</button>
+            <button class="rel-pill" onclick="selectPill(this,'rc-mat-released','No')" data-relgroup="rc-mat-released" data-val="No">✗ No</button>
           </div>
-          <input type="hidden" id="rel-materialReleased" value=""/>
+          <input type="hidden" id="rc-mat-released" value=""/>
         </div>
         <div class="field">
           <div class="field-lbl">Material Conditionally Released</div>
-          <div class="rel-pill-wrap">
-            <button class="rel-pill" onclick="selectPill(this,'rel-conditionalRelease','Yes')" data-relgroup="rel-conditionalRelease" data-val="Yes">✓ Yes</button>
-            <button class="rel-pill" onclick="selectPill(this,'rel-conditionalRelease','No')" data-relgroup="rel-conditionalRelease" data-val="No">✗ No</button>
+          <div style="display:flex;gap:8px;margin-top:6px;">
+            <button class="rel-pill" onclick="selectPill(this,'rc-cond-released','Yes');toggleRcCond()" data-relgroup="rc-cond-released" data-val="Yes">✓ Yes</button>
+            <button class="rel-pill" onclick="selectPill(this,'rc-cond-released','No');toggleRcCond()" data-relgroup="rc-cond-released" data-val="No">✗ No</button>
           </div>
-          <input type="hidden" id="rel-conditionalRelease" value=""/>
+          <input type="hidden" id="rc-cond-released" value=""/>
         </div>
       </div>
-      <div class="field" id="rel-conditionalDetailsWrap" style="display:none;">
+      <div class="field" id="rc-cond-details-wrap" style="display:none;">
         <div class="field-lbl">If Material Is Conditionally Released Please Give Details Below</div>
-        <textarea id="rel-conditionalDetails" placeholder="Please provide details of the conditional release…"></textarea>
+        <textarea placeholder="Provide details of the conditional release…"></textarea>
       </div>
     </div>
   </div>
 
-  <div class="btn-actions"><button class="btn-next" onclick="goTab(10)">Next — Review &amp; Submit<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
+  <!-- Section 4.0 Order Details -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Section 4.0 — Order Details</div></div>
+    <div class="card-body">
+      <div class="field-lbl" style="margin-bottom:10px;">Order Complete</div>
+      <div style="display:flex;gap:10px;">
+        <button class="rel-pill" onclick="selectPill(this,'rc-order-complete','Yes')" data-relgroup="rc-order-complete" data-val="Yes">✓ Yes</button>
+        <button class="rel-pill" onclick="selectPill(this,'rc-order-complete','No')" data-relgroup="rc-order-complete" data-val="No">✗ No</button>
+      </div>
+      <input type="hidden" id="rc-order-complete" value=""/>
+    </div>
+  </div>
+
+  <!-- Section 5.0 Documentation Used -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Section 5.0 — Documentation Used</div></div>
+    <div class="card-body">
+      <div style="font-size:12px;color:var(--slate-light);margin-bottom:14px;">List applicable documents and respective status:</div>
+      <div class="tbl-wrap">
+        <div class="tbl-head" style="grid-template-columns:3fr 2fr 2fr 44px;"><span>Document Title</span><span>Document Number</span><span>Revision Status</span><span></span></div>
+        <div id="rcDocList">
+          <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr 44px;"><div class="tbl-fixed">Inspection &amp; Test Plan (ITP)</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><span></span></div>
+          <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr 44px;"><div class="tbl-fixed">Procedure(s)</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><span></span></div>
+          <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr 44px;"><div class="tbl-fixed">Drawing(s)</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><span></span></div>
+          <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr 44px;"><input type="text" placeholder="Other, please detail…"/><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><button class="btn-rm" onclick="removeRow(this)"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+        </div>
+      </div>
+      <button class="btn-add" onclick="addRcDoc()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add document</button>
+    </div>
+  </div>
+
+  <!-- Inspector Sign-off -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Inspector Signature &amp; Stamp</div></div>
+    <div class="card-body">
+      <div class="g2" style="margin-bottom:20px;">
+        <div class="field">
+          <div class="field-lbl">Inspector Name</div>
+          <input type="text" placeholder="Inspector full name"/>
+        </div>
+        <div class="field">
+          <div class="field-lbl">Inspector Stamp Number</div>
+          <input type="text" placeholder="e.g. 133"/>
+        </div>
+      </div>
+      <div class="field-lbl" style="margin-bottom:10px;">Upload GQS Inspector Stamp</div>
+      <div id="stamp-preview" style="display:none;margin-bottom:12px;border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#fff;padding:12px;text-align:center;">
+        <img id="stamp-img" src="" alt="Stamp" style="max-height:140px;max-width:100%;object-fit:contain;"/>
+        <button onclick="removeStamp()" style="display:block;width:100%;margin-top:10px;background:#fef2f2;color:#dc2626;border:1px solid #fee2e2;border-radius:6px;padding:6px;font-size:12px;font-weight:600;cursor:pointer;">Remove stamp</button>
+      </div>
+      <div id="stamp-upload-zone" onclick="document.getElementById('stampInput').click()"
+        style="border:2px dashed #c8deda;border-radius:var(--radius);padding:32px 24px;text-align:center;background:#f8fafc;cursor:pointer;transition:all 0.2s;"
+        onmouseover="this.style.borderColor='var(--teal)';this.style.background='var(--teal-pale)'"
+        onmouseout="this.style.borderColor='#c8deda';this.style.background='#f8fafc'">
+        <div style="font-size:36px;margin-bottom:10px;">🔏</div>
+        <div style="font-size:13px;font-weight:600;color:var(--teal);margin-bottom:4px;">Click to upload or drag &amp; drop your GQS stamp image</div>
+        <div style="font-size:11px;color:var(--slate-light);">JPG, PNG — your official GQS inspector stamp</div>
+      </div>
+      <input type="file" id="stampInput" accept="image/*" style="display:none" onchange="handleStampUpload(event)"/>
+
+    </div>
+  </div>
+
+  </div><!-- /release-cert-content -->
+
+  <div class="btn-actions"><button class="btn-next" onclick="goTab(10)">Next — Supporting Docs<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
 </div>
 
-<!-- TAB 10: SUPPORTING DOCUMENTS -->
 <div id="tab-10" class="screen">
   <div class="sec-eyebrow">Section 10.0 — Supporting Documents</div>
   <div class="sec-title">Supporting Documents</div>
@@ -1425,6 +1485,39 @@ function coordApprove(){
 }
 
 
+function toggleRcCond(){
+  const val = document.getElementById('rc-cond-released').value;
+  document.getElementById('rc-cond-details-wrap').style.display = val === 'Yes' ? 'block' : 'none';
+}
+
+function handleStampUpload(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    document.getElementById('stamp-img').src = ev.target.result;
+    document.getElementById('stamp-preview').style.display = 'block';
+    document.getElementById('stamp-upload-zone').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+}
+
+function removeStamp(){
+  document.getElementById('stamp-img').src = '';
+  document.getElementById('stamp-preview').style.display = 'none';
+  document.getElementById('stamp-upload-zone').style.display = 'block';
+}
+
+function addRcDoc(){
+  const rmBtn = '<button class="btn-rm" onclick="removeRow(this)"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
+  const r = document.createElement('div');
+  r.className = 'tbl-row';
+  r.style.gridTemplateColumns = '3fr 2fr 2fr 44px';
+  r.innerHTML = '<input type="text" placeholder="Document title…"/><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/>' + rmBtn;
+  document.getElementById('rcDocList').appendChild(r);
+}
+
 function toggleReleaseCert(btn, val){
   // Update pill styles
   document.querySelectorAll('[data-rc]').forEach(b => b.classList.remove('yes-active','no-active'));
@@ -1632,20 +1725,34 @@ function checkConditional(){
 }
 
 function populateReleaseCert(){
-  const v = (id) => document.getElementById(id) ? document.getElementById(id).value || '—' : '—';
-  document.getElementById('rel-client').textContent = v('f-client');
-  document.getElementById('rel-inspector').textContent = v('f-inspector');
-  document.getElementById('rel-clientContact').textContent = v('f-clientContact');
-  document.getElementById('rel-gqsContact').textContent = v('f-gqsContact');
-  document.getElementById('rel-gqsNum').textContent = v('f-gqsNum');
-  document.getElementById('rel-po').textContent = v('f-po');
-  document.getElementById('rel-vendor').textContent = v('f-vendor');
-  document.getElementById('rel-vendorLoc').textContent = v('f-vendorLoc');
-  document.getElementById('rel-project').textContent = v('f-project');
-  const df = document.getElementById('f-dateFrom').value;
-  const dt = document.getElementById('f-dateTo').value;
-  document.getElementById('rel-dates').textContent = (df && dt) ? df + ' → ' + dt : (df || dt || '—');
+  const v = id => document.getElementById(id)?.value || '—';
+  const setRc = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val || '—'; };
+
+  setRc('rc-client', v('f-client'));
+  setRc('rc-inspector', v('f-inspector'));
+  setRc('rc-clientContact', v('f-clientContact'));
+  setRc('rc-gqsContact', v('f-gqsContact'));
+  setRc('rc-gqsNum', v('f-gqsNum'));
+  setRc('rc-po', v('f-po'));
+  setRc('rc-vendor', v('f-vendor'));
+  setRc('rc-project', v('f-project'));
+  setRc('rc-vendorLoc', v('f-vendorLoc'));
+  setRc('rc-scope', v('f-scope'));
+  const df = document.getElementById('f-dateFrom')?.value;
+  const dt = document.getElementById('f-dateTo')?.value;
+  setRc('rc-dateFrom', df);
+  setRc('rc-dateTo', dt);
+
+  // Also populate old release summary fields if they exist
+  const oldFields = {'rel-client':'f-client','rel-inspector':'f-inspector','rel-gqsNum':'f-gqsNum','rel-po':'f-po','rel-vendor':'f-vendor','rel-vendorLoc':'f-vendorLoc','rel-project':'f-project'};
+  Object.entries(oldFields).forEach(([to, from]) => {
+    const el = document.getElementById(to);
+    if(el) el.textContent = v(from);
+  });
+  const relDates = document.getElementById('rel-dates');
+  if(relDates) relDates.textContent = (df && dt) ? df + ' → ' + dt : (df || dt || '—');
 }
+
 
 function submitReport(){
   const c=document.getElementById('f-client').value,g=document.getElementById('f-gqsNum').value;
