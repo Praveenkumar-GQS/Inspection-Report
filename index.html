@@ -169,7 +169,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .p-rm{position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.55);color:#fff;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
 .p-caption{width:100%;padding:7px 10px;border:none;border-top:1px solid var(--border);font-size:12px;font-family:inherit;outline:none;background:#fff;color:var(--slate);resize:none;}
 .p-caption:focus{background:#f8fffe;}
-.p-caption::placeholder{color:#b8ccd8;}
+.p-caption::placeholder{color:#b8ccd8;}.p-caption:placeholder-shown{border-top:2px solid #f0c0c0;background:#fff9f9;}
 
 /* ── AI SECTION ── */
 .ai-badge{background:linear-gradient(135deg,#e6f4f2,#f0faf8);border:1px solid #b8ddd6;border-radius:var(--radius-sm);padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:16px;}
@@ -1206,7 +1206,12 @@ function handlePhotos(e){
   const grid=document.getElementById('photoGrid');
   Array.from(e.target.files).forEach(file=>{
     const reader=new FileReader();
-    reader.onload=ev=>{const div=document.createElement('div');div.className='p-thumb';div.innerHTML=`<img src="${ev.target.result}"/><button class="p-rm" onclick="this.parentElement.remove()">✕</button>`;grid.appendChild(div);};
+    reader.onload=ev=>{
+      const div=document.createElement('div');
+      div.className='p-thumb';
+      div.innerHTML=`<img src="${ev.target.result}"/><button class="p-rm" onclick="this.parentElement.remove()">✕</button><input class="p-caption" type="text" placeholder="Caption required *" maxlength="200" style="border-top:1px solid var(--border);"/>`;
+      grid.appendChild(div);
+    };
     reader.readAsDataURL(file);
   });
   e.target.value='';
@@ -1313,7 +1318,7 @@ function handlePhotosFromFiles(files){
     const reader = new FileReader();
     reader.onload = ev=>{
       const div = document.createElement('div'); div.className='p-thumb';
-      div.innerHTML=`<img src="${ev.target.result}"/><button class="p-rm" onclick="this.parentElement.remove()">✕</button>`;
+      div.innerHTML=`<img src="${ev.target.result}"/><button class="p-rm" onclick="this.parentElement.remove()">✕</button><input class="p-caption" type="text" placeholder="Caption required *" maxlength="200" style="border-top:1px solid var(--border);"/>`;
       grid.appendChild(div);
     };
     reader.readAsDataURL(file);
@@ -1373,6 +1378,28 @@ function populateReleaseCert(){
 function submitReport(){
   const c=document.getElementById('f-client').value,g=document.getElementById('f-gqsNum').value;
   if(!c||!g){showToast('Please complete Client name and GQS Number first');return;}
+
+  // Validate photo captions
+  const captions = document.querySelectorAll('#photoGrid .p-caption');
+  let missingCaption = false;
+  captions.forEach(cap => {
+    if(!cap.value.trim()){
+      cap.style.borderTop = '2px solid #dc2626';
+      cap.style.background = '#fef2f2';
+      cap.placeholder = 'Caption is required!';
+      missingCaption = true;
+    } else {
+      cap.style.borderTop = '1px solid var(--border)';
+      cap.style.background = '#fff';
+    }
+  });
+  if(missingCaption){
+    showToast('⚠ Please add a caption for all photos');
+    // Scroll to photos tab
+    goTab(7);
+    return;
+  }
+
   showToast('✓ Report submitted to GQS coordinator');
 }
 </script>
