@@ -360,7 +360,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </button><div class="inav-connector" id="con-1"></div>
   <button class="inav-btn" onclick="goTab(2)">
     <div class="inav-circle"><svg class="icon-normal" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-    <div class="inav-label">Timesheet</div>
+    <div class="inav-label">Visit<br>Expenses</div>
   </button><div class="inav-connector" id="con-2"></div>
   <button class="inav-btn" onclick="goTab(3)">
     <div class="inav-circle"><svg class="icon-normal" viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5 3.8 9.6 9 11 5.2-1.4 9-6 9-11V7z"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
@@ -434,7 +434,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="sidebar-title">Report Sections</div>
   <div class="sidebar-item active" id="sb-0" onclick="goTab(0)"><div class="sidebar-lbl">Contact details</div><div class="sidebar-check">✓</div></div>
   <div class="sidebar-item" id="sb-1" onclick="goTab(1)"><div class="sidebar-lbl">Job details</div><div class="sidebar-check">✓</div></div>
-  <div class="sidebar-item" id="sb-2" onclick="goTab(2)"><div class="sidebar-lbl">Timesheet</div><div class="sidebar-check">✓</div></div>
+  <div class="sidebar-item" id="sb-2" onclick="goTab(2)"><div class="sidebar-lbl">Visit Expenses</div><div class="sidebar-check">✓</div></div>
   <div class="sidebar-item" id="sb-3" onclick="goTab(3)"><div class="sidebar-lbl">HSE Checklist</div><div class="sidebar-check">✓</div></div>
   <div class="sidebar-item" id="sb-4" onclick="goTab(4)"><div class="sidebar-lbl">Document details</div><div class="sidebar-check">✓</div></div>
   <div class="sidebar-item" id="sb-5" onclick="goTab(5)"><div class="sidebar-lbl">Attendees</div><div class="sidebar-check">✓</div></div>
@@ -497,8 +497,8 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 <!-- TAB 2 -->
 <div id="tab-2" class="screen">
   <div class="sec-eyebrow">Section 3.0 — Timesheet</div>
-  <div class="sec-title">Timesheet</div>
-  <div class="sec-desc">Record time spent on each inspection activity per day</div>
+  <div class="sec-title">Visit Expenses</div>
+  <div class="sec-desc">Record time and costs for this inspection visit</div>
 
   <!-- Visit Expenses Table -->
   <div class="card">
@@ -1137,7 +1137,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 <div class="toast" id="toast"></div>
 
 <script>
-const TAB_NAMES=['Contact details','Job details','Timesheet','HSE Checklist','Document details','Attendees','All Report','Calibration','Photographs','Release Certificate','Supporting Documents','Review & Submit'];
+const TAB_NAMES=['Contact details','Job details','Visit Expenses','HSE Checklist','Document details','Attendees','All Report','Calibration','Photographs','Release Certificate','Supporting Documents','Review & Submit'];
 let currentTab=0;
 
 function goTab(idx){
