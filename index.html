@@ -306,6 +306,10 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .coord-approved-badge svg{width:18px;height:18px;stroke:#4CAF50;fill:none;stroke-width:2.5;}
 
 .rc-val{padding:10px 14px;background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13.5px;color:var(--slate);min-height:42px;line-height:1.5;}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance:none; margin:0; }
+input[type=number] { -moz-appearance:textfield; }
 </style>
 </head>
 <body>
@@ -343,7 +347,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 </div>
 <!-- STEP BAR -->
 <div class="step-bar">
-  <div class="step-label" id="stepLabel">Step 1 of 12 — Contact details</div>
+  <div class="step-label" id="stepLabel">Step 1 of 13 — Contact details</div>
   <div class="step-pct" id="stepPct">10%</div>
 </div>
 <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:10%"></div></div>
@@ -395,6 +399,10 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
     <div class="inav-label">Supporting<br>Docs</div>
   </button><div class="inav-connector" id="con-10"></div>
   <button class="inav-btn" onclick="goTab(11)">
+    <div class="inav-circle"><svg class="icon-normal" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <div class="inav-label">Overall<br>Timesheet</div>
+  </button><div class="inav-connector" id="con-11"></div>
+  <button class="inav-btn" onclick="goTab(12)">
     <div class="inav-circle"><svg class="icon-normal" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><svg class="icon-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
     <div class="inav-label">Review &amp;<br>Submit</div>
   </button>
@@ -443,7 +451,8 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="sidebar-item" id="sb-8" onclick="goTab(8)"><div class="sidebar-lbl">Photographs</div><div class="sidebar-check">✓</div></div>
   <div class="sidebar-item" id="sb-9" onclick="goTab(9)"><div class="sidebar-lbl">Release Certificate</div><div class="sidebar-check">✓</div></div>
   <div class="sidebar-item" id="sb-10" onclick="goTab(10)"><div class="sidebar-lbl">Supporting Docs</div><div class="sidebar-check">✓</div></div>
-  <div class="sidebar-item" id="sb-11" onclick="goTab(11)"><div class="sidebar-lbl">Review &amp; Submit</div><div class="sidebar-check">✓</div></div></div>
+  <div class="sidebar-item" id="sb-11" onclick="goTab(11)"><div class="sidebar-lbl">Overall Timesheet</div><div class="sidebar-check">✓</div></div>
+  <div class="sidebar-item" id="sb-12" onclick="goTab(12)"><div class="sidebar-lbl">Review &amp; Submit</div><div class="sidebar-check">✓</div></div></div>
 
 <div class="main">
 
@@ -1004,13 +1013,138 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   </div>
 
   <div class="btn-actions">
-    <button class="btn-next" onclick="goTab(11);buildReview()">Next — Review &amp; Submit
+    <button class="btn-next" onclick="goTab(11)">Next — Review &amp; Submit
       <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
     </button>
   </div>
 </div>
 
+<!-- TAB 11: OVERALL TIMESHEET -->
 <div id="tab-11" class="screen">
+  <div class="sec-eyebrow">Section 11.0 — Overall Timesheet</div>
+  <div class="sec-title">Overall Timesheet</div>
+  <div class="sec-desc">Record daily time and chargeable costs for this inspection visit</div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-header-dot"></div>
+      <div class="card-header-title">Section 3.0 — Visit Expenses</div>
+    </div>
+    <div class="card-body" style="padding:0;overflow-x:auto;">
+
+      <input type="hidden" id="ts-period-from"/>
+      <input type="hidden" id="ts-period-to"/>
+
+      <!-- Table -->
+      <table id="ts-table" style="width:100%;border-collapse:collapse;min-width:900px;">
+        <thead>
+          <tr style="background:var(--teal);color:#fff;">
+            <th style="padding:8px 10px;font-size:11px;border:1px solid rgba(255,255,255,0.2);width:30px;"></th><th colspan="2" style="padding:8px 10px;font-size:11px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.2);">Work Period</th>
+            <th colspan="4" style="padding:8px 10px;font-size:11px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.2);"></th>
+            <th colspan="6" style="padding:8px 10px;font-size:11px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.2);">Chargeable Costs</th>
+          </tr>
+          <tr style="background:#006B7A;color:#fff;">
+            <th style="padding:8px 10px;font-size:11px;border:1px solid rgba(255,255,255,0.2);width:30px;"></th><th style="padding:8px 10px;font-size:11px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.2);white-space:nowrap;">Day</th>
+            <th style="padding:8px 10px;font-size:11px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.2);white-space:nowrap;">Date</th>
+            <th style="padding:8px 10px;font-size:11px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.2);white-space:nowrap;">Work<br>Time</th>
+            <th style="padding:8px 10px;font-size:11px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.2);white-space:nowrap;">Travel<br>Time</th>
+            <th style="padding:8px 10px;font-size:11px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.2);white-space:nowrap;">Report<br>Time</th>
+            <th style="padding:8px 10px;font-size:11px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.2);white-space:nowrap;">Over<br>Time</th>
+            <th style="padding:8px 10px;font-size:11px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.2);white-space:nowrap;">Mileage</th>
+            <th style="padding:8px 10px;font-size:11px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.2);white-space:nowrap;">Accom<br>Cost</th>
+            <th style="padding:8px 10px;font-size:11px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.2);white-space:nowrap;">Flight<br>Cost</th>
+            <th style="padding:8px 10px;font-size:11px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.2);white-space:nowrap;">Per Diem</th>
+            <th style="padding:8px 10px;font-size:11px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.2);white-space:nowrap;">Description</th>
+            <th style="padding:8px 10px;font-size:11px;font-weight:700;text-align:center;border:1px solid rgba(255,255,255,0.2);white-space:nowrap;">Cost</th>
+          </tr>
+        </thead>
+        <tbody id="ts-body">
+          <tr>
+            <td colspan="12" style="padding:20px;text-align:center;color:var(--slate-light);font-size:13px;">Select a report period above to generate rows, or add rows manually</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr style="background:#008B9B;color:#fff;font-weight:700;">
+            <td style="border:1px solid rgba(255,255,255,0.2);width:30px;"></td><td colspan="2" style="padding:10px;font-size:12px;text-align:center;border:1px solid rgba(255,255,255,0.2);">Totals</td>
+            <td id="ts-total-work" style="padding:10px;font-size:12px;text-align:center;border:1px solid rgba(255,255,255,0.2);">0.00</td>
+            <td id="ts-total-travel" style="padding:10px;font-size:12px;text-align:center;border:1px solid rgba(255,255,255,0.2);">0.00</td>
+            <td id="ts-total-report" style="padding:10px;font-size:12px;text-align:center;border:1px solid rgba(255,255,255,0.2);">0.00</td>
+            <td id="ts-total-over" style="padding:10px;font-size:12px;text-align:center;border:1px solid rgba(255,255,255,0.2);">0.00</td>
+            <td id="ts-total-mileage" style="padding:10px;font-size:12px;text-align:center;border:1px solid rgba(255,255,255,0.2);">0.00</td>
+            <td id="ts-total-accom" style="padding:10px;font-size:12px;text-align:center;border:1px solid rgba(255,255,255,0.2);">0.00</td>
+            <td id="ts-total-flight" style="padding:10px;font-size:12px;text-align:center;border:1px solid rgba(255,255,255,0.2);">0.00</td>
+            <td id="ts-total-perdiem" style="padding:10px;font-size:12px;text-align:center;border:1px solid rgba(255,255,255,0.2);">0.00</td>
+            <td style="border:1px solid rgba(255,255,255,0.2);"></td>
+            <td id="ts-total-cost" style="padding:10px;font-size:12px;text-align:center;border:1px solid rgba(255,255,255,0.2);">0.00</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <!-- Add Row + Currency -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--border);background:#f8fafc;">
+        <button onclick="addTimesheetRow()" class="btn-next" style="padding:8px 18px;font-size:12px;">+ Add row</button>
+        <div style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--slate-mid);">
+          <span style="font-style:italic;">Work Unit Hours</span>
+          <span style="margin:0 16px;color:var(--border);">|</span>
+          <span>All Costs Must Be Reported in</span>
+          <select id="ts-currency" style="border:1.5px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;outline:none;font-family:inherit;background:#fff;">
+            <option value="">Select</option>
+            <option>GBP (£)</option>
+            <option>Euro (€)</option>
+            <option>Kroner</option>
+            <option>USD ($)</option>
+            <option>SGD</option>
+            <option>CAD ($)</option>
+            <option>AUD ($)</option>
+            <option>JPY (¥)</option>
+            <option>RM</option>
+            <option>CNY</option>
+            <option>CFA</option>
+            <option>DKK</option>
+            <option>ZAR</option>
+            <option>INR</option>
+            <option>TWD ($)</option>
+            <option>VND</option>
+            <option>IDR</option>
+            <option>NZD</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Summary Footer -->
+      <table style="width:100%;border-collapse:collapse;">
+        <tr style="background:#008B9B;color:#fff;">
+          <td style="padding:10px 16px;font-size:12px;font-weight:700;width:40%;">Total Work, Travel &amp; Report Time</td>
+          <td style="padding:10px;font-size:12px;font-weight:700;width:10%;">Hours</td>
+          <td id="ts-summary-work" style="padding:10px;font-size:12px;font-weight:700;width:10%;">0.00</td>
+          <td style="padding:10px;width:30%;font-size:11px;font-style:italic;color:rgba(255,255,255,0.7);text-align:center;">Expenses Must be Submitted with Receipts</td>
+          <td style="padding:10px;font-size:12px;font-weight:700;text-align:right;">Total Costs</td>
+          <td id="ts-summary-cost" style="padding:10px;font-size:12px;font-weight:700;text-align:center;width:10%;">0.00</td>
+        </tr>
+        <tr style="background:#006B7A;color:#fff;">
+          <td style="padding:10px 16px;font-size:12px;font-weight:700;">Total Over Time</td>
+          <td style="padding:10px;font-size:12px;font-weight:700;">Hours</td>
+          <td id="ts-summary-over" style="padding:10px;font-size:12px;font-weight:700;">0.00</td>
+          <td colspan="3"></td>
+        </tr>
+        <tr style="background:var(--teal);color:#fff;">
+          <td style="padding:10px 16px;font-size:12px;font-weight:700;">Total Mileage</td>
+          <td style="padding:10px;font-size:12px;font-weight:700;">Kms</td>
+          <td id="ts-summary-mileage" style="padding:10px;font-size:12px;font-weight:700;">0.00</td>
+          <td colspan="3"></td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+
+  <div class="btn-actions">
+    <button class="btn-next" onclick="goTab(12);buildReview()">Next — Review &amp; Submit
+      <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+  </div>
+</div>
+
+<div id="tab-12" class="screen">
 
 
 
@@ -1137,7 +1271,7 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 <div class="toast" id="toast"></div>
 
 <script>
-const TAB_NAMES=['Contact details','Job details','Visit Expenses','HSE Checklist','Document details','Attendees','All Report','Calibration','Photographs','Release Certificate','Supporting Documents','Review & Submit'];
+const TAB_NAMES=['Contact details','Job details','Visit Expenses','HSE Checklist','Document details','Attendees','All Report','Calibration','Photographs','Release Certificate','Supporting Documents','Overall Timesheet','Review & Submit'];
 let currentTab=0;
 
 function goTab(idx){
@@ -1173,13 +1307,13 @@ function goTab(idx){
   currentTab = idx;
   document.getElementById('tab-'+idx).classList.add('active');
 
-  const pct = Math.round((idx+1)/12*100);
+  const pct = Math.round((idx+1)/13*100);
   document.getElementById('progressFill').style.width = pct+'%';
   document.getElementById('stepPct').textContent = pct+'%';
-  document.getElementById('stepLabel').textContent = 'Step '+(idx+1)+' of 12 — '+TAB_NAMES[idx];
+  document.getElementById('stepLabel').textContent = 'Step '+(idx+1)+' of 13 — '+TAB_NAMES[idx];
   if(idx===6) updateReleaseSummary();
   if(idx===9) populateReleaseCert();
-  if(idx===11) setTimeout(buildReview, 50);
+  if(idx===11) autoPopulateTimesheetPeriod(); if(idx===12) setTimeout(buildReview, 50);
   document.querySelector('.main').scrollTop = 0;
 }
 
@@ -1609,6 +1743,154 @@ document.addEventListener('DOMContentLoaded', ()=>{
     });
   }
 });
+
+
+// ── OVERALL TIMESHEET ──
+function autoPopulateTimesheetPeriod(){
+  // Try to get dates from Job Details tab
+  const fromField = document.getElementById('f-dateFrom');
+  const toField = document.getElementById('f-dateTo');
+  const tsFrom = document.getElementById('ts-period-from');
+  const tsTo = document.getElementById('ts-period-to');
+
+  if(fromField?.value && toField?.value){
+    tsFrom.value = fromField.value;
+    tsTo.value = toField.value;
+  } else {
+    // Default: 10 days starting from today (for testing)
+    const today = new Date();
+    const end = new Date(today);
+    end.setDate(today.getDate() + 9);
+    tsFrom.value = today.toISOString().split('T')[0];
+    tsTo.value = end.toISOString().split('T')[0];
+  }
+
+  // Only generate if body is empty or has placeholder
+  const body = document.getElementById('ts-body');
+  if(!body || body.querySelector('td[colspan="12"]') || body.children.length === 0){
+    generateTimesheetRows();
+  }
+}
+
+const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+function generateTimesheetRows(){
+  const from = document.getElementById('ts-period-from').value;
+  const to = document.getElementById('ts-period-to').value;
+  if(!from || !to) return;
+  const body = document.getElementById('ts-body');
+  body.innerHTML = '';
+  let d = new Date(from);
+  const end = new Date(to);
+  while(d <= end){
+    addTimesheetRowWithDate(d);
+    d.setDate(d.getDate()+1);
+  }
+  updateTimesheetTotals();
+}
+
+function formatDate(d){
+  return d.getDate().toString().padStart(2,'0')+'-'+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]+'-'+d.getFullYear();
+}
+
+function addTimesheetRowWithDate(d){
+  const body = document.getElementById('ts-body');
+  const tr = document.createElement('tr');
+  tr.style.cssText = 'border-bottom:1px solid #f0f4f8;';
+  const dayName = DAYS[d.getDay()];
+  const dateStr = formatDate(d);
+  const isWeekend = d.getDay()===0||d.getDay()===6;
+  const bg = isWeekend ? 'background:var(--teal-pale);' : '';
+  tr.innerHTML = `
+    <td style="padding:4px;border:1px solid #e8eef4;${bg}"></td>
+    <td style="padding:7px 10px;font-size:12px;font-weight:600;color:var(--teal);text-align:center;border:1px solid #e8eef4;white-space:nowrap;${bg}">${dayName}</td>
+    <td style="padding:7px 10px;font-size:12px;color:var(--slate-mid);text-align:center;border:1px solid #e8eef4;white-space:nowrap;${bg}">${dateStr}</td>
+    ${['work','travel','report','over','mileage','accom','flight','perdiem'].map(f=>`<td style="padding:4px;border:1px solid #e8eef4;${bg}"><input type="text" placeholder="" data-field="${f}" oninput="updateTimesheetTotals()" style="width:100%;padding:5px 6px;border:none;background:transparent;font-size:12px;text-align:center;outline:none;font-family:inherit;"/></td>`).join('')}
+    <td style="padding:4px;border:1px solid #e8eef4;${bg}"><input type="text" placeholder="Description" style="width:100%;padding:5px 6px;border:none;background:transparent;font-size:11px;outline:none;font-family:inherit;"/></td>
+    <td style="padding:4px;border:1px solid #e8eef4;${bg}"><input type="text" placeholder="" data-field="cost" oninput="updateTimesheetTotals()" style="width:100%;padding:5px 6px;border:none;background:transparent;font-size:12px;text-align:center;outline:none;font-family:inherit;"/></td>`;
+  body.appendChild(tr);
+}
+
+function updateDayLabel(input){
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const tr = input.closest('tr');
+  const dayCell = tr.querySelector('.ts-day-cell');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  if(input.value){
+    const d = new Date(input.value);
+    if(!isNaN(d)){
+      if(dayCell) dayCell.textContent = days[d.getDay()];
+      // Format the input to show dd-Mon-yyyy
+      input.dataset.formatted = d.getDate().toString().padStart(2,'0')+'-'+months[d.getMonth()]+'-'+d.getFullYear();
+    }
+  }
+}
+
+function addTimesheetRow(){
+  const body = document.getElementById('ts-body');
+  if(body.querySelector('td[colspan="12"]')) body.innerHTML = '';
+
+  const rows = body.querySelectorAll('tr');
+  let nextDate = new Date();
+  if(rows.length > 0){
+    const lastRow = rows[rows.length-1];
+    const cells = lastRow.querySelectorAll('td');
+    if(cells.length >= 3){
+      const txt = cells[2].textContent.trim();
+      const months = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+      const parts = txt.split('-');
+      if(parts.length===3 && months[parts[1]]!==undefined){
+        const d = new Date(parseInt(parts[2]), months[parts[1]], parseInt(parts[0]));
+        d.setDate(d.getDate()+1);
+        nextDate = d;
+      }
+    }
+  }
+
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const dayName = days[nextDate.getDay()];
+  const dateStr = nextDate.getDate().toString().padStart(2,'0')+'-'+monthNames[nextDate.getMonth()]+'-'+nextDate.getFullYear();
+  const isWeekend = nextDate.getDay()===0||nextDate.getDay()===6;
+  const bg = isWeekend ? 'background:var(--teal-pale);' : '';
+
+  const tr = document.createElement('tr');
+  tr.style.cssText = 'border-bottom:1px solid #f0f4f8;';
+  tr.innerHTML = `
+    <td style="padding:4px;border:1px solid #e8eef4;text-align:center;vertical-align:middle;${bg}">
+      <button onclick="this.closest('tr').remove();updateTimesheetTotals()" style="background:#dc2626;color:#fff;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:auto;">✕</button>
+    </td>
+    <td style="padding:7px 10px;font-size:12px;font-weight:600;color:var(--teal);text-align:center;border:1px solid #e8eef4;white-space:nowrap;${bg}">${dayName}</td>
+    <td style="padding:7px 10px;font-size:12px;color:var(--slate-mid);text-align:center;border:1px solid #e8eef4;white-space:nowrap;${bg}">${dateStr}</td>
+    ${['work','travel','report','over','mileage','accom','flight','perdiem'].map(f=>`<td style="padding:4px;border:1px solid #e8eef4;${bg}"><input type="text" placeholder="" data-field="${f}" oninput="updateTimesheetTotals()" style="width:100%;padding:5px 6px;border:none;background:transparent;font-size:12px;text-align:center;outline:none;font-family:inherit;"/></td>`).join('')}
+    <td style="padding:4px;border:1px solid #e8eef4;${bg}"><input type="text" placeholder="Description" style="width:100%;padding:5px 6px;border:none;background:transparent;font-size:11px;outline:none;font-family:inherit;"/></td>
+    <td style="padding:4px;border:1px solid #e8eef4;${bg}"><input type="text" placeholder="" data-field="cost" oninput="updateTimesheetTotals()" style="width:100%;padding:5px 6px;border:none;background:transparent;font-size:12px;text-align:center;outline:none;font-family:inherit;"/></td>`;
+  body.appendChild(tr);
+}
+
+function updateTimesheetTotals(){
+  const fields = ['work','travel','report','over','mileage','accom','flight','perdiem','cost'];
+  const totals = {};
+  fields.forEach(f => totals[f]=0);
+  document.querySelectorAll('#ts-body input[data-field]').forEach(inp => {
+    const f = inp.dataset.field;
+    totals[f] += parseFloat(inp.value)||0;
+  });
+  const fmt = v => v%1===0 ? v.toFixed(2) : v.toFixed(2);
+  document.getElementById('ts-total-work').textContent = fmt(totals.work);
+  document.getElementById('ts-total-travel').textContent = fmt(totals.travel);
+  document.getElementById('ts-total-report').textContent = fmt(totals.report);
+  document.getElementById('ts-total-over').textContent = fmt(totals.over);
+  document.getElementById('ts-total-mileage').textContent = fmt(totals.mileage);
+  document.getElementById('ts-total-accom').textContent = fmt(totals.accom);
+  document.getElementById('ts-total-flight').textContent = fmt(totals.flight);
+  document.getElementById('ts-total-perdiem').textContent = fmt(totals.perdiem);
+  document.getElementById('ts-total-cost').textContent = fmt(totals.cost);
+  document.getElementById('ts-summary-work').textContent = fmt(totals.work+totals.travel+totals.report);
+  document.getElementById('ts-summary-over').textContent = fmt(totals.over);
+  document.getElementById('ts-summary-mileage').textContent = fmt(totals.mileage);
+  document.getElementById('ts-summary-cost').textContent = fmt(totals.cost+totals.accom+totals.flight+totals.perdiem);
+}
 
 // Run on load
 window.addEventListener('DOMContentLoaded', detectMode);
