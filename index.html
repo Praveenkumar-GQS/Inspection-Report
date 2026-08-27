@@ -991,7 +991,6 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <div style="display:flex;gap:12px;padding:6px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--slate-light);">
         <div style="width:40px;flex-shrink:0;"></div>
         <div style="flex:1;">File</div>
-        <div style="flex:1;">Document Type</div>
         <div style="flex:1.2;">Description</div>
         <div style="width:28px;"></div>
       </div>
@@ -1573,7 +1572,6 @@ function handleDocUpload(e){
     'xls': '📊', 'xlsx': '📊',
     'png': '🖼', 'jpg': '🖼', 'jpeg': '🖼', 'heic': '🖼'
   };
-  const docTypes = ['Please Select','Flash Report','IRC','NCR','Procedure','Receipts','Punchlist'];
   
   Array.from(e.target.files).forEach(file => {
     const ext = file.name.split('.').pop().toLowerCase();
@@ -1591,7 +1589,6 @@ function handleDocUpload(e){
         <div style="font-size:13px;font-weight:600;color:var(--slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${file.name}</div>
         <div style="font-size:11px;color:var(--slate-light);margin-top:2px;">${size} · ${ext.toUpperCase()}</div>
       </div>
-      <select style="flex:1;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;outline:none;font-family:inherit;background:#fff;color:var(--slate);cursor:pointer;" onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'">${typeOptions}</select>
       <input type="text" placeholder="Description (optional)" style="flex:1.2;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;outline:none;font-family:inherit;" onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='var(--border)'"/>
       <button onclick="document.getElementById('${id}').remove()" style="background:transparent;border:none;cursor:pointer;color:#94a3b8;padding:4px;border-radius:4px;display:flex;align-items:center;justify-content:center;" onmouseover="this.style.color='#dc2626'" onmouseout="this.style.color='#94a3b8'">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
