@@ -1080,7 +1080,7 @@ input[type=number] { -moz-appearance:textfield; }
       </table>
 
       <!-- Add Row + Currency -->
-      <div style="display:flex;align-items:center;padding:12px 16px;border-top:1px solid var(--border);background:#f8fafc;gap:0;">
+      <div style="display:flex;align-items:center;padding:12px 16px;border-top:1px solid var(--border);background:#f8fafc;">
         <button onclick="addTimesheetRow()" class="btn-next" style="padding:8px 18px;font-size:12px;">+ Add row</button>
         <div style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--slate-mid);margin-left:auto;">
           <span style="font-style:italic;">Work Unit Hours</span>
@@ -1812,18 +1812,21 @@ function addTimesheetRowWithDate(d){
 }
 
 function updateDayLabel(input){
-  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const tr = input.closest('tr');
-  const dayCell = tr.querySelector('.ts-day-cell');
-  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  if(input.value){
+  try {
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    if(!input || !input.value) return;
+    const tr = input.closest('tr');
+    if(!tr) return;
+    const cells = tr.querySelectorAll('td');
     const d = new Date(input.value);
-    if(!isNaN(d)){
-      if(dayCell) dayCell.textContent = days[d.getDay()];
-      // Format the input to show dd-Mon-yyyy
-      input.dataset.formatted = d.getDate().toString().padStart(2,'0')+'-'+months[d.getMonth()]+'-'+d.getFullYear();
-    }
-  }
+    if(isNaN(d)) return;
+    // Day cell is 2nd td (index 1)
+    if(cells[1]) cells[1].textContent = days[d.getDay()];
+    // Date cell - replace input with formatted text
+    const dateStr = d.getDate().toString().padStart(2,'0')+'-'+months[d.getMonth()]+'-'+d.getFullYear();
+    if(cells[2]) cells[2].textContent = dateStr;
+  } catch(e){ console.warn('updateDayLabel error:', e); }
 }
 
 function addTimesheetRow(){
