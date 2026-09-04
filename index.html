@@ -488,7 +488,7 @@ input[type=number] { -moz-appearance:textfield; }
     <div class="card-body">
       <div class="g2">
         <div class="field"><div class="field-lbl">GQS Number <span class="field-req">*</span></div><div class="field-hint">Sometimes filled by Coordinator</div><input type="text" id="f-gqsNum" placeholder="e.g. GQS550"/></div>
-        <div class="field"><div class="field-lbl">PO Number</div><input type="text" id="f-po" placeholder="e.g. PO-2026-001"/></div>
+        <div class="field"><div class="field-lbl">Vendor PO Number</div><input type="text" id="f-po" placeholder="e.g. PO-2026-001"/></div>
         <div class="field"><div class="field-lbl">Vendor Name</div><input type="text" id="f-vendor" placeholder="Vendor / supplier name"/></div>
         <div class="field"><div class="field-lbl">Vendor Location</div><input type="text" id="f-vendorLoc" placeholder="City, Country"/></div>
         <div class="field"><div class="field-lbl">Project</div><input type="text" id="f-project" placeholder="Project name"/></div>
@@ -500,6 +500,27 @@ input[type=number] { -moz-appearance:textfield; }
       <div class="field"><div class="field-lbl">Scope of Work</div><textarea id="f-scope" placeholder="Describe the scope of work for this inspection visit in detail…"></textarea></div>
     </div>
   </div>
+
+  <!-- Areas of Concern card -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Areas of Concern</div></div>
+    <div class="card-body">
+      <div class="field-lbl" style="margin-bottom:8px;">Were any areas of concern identified for this assignment?</div>
+      <div style="display:flex;gap:10px;margin-bottom:0;" id="aoc-btn-wrap">
+        <button class="hse-yn-btn" onclick="selectAOC(this,'yes')" id="aoc-yes">Yes</button>
+        <button class="hse-yn-btn" onclick="selectAOC(this,'no')" id="aoc-no">No</button>
+      </div>
+      <div id="aoc-detail-wrap" style="display:none;margin-top:14px;">
+        <div style="font-size:11px;font-weight:700;color:#dc2626;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Describe the areas of concern
+        </div>
+        <textarea id="aoc-detail" placeholder="Describe the specific areas of concern identified, including location, nature of issue and any immediate actions taken…" style="border:1.5px solid #fca5a5;border-radius:8px;background:#fff8f8;min-height:100px;"></textarea>
+      </div>
+      <input type="hidden" id="hse-input-aoc" value=""/>
+    </div>
+  </div>
+
   <div class="btn-actions"><button class="btn-next" onclick="goTab(2)">Next — Timesheet<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
 </div>
 
@@ -574,6 +595,23 @@ input[type=number] { -moz-appearance:textfield; }
 .hse-yn-btn:hover{border-color:var(--teal);color:var(--teal);}
 .hse-yn-btn.yes-active{background:#e6f4f0;border-color:#4CAF50;color:#4CAF50;}
 .hse-yn-btn.no-active{background:#fef2f2;border-color:#dc2626;color:#dc2626;}
+.hse-no-detail{background:#fff8f8;border-left:3px solid #dc2626;animation:fadeIn 0.2s ease;}
+.hse-no-detail-inner{padding:12px 20px 14px 52px;}
+.hse-no-detail-label{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#dc2626;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;}
+.hse-no-detail-label svg{stroke:#dc2626;flex-shrink:0;}
+.hse-no-detail-ta{width:100%;padding:10px 14px;border:1.5px solid #fca5a5;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;color:var(--slate);background:#fff;outline:none;resize:vertical;min-height:72px;transition:border-color 0.2s;}
+.hse-no-detail-ta:focus{border-color:#dc2626;box-shadow:0 0 0 3px rgba(220,38,38,0.08);}
+.hse-no-detail-ta::placeholder{color:#fca5a5;}
+/* Areas of Concern */
+.aoc-card{margin:0 0 0 0;}
+.aoc-row{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;}
+.aoc-label{font-size:14px;font-weight:600;color:var(--slate);}
+.aoc-sub{font-size:12px;color:var(--slate-light);margin-top:2px;}
+.aoc-btns{display:flex;gap:8px;flex-shrink:0;}
+.aoc-detail-wrap{padding:0 20px 16px 20px;background:#fff8f8;border-top:1px solid #fee2e2;}
+.aoc-detail-label{font-size:11px;font-weight:700;color:#dc2626;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.aoc-detail-ta{width:100%;padding:10px 14px;border:1.5px solid #fca5a5;border-radius:8px;font-size:13px;font-family:'Inter',sans-serif;color:var(--slate);background:#fff;outline:none;resize:vertical;min-height:80px;transition:border-color 0.2s;}
+.aoc-detail-ta:focus{border-color:#dc2626;box-shadow:0 0 0 3px rgba(220,38,38,0.08);}
 </style>
 
 <div id="hse-items">
@@ -635,7 +673,7 @@ input[type=number] { -moz-appearance:textfield; }
   </div>
 </div>
     <div class="card-body" style="border-top:1px solid var(--border);">
-      <div class="field"><div class="field-lbl">Additional HSE Observations</div><textarea placeholder="Any additional safety or environmental observations…"></textarea></div>
+      <div class="field"><div class="field-lbl">Additional HSE Observations</div><textarea id="hse-additional-obs" placeholder="Any additional safety or environmental observations…"></textarea></div>
     </div>
   </div>
   <div class="btn-actions"><button class="btn-next" onclick="goTab(4)">Next — Documents<svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button></div>
@@ -849,7 +887,7 @@ input[type=number] { -moz-appearance:textfield; }
     <div class="card-body">
       <div class="g2">
         <div class="field"><div class="field-lbl">GQS Number</div><div class="rc-val" id="rc-gqsNum">—</div></div>
-        <div class="field"><div class="field-lbl">PO Number</div><div class="rc-val" id="rc-po">—</div></div>
+        <div class="field"><div class="field-lbl">Vendor PO Number</div><div class="rc-val" id="rc-po">—</div></div>
         <div class="field"><div class="field-lbl">Vendor Name</div><div class="rc-val" id="rc-vendor">—</div></div>
         <div class="field"><div class="field-lbl">Project</div><div class="rc-val" id="rc-project">—</div></div>
         <div class="field"><div class="field-lbl">Vendor Location</div><div class="rc-val" id="rc-vendorLoc">—</div></div>
@@ -1532,6 +1570,11 @@ function buildReview(){ calcProgressScore();
     const ans = val==='yes' ? '<span style="background:#e6f4f0;color:#4CAF50;font-weight:700;padding:3px 12px;border-radius:20px;font-size:12px;">Yes</span>' : val==='no' ? '<span style="background:#fef2f2;color:#dc2626;font-weight:700;padding:3px 12px;border-radius:20px;font-size:12px;">No</span>' : '<span style="color:#aaa;">—</span>';
     hseHtml += `<tr style="border-bottom:1px solid #f0f4f8;"><td style="padding:10px 12px;font-weight:700;color:var(--teal);">${i+1}</td><td style="padding:10px 12px;font-size:13px;">${hseQuestions[i]}</td><td style="padding:10px 12px;text-align:center;">${ans}</td></tr>`;
   }
+  // Areas of Concern row
+  const aocVal = document.getElementById('hse-input-aoc')?.value;
+  const aocDetail = document.getElementById('aoc-detail')?.value;
+  const aocAns = aocVal==='yes' ? '<span style="background:#fef2f2;color:#dc2626;font-weight:700;padding:3px 12px;border-radius:20px;font-size:12px;">Yes</span>' : aocVal==='no' ? '<span style="background:#e6f4f0;color:#4CAF50;font-weight:700;padding:3px 12px;border-radius:20px;font-size:12px;">No</span>' : '<span style="color:#aaa;">—</span>';
+  hseHtml += `<tr style="border-bottom:1px solid #f0f4f8;background:#fff8f8;"><td style="padding:10px 12px;font-weight:700;color:#dc2626;">⚠</td><td style="padding:10px 12px;font-size:13px;font-weight:600;">Areas of Concern Identified${aocVal==='yes'&&aocDetail ? `<div style="font-size:12px;color:var(--slate-light);font-weight:400;margin-top:4px;">${aocDetail}</div>` : ''}</td><td style="padding:10px 12px;text-align:center;">${aocAns}</td></tr>`;
   hseHtml += '</table>';
   document.getElementById('rv-hse-list').innerHTML = hseHtml;
 
@@ -2235,6 +2278,47 @@ function selectHSE(btn, group, val){
     document.body.appendChild(input);
   }
   input.value = val;
+
+  // Show/hide "No" detail panel beneath the item
+  const item = btn.closest('.hse-premium-item');
+  if(!item) return;
+  let detailWrap = item.nextElementSibling;
+  if(!detailWrap || !detailWrap.classList.contains('hse-no-detail')){
+    detailWrap = null;
+  }
+  if(val === 'no'){
+    if(!detailWrap){
+      detailWrap = document.createElement('div');
+      detailWrap.className = 'hse-no-detail';
+      detailWrap.innerHTML = `
+        <div class="hse-no-detail-inner">
+          <div class="hse-no-detail-label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Please describe what happened / area of concern
+          </div>
+          <textarea class="hse-no-detail-ta" id="hse-detail-${group}" placeholder="Describe the incident, non-compliance, or concern observed during the visit…" rows="3"></textarea>
+        </div>`;
+      item.insertAdjacentElement('afterend', detailWrap);
+    }
+    detailWrap.style.display = 'block';
+    setTimeout(() => detailWrap.querySelector('textarea').focus(), 50);
+  } else {
+    if(detailWrap) detailWrap.style.display = 'none';
+  }
+}
+
+function selectAOC(btn, val){
+  document.getElementById('aoc-yes').classList.remove('yes-active','no-active');
+  document.getElementById('aoc-no').classList.remove('yes-active','no-active');
+  btn.classList.add(val === 'yes' ? 'yes-active' : 'no-active');
+  document.getElementById('hse-input-aoc').value = val;
+  const wrap = document.getElementById('aoc-detail-wrap');
+  if(val === 'yes'){
+    wrap.style.display = 'block';
+    setTimeout(() => document.getElementById('aoc-detail').focus(), 50);
+  } else {
+    wrap.style.display = 'none';
+  }
 }
 
 function calcTotal(){
