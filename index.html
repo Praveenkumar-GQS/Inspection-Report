@@ -906,21 +906,22 @@ input[type=number] { -moz-appearance:textfield; }
     </div>
   </div>
 
-  <!-- Section 5.0 Documentation Used -->
+  <!-- Section 5.0 Documentation Used - auto-pulled from Documents tab -->
   <div class="card">
-    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Section 5.0 — Documentation Used</div></div>
-    <div class="card-body">
-      <div style="font-size:12px;color:var(--slate-light);margin-bottom:14px;">List applicable documents and respective status:</div>
-      <div class="tbl-wrap">
-        <div class="tbl-head" style="grid-template-columns:3fr 2fr 2fr 44px;"><span>Document Title</span><span>Document Number</span><span>Revision Status</span><span></span></div>
-        <div id="rcDocList">
-          <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr 44px;"><div class="tbl-fixed">Inspection &amp; Test Plan (ITP)</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><span></span></div>
-          <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr 44px;"><div class="tbl-fixed">Procedure(s)</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><span></span></div>
-          <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr 44px;"><div class="tbl-fixed">Drawing(s)</div><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><span></span></div>
-          <div class="tbl-row" style="grid-template-columns:3fr 2fr 2fr 44px;"><input type="text" placeholder="Other, please detail…"/><input type="text" placeholder="Doc number…"/><input type="text" placeholder="Rev…"/><button class="btn-rm" onclick="removeRow(this)"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
-        </div>
-      </div>
-      <button class="btn-add" onclick="addRcDoc()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add document</button>
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Section 5.0 — Documentation Used</div><div class="card-header-sub" style="margin-left:auto;font-size:11px;color:var(--teal);font-style:italic;">Auto-filled from Document Details tab</div></div>
+    <div class="card-body" style="padding:0;">
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr style="background:#f8fafc;">
+            <th style="padding:10px 14px;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;letter-spacing:0.5px;border:1px solid var(--border);text-align:left;">Document Title</th>
+            <th style="padding:10px 14px;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;letter-spacing:0.5px;border:1px solid var(--border);text-align:left;width:25%;">Document Number</th>
+            <th style="padding:10px 14px;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;letter-spacing:0.5px;border:1px solid var(--border);text-align:left;width:20%;">Revision Status</th>
+          </tr>
+        </thead>
+        <tbody id="rc-doc-used-list">
+          <tr><td colspan="3" style="padding:16px;text-align:center;color:var(--slate-light);font-size:13px;font-style:italic;">Loading from Document Details tab…</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
@@ -2270,6 +2271,27 @@ function populateReleaseCert(){
   const dt = document.getElementById('f-dateTo')?.value;
   setRc('rc-dateFrom', df);
   setRc('rc-dateTo', dt);
+
+  // Pull Section 5.0 Documentation Used from Documents tab
+  const docRows = document.querySelectorAll('#docList .tbl-row');
+  const rcDocList = document.getElementById('rc-doc-used-list');
+  if(rcDocList){
+    rcDocList.innerHTML = '';
+    docRows.forEach(row => {
+      const fixedTitle = row.querySelector('.tbl-fixed');
+      const inputs = row.querySelectorAll('input');
+      const title = fixedTitle ? fixedTitle.textContent.trim() : (inputs[0]?.value || '');
+      const docNum = fixedTitle ? (inputs[0]?.value || '—') : (inputs[1]?.value || '—');
+      const revStatus = fixedTitle ? (inputs[1]?.value || '—') : (inputs[2]?.value || '—');
+      if(!title) return;
+      const tr = document.createElement('tr');
+      tr.innerHTML = '<td style="padding:10px 14px;font-size:13px;border:1px solid var(--border);">'+title+'</td><td style="padding:10px 14px;font-size:13px;border:1px solid var(--border);">'+docNum+'</td><td style="padding:10px 14px;font-size:13px;border:1px solid var(--border);">'+revStatus+'</td>';
+      rcDocList.appendChild(tr);
+    });
+    if(rcDocList.children.length === 0){
+      rcDocList.innerHTML = '<tr><td colspan="3" style="padding:16px;text-align:center;color:var(--slate-light);font-size:13px;font-style:italic;">No documents found in Document Details tab.</td></tr>';
+    }
+  }
 
   // Also populate old release summary fields if they exist
   const oldFields = {'rel-client':'f-client','rel-inspector':'f-inspector','rel-gqsNum':'f-gqsNum','rel-po':'f-po','rel-vendor':'f-vendor','rel-vendorLoc':'f-vendorLoc','rel-project':'f-project'};
