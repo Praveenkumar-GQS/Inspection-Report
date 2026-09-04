@@ -924,6 +924,188 @@ input[type=number] { -moz-appearance:textfield; }
     </div>
   </div>
 
+  <!-- Notice + Punch List + NCR -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Release Notice</div></div>
+    <div class="card-body">
+      <div style="border:1.5px solid #f5c6c6;border-radius:var(--radius-sm);padding:14px 16px;background:#fff9f9;margin-bottom:18px;">
+        <div style="font-size:12px;color:#c0392b;font-style:italic;margin-bottom:8px;"><strong>***Add / Remove as required:</strong> The equipment / materials listed below have been Accepted following (inspection / desktop document review only) and found in accordance with the above referenced purchase order. No physical inspection has been performed***</div>
+        <div style="font-size:12px;color:#c0392b;font-style:italic;">This IRN does not relieve vendor from its responsibility of confirming quality and quantity of materials. The equipment/materials are deemed released for shipping, subject to compliance with Wood or Client packing, marking, documentation and delivery requirements.</div>
+      </div>
+      <div class="g2">
+        <div class="field">
+          <div class="field-lbl" style="margin-bottom:10px;">Punch List Issued?</div>
+          <div style="display:flex;gap:12px;">
+            <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;cursor:pointer;padding:8px 18px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:#fff;">
+              <input type="radio" name="rc-punchlist" value="yes" style="accent-color:var(--teal);width:16px;height:16px;cursor:pointer;"/> Yes
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;cursor:pointer;padding:8px 18px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:#fff;">
+              <input type="radio" name="rc-punchlist" value="no" style="accent-color:var(--teal);width:16px;height:16px;cursor:pointer;"/> No
+            </label>
+          </div>
+          <div style="font-size:11px;color:var(--slate-light);margin-top:6px;font-style:italic;">Where equipment has been released subject to completion of Punch List items, a copy must accompany this IRN.</div>
+          <div id="punchlist-upload-wrap" style="display:none;margin-top:12px;">
+            <div style="font-size:11px;font-weight:700;color:var(--slate);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Upload Punch List Copy</div>
+            <div id="punchlist-upload-zone" onclick="document.getElementById('punchlistFile').click()" style="border:2px dashed #c8deda;border-radius:8px;padding:14px;text-align:center;background:var(--teal-pale);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='#c8deda'">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 6px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <div style="font-size:12px;font-weight:600;color:var(--teal);">Click to upload</div>
+              <div style="font-size:10px;color:var(--slate-light);">PDF, Word, Images</div>
+            </div>
+            <input type="file" id="punchlistFile" accept=".pdf,.doc,.docx,.png,.jpg" multiple style="display:none" onchange="handleRcUpload(this,'punchlist-file-list','punchlist-upload-zone')"/>
+            <div id="punchlist-file-list" style="margin-top:8px;"></div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-lbl" style="margin-bottom:10px;">Non-Conformity Issued?</div>
+          <div style="display:flex;gap:12px;">
+            <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;cursor:pointer;padding:8px 18px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:#fff;">
+              <input type="radio" name="rc-ncr" value="yes" style="accent-color:var(--teal);width:16px;height:16px;cursor:pointer;"/> Yes
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;cursor:pointer;padding:8px 18px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:#fff;">
+              <input type="radio" name="rc-ncr" value="no" style="accent-color:var(--teal);width:16px;height:16px;cursor:pointer;"/> No
+            </label>
+          </div>
+          <div style="font-size:11px;color:var(--slate-light);margin-top:6px;font-style:italic;">Where a non-conformity is issued, a copy must accompany the IRN detailing the NC number.</div>
+          <div id="rcncr-upload-wrap" style="display:none;margin-top:12px;">
+            <div style="font-size:11px;font-weight:700;color:var(--slate);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Upload Non-Conformity Copy</div>
+            <div id="rcncr-upload-zone" onclick="document.getElementById('rcncrFile').click()" style="border:2px dashed #c8deda;border-radius:8px;padding:14px;text-align:center;background:var(--teal-pale);cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='#c8deda'">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto 6px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <div style="font-size:12px;font-weight:600;color:var(--teal);">Click to upload</div>
+              <div style="font-size:10px;color:var(--slate-light);">PDF, Word, Images</div>
+            </div>
+            <input type="file" id="rcncrFile" accept=".pdf,.doc,.docx,.png,.jpg" multiple style="display:none" onchange="handleRcUpload(this,'rcncr-file-list','rcncr-upload-zone')"/>
+            <div id="rcncr-file-list" style="margin-top:8px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scope of Inspection -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Scope of Inspection</div></div>
+    <div class="card-body" style="padding:0;">
+      <style>
+        .scope-table{width:100%;border-collapse:collapse;}
+        .scope-table th{background:#f8fafc;padding:8px 12px;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;letter-spacing:0.5px;border:1px solid var(--border);text-align:center;}
+        .scope-table td{padding:8px 12px;border:1px solid var(--border);font-size:13px;color:var(--slate);}
+        .scope-table td.item-name{font-size:13px;color:var(--slate);}
+        .scope-table td.check-cell{text-align:center;vertical-align:middle;}
+        .scope-table input[type=checkbox]{width:16px;height:16px;accent-color:var(--teal);cursor:pointer;}
+        .scope-table tr:hover td{background:#fafcff;}
+      </style>
+      <table class="scope-table">
+        <thead>
+          <tr>
+            <th style="text-align:left;width:30%;">Item</th>
+            <th style="width:10%;">Accept</th>
+            <th style="width:10%;">Reject</th>
+            <th style="width:10%;">N/A</th>
+            <th style="text-align:left;width:30%;">Item</th>
+            <th style="width:10%;">Accept</th>
+            <th style="width:10%;">Reject</th>
+            <th style="width:10%;">N/A</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="item-name">Dimensional Inspection</td>
+            <td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td>
+            <td class="item-name">NDE complete and reports</td>
+            <td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td>
+          </tr>
+          <tr>
+            <td class="item-name">Factory Acceptance Test</td>
+            <td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td>
+            <td class="item-name">Pressure Test complete &amp; report</td>
+            <td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td>
+          </tr>
+          <tr>
+            <td class="item-name">Visual Inspection</td>
+            <td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td>
+            <td class="item-name">Heat Treatment complete &amp; reports</td>
+            <td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td>
+          </tr>
+          <tr>
+            <td class="item-name">Coating Inspection</td>
+            <td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td>
+            <td class="item-name">Tagging / Identification Marking</td>
+            <td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td>
+          </tr>
+          <tr>
+            <td class="item-name">Lift &amp; Load Doc Reviewed</td>
+            <td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td>
+            <td class="item-name">Preservation Application</td>
+            <td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td>
+          </tr>
+          <tr>
+            <td class="item-name">Weld Procedures</td>
+            <td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td>
+            <td class="item-name">Material Certification</td>
+            <td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td>
+          </tr>
+          <tr>
+            <td class="item-name">Welder Qualification</td>
+            <td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td>
+            <td class="item-name">SDRL Document Status Verified</td>
+            <td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td>
+          </tr>
+          <tr>
+            <td class="item-name">ITP Approved by Wood</td>
+            <td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td>
+            <td class="item-name">Final Inspection</td>
+            <td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td>
+          </tr>
+          <tr>
+            <td></td><td></td><td></td><td></td>
+            <td class="item-name">PMI</td>
+            <td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td><td class="check-cell"><input type="checkbox"/></td>
+          </tr>
+          <tr>
+            <td colspan="8" style="padding:8px 12px;">
+              <div style="font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Additional information or items:</div>
+              <textarea style="width:100%;min-height:60px;border:none;outline:none;font-size:13px;font-family:inherit;resize:vertical;" placeholder="Add any additional information or items here…"></textarea>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Item Table -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Items Released</div></div>
+    <div class="card-body" style="padding:0;">
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr style="background:#f8fafc;">
+            <th style="padding:10px 12px;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;letter-spacing:0.5px;border:1px solid var(--border);width:8%;text-align:center;">Item</th>
+            <th style="padding:10px 12px;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;letter-spacing:0.5px;border:1px solid var(--border);width:10%;text-align:center;">Quantity</th>
+            <th style="padding:10px 12px;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;letter-spacing:0.5px;border:1px solid var(--border);">Description</th>
+            <th style="padding:10px 12px;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;letter-spacing:0.5px;border:1px solid var(--border);width:14%;text-align:center;">Tag No.<br><span style="font-size:9px;font-weight:400;text-transform:none;">(if applicable)</span></th>
+            <th style="padding:10px 12px;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;letter-spacing:0.5px;border:1px solid var(--border);width:14%;text-align:center;">Material Code<br><span style="font-size:9px;font-weight:400;text-transform:none;">(if applicable)</span></th>
+            <th style="padding:10px 12px;font-size:11px;font-weight:700;color:var(--slate-light);text-transform:uppercase;letter-spacing:0.5px;border:1px solid var(--border);width:14%;text-align:center;">Drawing Number<br><span style="font-size:9px;font-weight:400;text-transform:none;">(if applicable)</span></th>
+            <th style="padding:10px 12px;border:1px solid var(--border);width:40px;"></th>
+          </tr>
+        </thead>
+        <tbody id="rc-items-list">
+          <tr>
+            <td style="padding:6px 8px;border:1px solid var(--border);"><input type="text" placeholder="1" style="width:100%;border:none;background:transparent;font-size:13px;text-align:center;outline:none;font-family:inherit;"/></td>
+            <td style="padding:6px 8px;border:1px solid var(--border);"><input type="text" placeholder="1" style="width:100%;border:none;background:transparent;font-size:13px;text-align:center;outline:none;font-family:inherit;"/></td>
+            <td style="padding:6px 8px;border:1px solid var(--border);"><input type="text" placeholder="Description…" style="width:100%;border:none;background:transparent;font-size:13px;outline:none;font-family:inherit;"/></td>
+            <td style="padding:6px 8px;border:1px solid var(--border);"><input type="text" placeholder="Tag no." style="width:100%;border:none;background:transparent;font-size:13px;text-align:center;outline:none;font-family:inherit;"/></td>
+            <td style="padding:6px 8px;border:1px solid var(--border);"><input type="text" placeholder="Material code" style="width:100%;border:none;background:transparent;font-size:13px;text-align:center;outline:none;font-family:inherit;"/></td>
+            <td style="padding:6px 8px;border:1px solid var(--border);"><input type="text" placeholder="Drawing no." style="width:100%;border:none;background:transparent;font-size:13px;text-align:center;outline:none;font-family:inherit;"/></td>
+            <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;"><button onclick="removeRow(this)" class="btn-rm"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="padding:12px 16px;">
+        <button class="btn-add" onclick="addRcItem()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add item</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Inspector Sign-off -->
   <div class="card">
     <div class="card-header"><div class="card-header-dot"></div><div class="card-header-title">Inspector Signature &amp; Stamp</div></div>
@@ -1657,6 +1839,45 @@ function removeStamp(){
   document.getElementById('stamp-img').src = '';
   document.getElementById('stamp-preview').style.display = 'none';
   document.getElementById('stamp-upload-zone').style.display = 'block';
+}
+
+function handleRcUpload(input, listId, zoneId){
+  const list = document.getElementById(listId);
+  const zone = document.getElementById(zoneId);
+  Array.from(input.files).forEach(file => {
+    const size = file.size < 1024*1024 ? (file.size/1024).toFixed(1)+' KB' : (file.size/1024/1024).toFixed(1)+' MB';
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:10px;padding:8px 12px;border:1.5px solid var(--border);border-radius:6px;margin-top:6px;background:#fff;font-size:12px;';
+    row.innerHTML = `<span style="font-weight:600;color:var(--slate);flex:1;">${file.name}</span><span style="color:var(--slate-light);">${size}</span><button onclick="this.parentElement.remove()" style="background:none;border:none;cursor:pointer;color:#94a3b8;font-size:14px;">✕</button>`;
+    list.appendChild(row);
+  });
+  // Keep zone always visible so more files can be added
+  input.value = '';
+}
+
+// Listen for punch list and NCR radio changes
+document.addEventListener('change', function(e){
+  if(e.target.name === 'rc-punchlist'){
+    document.getElementById('punchlist-upload-wrap').style.display = e.target.value === 'yes' ? 'block' : 'none';
+  }
+  if(e.target.name === 'rc-ncr'){
+    document.getElementById('rcncr-upload-wrap').style.display = e.target.value === 'yes' ? 'block' : 'none';
+  }
+});
+
+function addRcItem(){
+  const list = document.getElementById('rc-items-list');
+  const rowCount = list.querySelectorAll('tr').length + 1;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="padding:6px 8px;border:1px solid var(--border);"><input type="text" placeholder="${rowCount}" style="width:100%;border:none;background:transparent;font-size:13px;text-align:center;outline:none;font-family:inherit;"/></td>
+    <td style="padding:6px 8px;border:1px solid var(--border);"><input type="text" placeholder="1" style="width:100%;border:none;background:transparent;font-size:13px;text-align:center;outline:none;font-family:inherit;"/></td>
+    <td style="padding:6px 8px;border:1px solid var(--border);"><input type="text" placeholder="Description…" style="width:100%;border:none;background:transparent;font-size:13px;outline:none;font-family:inherit;"/></td>
+    <td style="padding:6px 8px;border:1px solid var(--border);"><input type="text" placeholder="Tag no." style="width:100%;border:none;background:transparent;font-size:13px;text-align:center;outline:none;font-family:inherit;"/></td>
+    <td style="padding:6px 8px;border:1px solid var(--border);"><input type="text" placeholder="Material code" style="width:100%;border:none;background:transparent;font-size:13px;text-align:center;outline:none;font-family:inherit;"/></td>
+    <td style="padding:6px 8px;border:1px solid var(--border);"><input type="text" placeholder="Drawing no." style="width:100%;border:none;background:transparent;font-size:13px;text-align:center;outline:none;font-family:inherit;"/></td>
+    <td style="padding:6px 8px;border:1px solid var(--border);text-align:center;"><button onclick="removeRow(this)" class="btn-rm"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></td>`;
+  list.appendChild(tr);
 }
 
 function addRcDoc(){
